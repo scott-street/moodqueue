@@ -16,7 +16,7 @@ jobs:
           channel: C018J54AJ8
           color: '#42e2f4'
           message: moodqueue build
-          webhook: webhook
+          webhook: https://hooks.slack.com/services/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
 workflows:
     build-and-test:
       jobs:
