@@ -16,6 +16,7 @@ jobs:
           channel: C018J54AJ8
           color: '#42e2f4'
           message: moodqueue build
+          webhook: webhook
 workflows:
     build-and-test:
       jobs:
