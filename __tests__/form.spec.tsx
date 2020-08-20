@@ -1,9 +1,9 @@
 import React from "react"
 import { shallow } from "enzyme"
-import LoginPage from "../pages/index"
+import FormPage from "../pages/form"
 
-describe("Login", () => {
+describe("Form", () => {
     it("renders without crashing", () => {
-        shallow(<LoginPage />)
+        shallow(<FormPage />)
     })
 })
