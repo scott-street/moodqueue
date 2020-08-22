@@ -15,9 +15,9 @@ jobs:
       - slack/notify:
           color: "#42e2f4"
           mentions: "channel"
-          message: new moodqueue build
+          message: "Build triggered by ${CIRCLE_USERNAME} on branch ${CIRCLE_BRANCH}"
       - slack/status:
-          fail_only: true
+          fail_only: false
           mentions: "channel"
 workflows:
   build-and-notify:
