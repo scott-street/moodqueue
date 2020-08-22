@@ -1,23 +1,25 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@3.0.0
   slack: circleci/slack@3.4.2
 jobs:
-  build-and-test:
+  build-test-and-notify:
     executor:
       name: node/default
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run: npm test
       - slack/notify:
-          channel: C018J54AJ8
-          color: '#42e2f4'
-          message: moodqueue build
-          webhook: https://hooks.slack.com/services/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
+          color: "#42e2f4"
+          mentions: "channel"
+          message: new moodqueue build
+      - slack/status:
+          fail_only: true
+          mentions: "channel"
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+  build-and-notify:
+    jobs:
+      - build-test-and-notify
