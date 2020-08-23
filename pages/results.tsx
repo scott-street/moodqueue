@@ -1,7 +1,12 @@
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent } from 'react';
+import { Box } from 'grommet';
 
 const Results: FunctionComponent = () => {
-    return <>Results Page</>
-}
+  return (
+    <Box align="center" justify="center">
+      Results Page
+    </Box>
+  );
+};
 
-export default Results
+export default Results;
