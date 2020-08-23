@@ -1,14 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Form from '../pages/form';
-import { UserInfo } from '../pages/index';
+import { UserInfo } from '../types/UserInfo';
 
 const testUser: UserInfo = {
   name: 'test',
   id: 'test123',
   email: 'test123@gmail.com',
   profileUrl: 'spotify.com',
-  profileImage: 'some-image.png'
+  profileImages: [{ url: 'some-image.png' }]
 };
 
 describe('Form', () => {
