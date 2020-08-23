@@ -11,7 +11,7 @@ import {
   Avatar
 } from 'grommet';
 import { Favorite, ShareOption, Next, Spotify, User } from 'grommet-icons';
-import { UserInfo } from '.';
+import { UserInfo } from '../types/UserInfo';
 
 interface FormProps {
   user: UserInfo;
@@ -22,16 +22,17 @@ interface FormProps {
  * @param props
  */
 const Form: FunctionComponent<FormProps> = (props) => {
-  const greeting = 'hello, ' + (props.user.name.toLowerCase() || 'friend');
+  const greeting =
+    'hello, ' + (props.user.name ? props.user.name.toLowerCase() : 'friend');
   return (
     <Box align="center" justify="center">
       <Box direction="row" align="center" gap="small">
         <Heading textAlign="center" size="large">
           {greeting}
         </Heading>
-        {props.user.profileImage ? (
+        {props.user.profileImages[0] ? (
           <Avatar
-            src={props.user.profileImage}
+            src={props.user.profileImages[0].url}
             size="xlarge"
             onClick={() => window.open(props.user.profileUrl, '_blank')}
             title="click to open your profile in spotify"
