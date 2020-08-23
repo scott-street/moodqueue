@@ -31,7 +31,6 @@
     }
   },
   "dependencies": {
-    "axios": "^0.20.0",
     "grommet": "^2.15.0",
     "grommet-icons": "^4.4.0",
     "next": "9.4.4",
