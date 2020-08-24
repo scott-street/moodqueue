@@ -5,6 +5,6 @@ describe("Form page", () => {
     })
 
     it("should have the text Form Page", () => {
-        cy.contains("Form Page")
+        cy.contains("hello")
     })
 })

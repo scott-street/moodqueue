@@ -5,6 +5,6 @@ describe("Index page", () => {
     })
 
     it("should have the text Login Page", () => {
-        cy.contains("Login Page")
+        cy.contains("moodqueue")
     })
 })
