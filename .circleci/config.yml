@@ -25,6 +25,6 @@ workflows:
     jobs:
       - cypress/run:
           yarn: true
-          start: yarn build && yarn start
+          start: yarn build && yarn next start
       - build-test-and-notify
           

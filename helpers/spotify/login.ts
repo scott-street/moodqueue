@@ -69,7 +69,7 @@ export class SpotifyHelper {
   static setRedirect = (hostname: string) => {
     let url: string = '';
     if (hostname.includes(process.env.DEVELOPMENT_URL)) {
-      url = 'http://' + process.env.DEVELOPMENT_URL + ':3000/';
+      url = 'http://' + process.env.DEVELOPMENT_URL + ':' + process.env.PORT;
     } else if (
       hostname.includes(process.env.REVIEW_URL) &&
       !hostname.includes(process.env.STAGING_URL)

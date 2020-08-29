@@ -18,7 +18,7 @@ import {
   PlayFill,
   SchedulePlay
 } from 'grommet-icons';
-import { UserInfo } from '../types/UserInfo';
+import { UserInfo, defaultUser } from '../types/UserInfo';
 
 interface FormProps {
   user: UserInfo;
@@ -123,3 +123,11 @@ const Form: FunctionComponent<FormProps> = (props) => {
 };
 
 export default Form;
+
+export async function getStaticProps() {
+  return {
+    props: {
+      user: defaultUser
+    }
+  };
+}

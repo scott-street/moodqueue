@@ -7,6 +7,7 @@ module.exports = {
     DEVELOPMENT_URL: process.env.REACT_APP_DEVELOPMENT,
     REVIEW_URL: process.env.REACT_APP_REVIEW,
     STAGING_URL: process.env.REACT_APP_STAGING,
-    PRODUCTION_URL: process.env.REACT_APP_PRODUCTION
+    PRODUCTION_URL: process.env.REACT_APP_PRODUCTION,
+    PORT: process.env.PORT
   }
 };

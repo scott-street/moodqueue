@@ -10,37 +10,25 @@ import {
 } from 'grommet';
 import { Spotify } from 'grommet-icons';
 import Form from '../components/form';
-import { UserInfo } from '../types/UserInfo';
+import { UserInfo, defaultUser } from '../types/UserInfo';
 import { SpotifyHelper } from '../helpers/spotify/login';
 import Redirect from '../components/redirect';
-import { NotificationType } from '../types/notification';
+import { NotificationType, defaultNotification } from '../types/notification';
 import Notification from '../components/notification';
 import { BounceLoader } from 'react-spinners';
 import Head from 'next/head';
-
-const defaultUser: UserInfo = {
-  id: '',
-  name: '',
-  email: '',
-  profileUrl: '',
-  profileImages: []
-};
-
-const defaultNotification: NotificationType = {
-  success: true,
-  text: '',
-  show: false
-};
 
 const Login: FunctionComponent = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   // have to figure out a smart way of using this refresh token to prevent timed log out
   const [refreshToken, setRefreshToken] = useState('');
-  const [user, setUser] = useState(defaultUser);
+  const [user, setUser] = useState<UserInfo>(defaultUser);
   const [redirect, setRedirect] = useState('');
   const [loadForRedirect, setLoadForRedirect] = useState(false);
-  const [notification, setNotification] = useState(defaultNotification);
+  const [notification, setNotification] = useState<NotificationType>(
+    defaultNotification
+  );
   const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
