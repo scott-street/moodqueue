@@ -9,9 +9,14 @@ import {
   ResponsiveContext
 } from 'grommet';
 import { Spotify } from 'grommet-icons';
-import Form from './form';
+import Form from '../components/form';
 import { UserInfo } from '../types/UserInfo';
 import { SpotifyHelper } from '../helpers/spotify/login';
+import Redirect from '../components/redirect';
+import { NotificationType } from '../types/notification';
+import Notification from '../components/notification';
+import { BounceLoader } from 'react-spinners';
+import Head from 'next/head';
 
 const defaultUser: UserInfo = {
   id: '',
@@ -21,31 +26,91 @@ const defaultUser: UserInfo = {
   profileImages: []
 };
 
+const defaultNotification: NotificationType = {
+  success: true,
+  text: '',
+  show: false
+};
+
 const Login: FunctionComponent = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   // have to figure out a smart way of using this refresh token to prevent timed log out
   const [refreshToken, setRefreshToken] = useState('');
   const [user, setUser] = useState(defaultUser);
+  const [redirect, setRedirect] = useState('');
+  const [loadForRedirect, setLoadForRedirect] = useState(false);
+  const [notification, setNotification] = useState(defaultNotification);
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
-    // hopefully this only gets called on page load like you said
-    // or else we'll be getting a 429 error from spotify
-    const params = new URLSearchParams(window.location.search);
-    if (
-      params.has('access_token') &&
-      params.has('refresh_token') &&
-      user.id.length === 0
-    ) {
-      setAccessToken(params.get('access_token'));
-      setRefreshToken(params.get('refresh_token'));
-      SpotifyHelper.getUserInfo(params.get('access_token')).then((newUser) => {
-        console.log(newUser);
-        setUser(newUser);
-        setLoggedIn(true);
-      });
-    }
+    if (user.id.length === 0) {
+      // sets appropriate redirect depending on where the app is being deployed
+      const hostname = new URL(window.location.href).hostname;
+      setRedirect(SpotifyHelper.setRedirect(hostname));
+
+      const params = new URLSearchParams(window.location.search);
+      if ((params.has('code') && params.has('state')) || params.has('error')) {
+        // spotify redirects back to / with either a code or error message
+        // either way, process it with redirect.tsx and set screen to load
+        setRefresh(false);
+        setLoadForRedirect(true);
+      } else if (params.has('access_token') && params.has('refresh_token')) {
+        // user has successfully logged in and given moodqueue permission
+        setUpHome(params);
+      } else setRefresh(false);
+    } else setRefresh(false);
   }, []);
+
+  /**
+   * sets up home for current user upon successful sign in
+   * @param params
+   */
+  const setUpHome = (params: URLSearchParams) => {
+    setAccessToken(params.get('access_token'));
+    setRefreshToken(params.get('refresh_token'));
+    SpotifyHelper.getUserInfo(params.get('access_token')).then((newUser) => {
+      let n: NotificationType = {
+        success: true,
+        show: true,
+        text: 'welcome to moodqueue'
+      };
+      setNotification(n);
+      setTimeout(() => {
+        n = {
+          success: true,
+          show: false,
+          text: ''
+        };
+        setNotification(n);
+      }, 4000);
+      setUser(newUser);
+      setLoggedIn(true);
+      setRefresh(false);
+    });
+  };
+
+  /**
+   * handles any login error by sending the user
+   * an error message and logging them out
+   */
+  const handleError = () => {
+    let n: NotificationType = {
+      success: false,
+      show: true,
+      text: 'login failed!'
+    };
+    setNotification(n);
+    setTimeout(() => {
+      n = {
+        success: false,
+        show: false,
+        text: ''
+      };
+      setNotification(n);
+    }, 4000);
+    setLoadForRedirect(false);
+  };
 
   return (
     <Grommet theme={grommet} full>
@@ -61,48 +126,78 @@ const Login: FunctionComponent = () => {
             }}
             background="#1F2730" // this is to force the dark theme
           >
-            {loggedIn ? (
+            <Head>
+              <link rel="shortcut icon" href="/favicon.ico" key={0} />
+              <title key={1}>
+                {user.id.length > 0 ? 'home | moodqueue' : 'login | moodqueue'}
+              </title>
+            </Head>
+            {loadForRedirect ? (
+              <Redirect redirect={redirect} handleError={handleError} />
+            ) : loggedIn ? (
               <Form user={user} />
             ) : (
-              <Box
-                align="center"
-                round="large"
-                pad="xlarge"
-                gap="large"
-                border={{
-                  side: 'all',
-                  size: 'xlarge',
-                  style: 'outset',
-                  color: 'accent-1'
-                }}
-                background={{ color: '#2F3E4D' }}
-              >
-                <Box align="center">
-                  <Heading textAlign="center" size="large">
-                    mood queue
-                  </Heading>
-                  <Text
-                    textAlign="center"
-                    size={size !== 'small' ? 'large' : 'medium'}
+              <Box align="center" justify="center">
+                {refresh ? (
+                  <BounceLoader size={300} color="#6FFFB0" />
+                ) : (
+                  <Box
+                    align="center"
+                    round="large"
+                    pad="xlarge"
+                    gap="large"
+                    border={{
+                      side: 'all',
+                      size: 'xlarge',
+                      style: 'outset',
+                      color: 'accent-1'
+                    }}
+                    background={{ color: '#2F3E4D' }}
                   >
-                    create playlists, update your queue, and get inspired
-                  </Text>
-                </Box>
-                <Button
-                  style={
-                    size !== 'small'
-                      ? { borderRadius: 50, padding: '20px 30px 20px 30px' }
-                      : undefined
-                  }
-                  size="large"
-                  alignSelf="center"
-                  onClick={SpotifyHelper.openSpotifyAccountLogin}
-                  label={size !== 'small' ? 'Login to Spotify' : 'Login'}
-                  icon={<Spotify color="plain" size="large" />}
-                  hoverIndicator="accent-1"
-                  primary={size === 'small'}
-                />
+                    <Box align="center">
+                      <Heading textAlign="center" size="large">
+                        mood queue
+                      </Heading>
+                      <Text
+                        textAlign="center"
+                        size={size !== 'small' ? 'large' : 'medium'}
+                      >
+                        create playlists, update your queue, and get inspired
+                      </Text>
+                    </Box>
+                    <Button
+                      style={
+                        size !== 'small'
+                          ? { borderRadius: 50, padding: '20px 30px 20px 30px' }
+                          : undefined
+                      }
+                      size="large"
+                      alignSelf="center"
+                      onClick={() =>
+                        SpotifyHelper.openSpotifyAccountLogin(redirect)
+                      }
+                      label={size !== 'small' ? 'Login to Spotify' : 'Login'}
+                      icon={<Spotify color="plain" size="large" />}
+                      hoverIndicator="accent-1"
+                      primary={size === 'small'}
+                    />
+                  </Box>
+                )}
               </Box>
+            )}
+
+            {notification.show && (
+              <Notification
+                notification={notification}
+                onNotificationClose={() => {
+                  const n: NotificationType = {
+                    success: true,
+                    show: false,
+                    text: ''
+                  };
+                  setNotification(n);
+                }}
+              />
             )}
           </Box>
         )}

@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+/**
+ * this api route is currently not being used, but i'm just
+ * leaving it here for reference and because it's still the only
+ * file in the api folder
+ */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { code, error }
@@ -9,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.end();
   }
 
-  const redirect_uri = 'http://localhost:3000/api/login';
+  console.log(process.env.REACT_APP_REDIRECT);
   const token =
     'Basic ' +
     Buffer.from(
@@ -17,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ).toString('base64');
 
   const response = await fetch('https://accounts.spotify.com/api/token', {
-    body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}`,
+    body: `grant_type=authorization_code&code=${code}&redirect_uri=${process.env.REACT_APP_REDIRECT}`,
     headers: {
       Authorization: token,
       'Content-Type': 'application/x-www-form-urlencoded'

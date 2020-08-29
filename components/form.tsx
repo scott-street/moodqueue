@@ -10,7 +10,14 @@ import {
   Text,
   Avatar
 } from 'grommet';
-import { Favorite, ShareOption, Next, Spotify, User } from 'grommet-icons';
+import {
+  Favorite,
+  ShareOption,
+  Spotify,
+  User,
+  PlayFill,
+  SchedulePlay
+} from 'grommet-icons';
 import { UserInfo } from '../types/UserInfo';
 
 interface FormProps {
@@ -35,14 +42,14 @@ const Form: FunctionComponent<FormProps> = (props) => {
             src={props.user.profileImages[0].url}
             size="xlarge"
             onClick={() => window.open(props.user.profileUrl, '_blank')}
-            title="click to open your profile in spotify"
+            title="click to open your spotify profile"
           />
         ) : (
           <Avatar
             background="accent-2"
             size="large"
             onClick={() => window.open(props.user.profileUrl, '_blank')}
-            title="click to open your profile in spotify"
+            title="click to open your spotify profile"
           >
             <User color="accent-1" size="large" />
           </Avatar>
@@ -62,13 +69,12 @@ const Form: FunctionComponent<FormProps> = (props) => {
           </CardHeader>
           <CardBody align="center" justify="between" pad="small">
             <Text textAlign="center">
-              create a public or private playlist of songs based on a mood of
-              your choosing
+              create a playlist of songs based on a mood of your choosing
             </Text>
             <Button
               label="continue"
               alignSelf="center"
-              icon={<Next />}
+              icon={<PlayFill />}
               reverse
               primary
               color="neutral-3"
@@ -97,7 +103,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
             <Button
               label="continue"
               alignSelf="center"
-              icon={<Next />}
+              icon={<SchedulePlay />}
               reverse
               primary
             />

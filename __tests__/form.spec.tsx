@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Form from '../pages/form';
+import Form from '../components/form';
 import { UserInfo } from '../types/UserInfo';
 
 const testUser: UserInfo = {
