@@ -1,9 +1,18 @@
-import React from "react"
-import { shallow } from "enzyme"
-import FormPage from "../pages/form"
+import React from 'react';
+import { shallow } from 'enzyme';
+import Form from '../components/form';
+import { UserInfo } from '../types/UserInfo';
 
-describe("Form", () => {
-    it("renders without crashing", () => {
-        shallow(<FormPage />)
-    })
-})
+const testUser: UserInfo = {
+  name: 'test',
+  id: 'test123',
+  email: 'test123@gmail.com',
+  profileUrl: 'spotify.com',
+  profileImages: [{ url: 'some-image.png' }]
+};
+
+describe('Form', () => {
+  it('renders without crashing', () => {
+    shallow(<Form user={testUser} />);
+  });
+});
