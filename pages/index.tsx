@@ -35,6 +35,7 @@ const Login: FunctionComponent = () => {
     if (user.id.length === 0) {
       // sets appropriate redirect depending on where the app is being deployed
       const hostname = new URL(window.location.href).hostname;
+      console.log(hostname);
       setRedirect(SpotifyHelper.setRedirect(hostname));
 
       const params = new URLSearchParams(window.location.search);

@@ -67,11 +67,12 @@ export class SpotifyHelper {
    * @param hostname
    */
   static setRedirect = (hostname: string) => {
+    const regex = new RegExp(process.env.REVIEW_URL);
     let url: string = '';
     if (hostname.includes(process.env.DEVELOPMENT_URL)) {
       url = 'http://' + process.env.DEVELOPMENT_URL + ':' + process.env.PORT;
     } else if (
-      hostname.includes(process.env.REVIEW_URL) &&
+      regex.test(hostname) &&
       !hostname.includes(process.env.STAGING_URL)
     ) {
       url = 'https://' + hostname;
