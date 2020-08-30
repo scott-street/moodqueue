@@ -8,7 +8,7 @@
     "start": "next start -p $PORT",
     "test": "jest",
     "test:watch": "jest -watch",
-    "test:coverage": "jest -coverage",
+    "test:coverage": "jest --collectCoverage",
     "cy:open": "cypress open"
   },
   "lint-staged": {
@@ -29,7 +29,12 @@
       "ts-jest": {
         "tsConfig": "<rootDir>/jest.tsconfig.json"
       }
-    }
+    },
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "html"
+    ]
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
