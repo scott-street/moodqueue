@@ -5,16 +5,20 @@ export interface AuthContextValue {
     openSpotifyAccountLogin: (param: string) => void
     getUserInfo: (param: string) => Promise<void>
     setAuthRedirect: (param: string) => void
+    setAccessToken: (param: string) => void
     redirect: string
     user: UserInfo
+    accessToken: string
 }
 
 export const AuthContext = React.createContext<AuthContextValue>({
     openSpotifyAccountLogin: () => {},
     getUserInfo: () => undefined,
     setAuthRedirect: () => undefined,
+    setAccessToken: () => {},
     redirect: undefined,
     user: undefined,
+    accessToken: undefined,
 })
 
 interface AuthProviderProps {
@@ -25,6 +29,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) => {
     const [redirect, setRedirect] = React.useState("")
     const [user, setCurrentUser] = React.useState(undefined)
+    const [accessToken, setAccessToken] = React.useState(undefined)
 
     const generateRandomString = (length: number) => {
         let text = ""
@@ -37,8 +42,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
 
     const openSpotifyAccountLogin = (redirect: string) => {
         const rand = generateRandomString(16)
-        const scopes =
-            "user-read-private user-read-email user-modify-playback-state playlist-modify-private playlist-modify-public user-library-read"
+        const scopes = "user-top-read user-library-read user-read-private user-read-email"
         //make sure to change show_dialog to false if we don't want to show the spotify login redirect anymore
         const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=${scopes}&redirect_uri=${redirect}&state=${rand}&show_dialog=true`
         window.location.href = url
@@ -90,8 +94,10 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         openSpotifyAccountLogin,
         getUserInfo,
         setAuthRedirect,
+        setAccessToken,
         redirect,
         user,
+        accessToken,
     }
     return <AuthContext.Provider value={props.value ?? authContextValue} {...props} />
 }

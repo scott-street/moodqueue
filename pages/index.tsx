@@ -7,15 +7,15 @@ import Head from "next/head"
 import { Login } from "../components/login"
 import { AuthProvider, useAuth } from "../common/hooks/useAuth"
 import { NotificationProvider, useNotification } from "../common/hooks/useNotification"
+import { SpotifyProvider } from "../common/hooks/useSpotify"
 
 const BaseApp: FunctionComponent = () => {
-    const [accessToken, setAccessToken] = useState("")
     // have to figure out a smart way of using this refresh token to prevent timed log out
     const [refreshToken, setRefreshToken] = useState("")
     const [loadForRedirect, setLoadForRedirect] = useState(false)
     const [refresh, setRefresh] = useState(true)
 
-    const { setAuthRedirect, redirect, getUserInfo, user } = useAuth()
+    const { setAuthRedirect, redirect, getUserInfo, user, setAccessToken, accessToken } = useAuth()
     const { notifySuccess, notifyError } = useNotification()
 
     useEffect(() => {
@@ -90,7 +90,9 @@ const BaseApp: FunctionComponent = () => {
 const App = () => (
     <AuthProvider>
         <NotificationProvider>
-            <BaseApp />
+            <SpotifyProvider>
+                <BaseApp />
+            </SpotifyProvider>
         </NotificationProvider>
     </AuthProvider>
 )
