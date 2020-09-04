@@ -3,18 +3,26 @@ import { UserInfo } from "../../types/UserInfo"
 
 export interface AuthContextValue {
     openSpotifyAccountLogin: (param: string) => void
-    getUserInfo: (param: string) => Promise<void>
+    setUserInfo: () => Promise<void>
     setAuthRedirect: (param: string) => void
+    setAccessToken: (param: string) => void
+    setRefreshToken: (param: string) => void
     redirect: string
     user: UserInfo
+    accessToken: string
+    refreshToken: string
 }
 
 export const AuthContext = React.createContext<AuthContextValue>({
     openSpotifyAccountLogin: () => {},
-    getUserInfo: () => undefined,
+    setUserInfo: () => undefined,
     setAuthRedirect: () => undefined,
+    setAccessToken: () => undefined,
+    setRefreshToken: () => undefined,
     redirect: undefined,
     user: undefined,
+    accessToken: undefined,
+    refreshToken: undefined,
 })
 
 interface AuthProviderProps {
@@ -25,6 +33,8 @@ interface AuthProviderProps {
 export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) => {
     const [redirect, setRedirect] = React.useState("")
     const [user, setCurrentUser] = React.useState(undefined)
+    const [accessToken, setAccessToken] = React.useState(undefined)
+    const [refreshToken, setRefreshToken] = React.useState(undefined)
 
     const generateRandomString = (length: number) => {
         let text = ""
@@ -37,13 +47,12 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
 
     const openSpotifyAccountLogin = (redirect: string) => {
         const rand = generateRandomString(16)
-        const scopes =
-            "user-read-private user-read-email user-modify-playback-state playlist-modify-private playlist-modify-public user-library-read"
+        const scopes = "user-top-read user-library-read user-read-private user-read-email"
         //make sure to change show_dialog to false if we don't want to show the spotify login redirect anymore
         const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=${scopes}&redirect_uri=${redirect}&state=${rand}&show_dialog=true`
         window.location.href = url
     }
-    const getUserInfo = async (accessToken: string) => {
+    const setUserInfo = async () => {
         let newUser: UserInfo = {
             id: "",
             name: "",
@@ -88,10 +97,14 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
 
     const authContextValue = {
         openSpotifyAccountLogin,
-        getUserInfo,
+        setUserInfo,
         setAuthRedirect,
+        setAccessToken,
+        setRefreshToken,
         redirect,
         user,
+        accessToken,
+        refreshToken,
     }
     return <AuthContext.Provider value={props.value ?? authContextValue} {...props} />
 }
