@@ -22,7 +22,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
           style: 'outset',
           color: 'accent-1'
         }}
-        background={{ color: '#2F3E4D' }}
+        background={{ color: '#2F3E4D', opacity: 0.7 }}
       >
         <Box align="center">
           <Heading textAlign="center" size="large">

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import {
   Box,
   Heading,
@@ -27,19 +27,23 @@ const Form: FunctionComponent<FormProps> = (props) => {
   return (
     <ResponsiveContext.Consumer>
       {(size) => (
-        <Box fill justify={size !== 'small' ? 'evenly' : 'center'}>
+        <Box fill justify="between">
           <Header
             justify={size !== 'small' ? 'evenly' : 'center'}
             direction={size !== 'small' ? 'row' : 'column'}
           >
             <Box border="between" gap="small">
-              <Heading textAlign="start" size="large" margin="none">
+              <Heading
+                textAlign={size !== 'small' ? 'start' : 'center'}
+                size={size !== 'small' ? 'large' : 'medium'}
+                margin="none"
+              >
                 moodqueue
               </Heading>
               <Text
                 weight={size !== 'small' ? 'bold' : 'normal'}
                 textAlign={size !== 'small' ? 'start' : 'center'}
-                size="large"
+                size={size !== 'small' ? 'large' : 'medium'}
               >
                 let your mood inspire you
               </Text>
@@ -71,11 +75,17 @@ const Form: FunctionComponent<FormProps> = (props) => {
               </Box>
             )}
           </Header>
-          <Box align="center" margin="large">
+          <Box
+            align="center"
+            margin={size !== 'small' ? 'large' : 'small'}
+            fill="vertical"
+            flex
+          >
             <Box
+              fill={size === 'small'}
               flex
-              gap="medium"
-              justify="center"
+              gap={size === 'small' ? 'small' : 'medium'}
+              justify="evenly"
               align="center"
               border={{
                 side: 'all',
@@ -83,9 +93,12 @@ const Form: FunctionComponent<FormProps> = (props) => {
                 style: 'outset',
                 color: 'accent-1'
               }}
-              background={{ color: '#2F3E4D' }}
+              background={{ color: '#2F3E4D', opacity: 0.7 }}
               round="large"
-              pad="medium"
+              pad={{
+                horizontal: 'medium',
+                vertical: size !== 'small' ? 'medium' : 'none'
+              }}
             >
               <Box align="center">
                 <TextInput
@@ -95,12 +108,16 @@ const Form: FunctionComponent<FormProps> = (props) => {
                   style={{
                     textAlign: 'center',
                     fontSize:
-                      size === 'large' ? 64 : size === 'medium' ? 56 : 48
+                      size === 'large' ? 56 : size === 'medium' ? 48 : 32
                   }}
                 />
               </Box>
-              <Box gap="medium" align="center">
-                <Text textAlign="center" weight="bold">
+              <Box gap={size === 'small' ? 'small' : 'medium'} align="center">
+                <Text
+                  textAlign="center"
+                  weight="bold"
+                  size={size !== 'small' ? 'medium' : 'small'}
+                >
                   your mood...
                 </Text>
                 <Box direction="row" gap="small">
@@ -116,24 +133,36 @@ const Form: FunctionComponent<FormProps> = (props) => {
                       onClick={() => {}}
                       key={icon}
                     >
-                      <Text size="xsmall" weight="bold" textAlign="center">
-                        {icon}
-                      </Text>
+                      {size !== 'small' && (
+                        <Text size="xsmall" weight="bold" textAlign="center">
+                          {icon}
+                        </Text>
+                      )}
                       <Emoji color="brand" />
                     </Box>
                   ))}
                 </Box>
               </Box>
               <Box gap="small" fill="horizontal">
-                <Text textAlign="center" weight="bold">
+                <Text
+                  textAlign="center"
+                  weight="bold"
+                  size={size !== 'small' ? 'medium' : 'small'}
+                >
                   number of songs:{' '}
-                  <Text textAlign="center" color="accent-1">
+                  <Text
+                    textAlign="center"
+                    color="accent-1"
+                    size={size !== 'small' ? 'medium' : 'small'}
+                  >
                     {numSongs}
                   </Text>
                 </Text>
                 <Box direction="row" align="center" gap="small">
                   <Button
-                    icon={<Subtract />}
+                    icon={
+                      <Subtract size={size !== 'small' ? 'medium' : 'small'} />
+                    }
                     style={{ borderRadius: 30 }}
                     onClick={() => {
                       let num = numSongs;
@@ -150,7 +179,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     onChange={(event) => setNumSongs(+event.target.value)}
                   />
                   <Button
-                    icon={<Add />}
+                    icon={<Add size={size !== 'small' ? 'medium' : 'small'} />}
                     style={{ borderRadius: 30 }}
                     onClick={() => {
                       let num = numSongs;
@@ -166,49 +195,89 @@ const Form: FunctionComponent<FormProps> = (props) => {
                 fill="horizontal"
                 justify="evenly"
               >
-                <Text textAlign="center" weight="bold">
+                <Text
+                  textAlign="center"
+                  weight="bold"
+                  size={size !== 'small' ? 'medium' : 'small'}
+                >
                   choose from your:
                 </Text>
                 <Box gap="small">
-                  <CheckBox label="saved songs" />
-                  <CheckBox label="top tracks" />
-                  <CheckBox label="top artists" />
-                  <CheckBox label="recommended" />
+                  <CheckBox
+                    label={
+                      <Box>
+                        <Text size={size !== 'small' ? 'medium' : 'small'}>
+                          saved songs
+                        </Text>
+                      </Box>
+                    }
+                  />
+                  <CheckBox
+                    label={
+                      <Box>
+                        <Text size={size !== 'small' ? 'medium' : 'small'}>
+                          top tracks
+                        </Text>
+                      </Box>
+                    }
+                  />
+                  <CheckBox
+                    label={
+                      <Box>
+                        <Text size={size !== 'small' ? 'medium' : 'small'}>
+                          top artists
+                        </Text>
+                      </Box>
+                    }
+                  />
+                  <CheckBox
+                    label={
+                      <Box>
+                        <Text size={size !== 'small' ? 'medium' : 'small'}>
+                          recommended
+                        </Text>
+                      </Box>
+                    }
+                  />
                 </Box>
               </Box>
               <Button
                 margin="small"
-                hoverIndicator="accent-1"
+                hoverIndicator={size !== 'small' ? 'accent-1' : false}
                 alignSelf="center"
+                primary={size === 'small'}
                 label="queue it"
                 size={size === 'small' ? 'medium' : 'large'}
-                icon={<Spotify size="large" />}
+                icon={<Spotify size={size !== 'small' ? 'large' : 'medium'} />}
               />
             </Box>
-            {size === 'small' && (
-              <Box align="center" pad={{ top: 'large' }}>
-                {props.user.profileImages[0] ? (
-                  <Avatar
-                    src={props.user.profileImages[0].url}
-                    size="xlarge"
-                    border={{ size: 'small', side: 'all', color: 'accent-1' }}
-                    onClick={() => window.open(props.user.profileUrl, '_blank')}
-                    title="click to open your spotify profile"
-                  />
-                ) : (
-                  <Avatar
-                    background="accent-2"
-                    border={{ size: 'small', side: 'all', color: 'accent-1' }}
-                    size="large"
-                    onClick={() => window.open(props.user.profileUrl, '_blank')}
-                    title="click to open your spotify profile"
-                  >
-                    <User color="accent-1" size="large" />
-                  </Avatar>
-                )}
-              </Box>
-            )}
           </Box>
+          {size === 'small' && (
+            <Box align="center" margin={{ bottom: 'small' }}>
+              {props.user.profileImages[0] ? (
+                <Avatar
+                  src={props.user.profileImages[0].url}
+                  size={size !== 'small' ? 'xlarge' : 'large'}
+                  border={{ size: 'small', side: 'all', color: 'accent-1' }}
+                  onClick={() => window.open(props.user.profileUrl, '_blank')}
+                  title="click to open your spotify profile"
+                />
+              ) : (
+                <Avatar
+                  background="accent-2"
+                  border={{ size: 'small', side: 'all', color: 'accent-1' }}
+                  size={size !== 'small' ? 'large' : 'medium'}
+                  onClick={() => window.open(props.user.profileUrl, '_blank')}
+                  title="click to open your spotify profile"
+                >
+                  <User
+                    color="accent-1"
+                    size={size !== 'small' ? 'large' : 'medium'}
+                  />
+                </Avatar>
+              )}
+            </Box>
+          )}
         </Box>
       )}
     </ResponsiveContext.Consumer>
