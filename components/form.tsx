@@ -77,15 +77,14 @@ const Form: FunctionComponent<FormProps> = (props) => {
           </Header>
           <Box
             align="center"
-            margin={size !== 'small' ? 'large' : 'small'}
+            margin={size !== 'small' ? 'medium' : 'small'}
             fill="vertical"
             flex
           >
             <Box
               fill={size === 'small'}
               flex
-              gap={size === 'small' ? 'small' : 'medium'}
-              justify="evenly"
+              justify="between"
               align="center"
               border={{
                 side: 'all',
@@ -96,11 +95,14 @@ const Form: FunctionComponent<FormProps> = (props) => {
               background={{ color: '#2F3E4D', opacity: 0.7 }}
               round="large"
               pad={{
-                horizontal: 'medium',
-                vertical: size !== 'small' ? 'medium' : 'none'
+                horizontal: 'medium'
               }}
             >
-              <Box align="center">
+              <Box
+                justify="evenly"
+                align="center"
+                gap={size === 'small' ? 'large' : 'small'}
+              >
                 <TextInput
                   title="click to edit"
                   plain
@@ -108,147 +110,152 @@ const Form: FunctionComponent<FormProps> = (props) => {
                   style={{
                     textAlign: 'center',
                     fontSize:
-                      size === 'large' ? 56 : size === 'medium' ? 48 : 32
+                      size === 'large' ? 48 : size === 'medium' ? 40 : 32
                   }}
                 />
-              </Box>
-              <Box gap={size === 'small' ? 'small' : 'medium'} align="center">
-                <Text
-                  textAlign="center"
-                  weight="bold"
-                  size={size !== 'small' ? 'medium' : 'small'}
-                >
-                  your mood...
-                </Text>
-                <Box direction="row" gap="small">
-                  {icons.map((icon) => (
-                    <Box
-                      hoverIndicator="accent-1"
-                      round="small"
-                      pad={{ horizontal: 'small', vertical: 'xsmall' }}
-                      align="center"
-                      background="light-2"
-                      direction={size !== 'small' ? 'row' : 'column'}
-                      gap="xsmall"
-                      onClick={() => {}}
-                      key={icon}
-                    >
-                      {size !== 'small' && (
-                        <Text size="xsmall" weight="bold" textAlign="center">
-                          {icon}
-                        </Text>
-                      )}
-                      <Emoji color="brand" />
-                    </Box>
-                  ))}
-                </Box>
-              </Box>
-              <Box gap="small" fill="horizontal">
-                <Text
-                  textAlign="center"
-                  weight="bold"
-                  size={size !== 'small' ? 'medium' : 'small'}
-                >
-                  number of songs:{' '}
+                <Box gap="small" align="center">
                   <Text
                     textAlign="center"
-                    color="accent-1"
+                    weight="bold"
                     size={size !== 'small' ? 'medium' : 'small'}
                   >
-                    {numSongs}
+                    your mood...
                   </Text>
-                </Text>
-                <Box direction="row" align="center" gap="small">
-                  <Button
-                    icon={
-                      <Subtract size={size !== 'small' ? 'medium' : 'small'} />
-                    }
-                    style={{ borderRadius: 30 }}
-                    onClick={() => {
-                      let num = numSongs;
-                      num--;
-                      setNumSongs(num);
-                    }}
-                  />
-                  <RangeInput
-                    max={50}
-                    min={1}
-                    step={1}
-                    name="number of songs:"
-                    value={numSongs}
-                    onChange={(event) => setNumSongs(+event.target.value)}
-                  />
-                  <Button
-                    icon={<Add size={size !== 'small' ? 'medium' : 'small'} />}
-                    style={{ borderRadius: 30 }}
-                    onClick={() => {
-                      let num = numSongs;
-                      num++;
-                      setNumSongs(num);
-                    }}
-                  />
+                  <Box direction="row" gap="small">
+                    {icons.map((icon) => (
+                      <Box
+                        hoverIndicator="accent-1"
+                        round="small"
+                        pad={{ horizontal: 'small', vertical: 'xsmall' }}
+                        align="center"
+                        background="light-2"
+                        direction={size !== 'small' ? 'row' : 'column'}
+                        gap="xsmall"
+                        onClick={() => {}}
+                        key={icon}
+                      >
+                        {size !== 'small' && (
+                          <Text size="xsmall" weight="bold" textAlign="center">
+                            {icon}
+                          </Text>
+                        )}
+                        <Emoji color="brand" />
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
-              </Box>
-              <Box
-                direction="row"
-                align="start"
-                fill="horizontal"
-                justify="evenly"
-              >
-                <Text
-                  textAlign="center"
-                  weight="bold"
-                  size={size !== 'small' ? 'medium' : 'small'}
+                <Box gap="small" fill="horizontal">
+                  <Text
+                    textAlign="center"
+                    weight="bold"
+                    size={size !== 'small' ? 'medium' : 'small'}
+                  >
+                    number of songs:{' '}
+                    <Text
+                      textAlign="center"
+                      color="accent-1"
+                      size={size !== 'small' ? 'medium' : 'small'}
+                    >
+                      {numSongs}
+                    </Text>
+                  </Text>
+                  <Box direction="row" align="center" gap="small">
+                    <Button
+                      icon={
+                        <Subtract
+                          size={size !== 'small' ? 'medium' : 'small'}
+                        />
+                      }
+                      style={{ borderRadius: 30 }}
+                      onClick={() => {
+                        let num = numSongs;
+                        num--;
+                        setNumSongs(num);
+                      }}
+                    />
+                    <RangeInput
+                      max={50}
+                      min={1}
+                      step={1}
+                      name="number of songs:"
+                      value={numSongs}
+                      onChange={(event) => setNumSongs(+event.target.value)}
+                    />
+                    <Button
+                      icon={
+                        <Add size={size !== 'small' ? 'medium' : 'small'} />
+                      }
+                      style={{ borderRadius: 30 }}
+                      onClick={() => {
+                        let num = numSongs;
+                        num++;
+                        setNumSongs(num);
+                      }}
+                    />
+                  </Box>
+                </Box>
+                <Box
+                  direction="row"
+                  align="start"
+                  fill="horizontal"
+                  justify="evenly"
                 >
-                  choose from your:
-                </Text>
-                <Box gap="small">
-                  <CheckBox
-                    label={
-                      <Box>
-                        <Text size={size !== 'small' ? 'medium' : 'small'}>
-                          saved songs
-                        </Text>
-                      </Box>
-                    }
-                  />
-                  <CheckBox
-                    label={
-                      <Box>
-                        <Text size={size !== 'small' ? 'medium' : 'small'}>
-                          top tracks
-                        </Text>
-                      </Box>
-                    }
-                  />
-                  <CheckBox
-                    label={
-                      <Box>
-                        <Text size={size !== 'small' ? 'medium' : 'small'}>
-                          top artists
-                        </Text>
-                      </Box>
-                    }
-                  />
-                  <CheckBox
-                    label={
-                      <Box>
-                        <Text size={size !== 'small' ? 'medium' : 'small'}>
-                          recommended
-                        </Text>
-                      </Box>
-                    }
-                  />
+                  <Text
+                    textAlign="center"
+                    weight="bold"
+                    size={size !== 'small' ? 'medium' : 'small'}
+                  >
+                    choose from your:
+                  </Text>
+                  <Box gap="small">
+                    <CheckBox
+                      label={
+                        <Box>
+                          <Text size={size !== 'small' ? 'medium' : 'small'}>
+                            saved songs
+                          </Text>
+                        </Box>
+                      }
+                    />
+                    <CheckBox
+                      label={
+                        <Box>
+                          <Text size={size !== 'small' ? 'medium' : 'small'}>
+                            top tracks
+                          </Text>
+                        </Box>
+                      }
+                    />
+                    <CheckBox
+                      label={
+                        <Box>
+                          <Text size={size !== 'small' ? 'medium' : 'small'}>
+                            top artists
+                          </Text>
+                        </Box>
+                      }
+                    />
+                    <CheckBox
+                      label={
+                        <Box>
+                          <Text size={size !== 'small' ? 'medium' : 'small'}>
+                            recommended
+                          </Text>
+                        </Box>
+                      }
+                    />
+                  </Box>
                 </Box>
               </Box>
+
               <Button
                 margin="small"
                 hoverIndicator={size !== 'small' ? 'accent-1' : false}
                 alignSelf="center"
                 primary={size === 'small'}
-                label="queue it"
+                label="continue"
                 size={size === 'small' ? 'medium' : 'large'}
-                icon={<Spotify size={size !== 'small' ? 'large' : 'medium'} />}
+                icon={<Spotify size={size !== 'large' ? 'medium' : 'large'} />}
               />
             </Box>
           </Box>
