@@ -26,7 +26,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
       >
         <Box align="center">
           <Heading textAlign="center" size="large">
-            mood queue
+            moodqueue
           </Heading>
           <Text textAlign="center" size={size !== 'small' ? 'large' : 'medium'}>
             create playlists, update your queue, and get inspired
