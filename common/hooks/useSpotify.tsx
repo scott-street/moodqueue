@@ -1,22 +1,19 @@
 import React from "react"
 import { useAuth } from "./useAuth"
-import { Track } from "../../types/Track"
+import { Track, PropertyTrack } from "../../types/Track"
+import { TrackSource } from "../../types/TrackSource"
+import { Mood } from "../../types/Mood"
+import { happyComparator, sadComparator } from "../MoodComparators"
 import { useNotification } from "./useNotification"
+import { processQueue } from "../QueueProcessor"
+import { getTrackIdList, combineTwoArraysOnId } from "../Helpers"
 
 export interface SpotifyContextValue {
-    getTopSongs: (count: number) => Promise<Track[]>
-    getTopArtists: (count: number) => Promise<string[]>
-    getRecommendedSongs: (count: number) => Promise<Track[]>
-    getTopArtistsTopSongs: (count: number) => Promise<Track[]>
-    getSavedTracks: (count: number) => Promise<Track[]>
+    getQueue: (trackSource: TrackSource[], count: number, mood: Mood) => Promise<Track[]>
 }
 
 export const SpotifyContext = React.createContext<SpotifyContextValue>({
-    getTopSongs: () => undefined,
-    getTopArtists: () => undefined,
-    getRecommendedSongs: () => undefined,
-    getTopArtistsTopSongs: () => undefined,
-    getSavedTracks: () => undefined,
+    getQueue: () => undefined,
 })
 
 interface SpotifyProviderProps {
@@ -82,7 +79,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
 
     const getRecommendedSongs = async (count: number): Promise<Track[]> => {
         try {
-            const topArtists: string = (await getTopArtists(count)).join(",")
+            const topArtists: string = (await getTopArtists(5)).join(",")
             return await fetch(
                 `https://api.spotify.com/v1/recommendations?limit=${count}&seed_artists=${topArtists}`,
                 {
@@ -174,12 +171,85 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         }
     }
 
+    const getMultipleTracksAudioFeatures = async (
+        tracks: Track[]
+    ): Promise<PropertyTrack[] | void[]> => {
+        try {
+            return await fetch(
+                `https://api.spotify.com/v1/audio-features?ids=${getTrackIdList(tracks)}`,
+                {
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + accessToken,
+                    },
+                    method: "GET",
+                }
+            )
+                .then((data) => {
+                    return data.json()
+                })
+                .then((data) => {
+                    return combineTwoArraysOnId(tracks, data.audio_features)
+                })
+        } catch (e) {
+            notifyError("Error")
+        }
+    }
+
+    const getQueue = async (
+        trackSource: TrackSource[],
+        count: number,
+        mood: Mood
+    ): Promise<Track[]> => {
+        let tracks = []
+
+        if (trackSource.includes(TrackSource.TOP_SONGS)) {
+            await getTopSongs(50).then(async (songs) => {
+                await getMultipleTracksAudioFeatures(songs).then((topTracks) => {
+                    tracks = tracks.concat(topTracks)
+                })
+            })
+        }
+        if (trackSource.includes(TrackSource.RECOMMENDED_SONGS)) {
+            await getRecommendedSongs(50).then(async (songs) => {
+                await getMultipleTracksAudioFeatures(songs).then((recommendedTracks) => {
+                    tracks = tracks.concat(recommendedTracks)
+                })
+            })
+        }
+        if (trackSource.includes(TrackSource.TOP_ARTISTS_SONGS)) {
+            await getTopArtistsTopSongs(50).then(async (songs) => {
+                await getMultipleTracksAudioFeatures(songs).then((topArtistsTracks) => {
+                    tracks = tracks.concat(topArtistsTracks)
+                })
+            })
+        }
+        if (trackSource.includes(TrackSource.SAVED_SONGS)) {
+            await getSavedTracks(50).then(async (songs) => {
+                await getMultipleTracksAudioFeatures(songs).then((savedTracks) => {
+                    tracks = tracks.concat(savedTracks)
+                })
+            })
+        }
+
+        //as we add more moods, we will add more comparators
+        let comparator
+        if (mood === Mood.HAPPY) {
+            comparator = happyComparator
+        } else {
+            comparator = sadComparator
+        }
+
+        return processQueue({
+            entities: tracks,
+            comparator: comparator,
+            count: count,
+        })
+    }
+
     const spotifyContextValue = {
-        getTopSongs,
-        getTopArtists,
-        getRecommendedSongs,
-        getTopArtistsTopSongs,
-        getSavedTracks,
+        getQueue,
     }
 
     return <SpotifyContext.Provider value={props.value ?? spotifyContextValue} {...props} />
