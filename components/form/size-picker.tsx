@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Box, Text, Button, RangeInput, TextInput } from 'grommet';
+import { Box, Text, Button, RangeInput } from 'grommet';
 import { Subtract, Add } from 'grommet-icons';
 import { motion } from 'framer-motion';
 import { useForm } from '../../common/hooks/useForm';
@@ -51,38 +51,21 @@ const SizePicker: FunctionComponent<SizePickerProps> = (props) => {
             />
           </motion.div>
         )}
-        {size === 'small' ? (
-          <Box>
-            <TextInput
-              placeholder="0"
-              value={numSongs === 0 ? '' : +numSongs}
-              onChange={(event) => {
-                let prog = progress;
-                const value = +event.target.value;
-                if (value > 0 && numSongs === 0) prog++;
-                else if (value === 0) prog--;
-                setProgress(prog);
-                setNumSongs(value);
-              }}
-            />
-          </Box>
-        ) : (
-          <RangeInput
-            max={50}
-            min={0}
-            step={1}
-            name="number of songs:"
-            value={numSongs}
-            onChange={(event) => {
-              let prog = progress;
-              const value = +event.target.value;
-              if (value > 0 && numSongs === 0) prog++;
-              else if (value === 0) prog--;
-              setProgress(prog);
-              setNumSongs(value);
-            }}
-          />
-        )}
+        <RangeInput
+          max={50}
+          min={0}
+          step={1}
+          name="number of songs:"
+          value={numSongs}
+          onChange={(event) => {
+            let prog = progress;
+            const value = +event.target.value;
+            if (value > 0 && numSongs === 0) prog++;
+            else if (value === 0) prog--;
+            setProgress(prog);
+            setNumSongs(value);
+          }}
+        />
         {size !== 'small' && (
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Button
