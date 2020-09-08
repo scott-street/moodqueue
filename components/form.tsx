@@ -184,7 +184,9 @@ const Form: FunctionComponent<FormProps> = (props) => {
                       style={{ borderRadius: 30 }}
                       onClick={() => {
                         let num = numSongs;
-                        num--;
+                        if (num - 1 >= 0) {
+                          num--;
+                        }
                         setNumSongs(num);
                       }}
                     />
@@ -203,7 +205,9 @@ const Form: FunctionComponent<FormProps> = (props) => {
                       style={{ borderRadius: 30 }}
                       onClick={() => {
                         let num = numSongs;
-                        num++;
+                        if (num + 1 <= 50) {
+                          num++;
+                        }
                         setNumSongs(num);
                       }}
                     />
