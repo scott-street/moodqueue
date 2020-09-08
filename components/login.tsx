@@ -29,7 +29,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
             moodqueue
           </Heading>
           <Text textAlign="center" size={size !== 'small' ? 'large' : 'medium'}>
-            create playlists, update your queue, and get inspired
+            update your queue and get inspired
           </Text>
         </Box>
         <Button
