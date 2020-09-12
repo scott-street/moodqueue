@@ -29,12 +29,12 @@ export const FormContext = React.createContext<FormContextValue>({
   handleSouceSelectionOnChange: () => undefined,
   resetForm: () => undefined,
   submitForm: () => undefined,
-  queueTitle: undefined,
-  moodIndex: undefined,
-  numSongs: undefined,
+  queueTitle: '',
+  moodIndex: -1,
+  numSongs: 0,
   sourceSelection: undefined,
-  progress: undefined,
-  showResults: undefined
+  progress: 0,
+  showResults: false
 });
 
 interface FormProviderProps {
