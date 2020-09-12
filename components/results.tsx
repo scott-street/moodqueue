@@ -34,7 +34,8 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
       }}
     >
       <Heading textAlign="center" margin="none" size={size}>
-        here's your {Mood[moodIndex].toLowerCase()} queue:
+        here's your{' '}
+        {moodIndex >= 0 ? Mood[moodIndex].toLowerCase() + ' queue:' : ' queue:'}
       </Heading>
       <Text textAlign="center" size="medium">
         {queueTitle}
