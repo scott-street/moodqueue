@@ -7,19 +7,22 @@ import {
   SubtractCircle
 } from 'grommet-icons';
 import { mockPropertyTracks } from '../common/mocks/PropertyTracks';
-import { useForm } from '../common/hooks/useForm';
 import { Mood } from '../types/Mood';
+import { FormSelection } from '../types/FormSelection';
 
 interface ResultsProps {
   size: string;
+  mood: Mood;
+  numSongs: number;
+  source: FormSelection;
+  resetForm(): void;
 }
 
 const Results: FunctionComponent<ResultsProps> = (props) => {
   const { size } = props;
-  const { resetForm, moodIndex, queueTitle } = useForm();
 
   useEffect(() => {
-    document.title = `${queueTitle} | moodqueue`;
+    document.title = 'your queue | moodqueue';
   }, []);
 
   return (
@@ -33,18 +36,23 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
         vertical: 'small'
       }}
     >
-      <Heading textAlign="center" margin="none" size={size}>
+      <Heading textAlign="center" margin="none">
         here's your{' '}
-        {moodIndex >= 0 ? Mood[moodIndex].toLowerCase() + ' queue:' : ' queue:'}
+        {props.mood >= 0
+          ? Mood[props.mood].toLowerCase() + ' queue:'
+          : ' queue:'}
       </Heading>
-      <Text textAlign="center" size="medium">
-        {queueTitle}
+      <Text textAlign="center" size={size !== 'small' ? 'medium' : 'small'}>
+        {props.numSongs} songs
       </Text>
       <Box
-        overflow={{ vertical: 'auto', horizontal: 'hidden' }}
-        gap={size === 'small' ? 'medium' : 'medium'}
+        overflow={{ vertical: 'auto' }}
+        gap="medium"
         alignContent="center"
-        pad={{ vertical: 'small', horizontal: 'medium' }}
+        pad={{
+          vertical: 'small',
+          horizontal: size !== 'small' ? 'xlarge' : 'large'
+        }}
         fill
       >
         {mockPropertyTracks.map((track, i) => (
@@ -57,10 +65,17 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
               borderTopRightRadius: 30,
               borderBottomLeftRadius: 30
             }}
-            pad={{ vertical: 'xlarge', horizontal: 'xsmall' }}
+            pad={{
+              vertical: 'xlarge',
+              horizontal: size !== 'small' ? 'medium' : 'small'
+            }}
             align="center"
-            background={{ color: '#34495E', opacity: 0.7 }}
-            border={{ side: 'all', size: 'small', color: 'accent-3' }}
+            background={{
+              color: '#34495E',
+              opacity: 0.5,
+              image: `url(${track.imageLink})`
+            }}
+            border={{ side: 'all', size: 'medium', color: 'accent-3' }}
             key={i}
           >
             <Box
@@ -70,39 +85,40 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                   '_blank'
                 )
               }
-              gap="xsmall"
+              gap="small"
               align="center"
               justify="center"
               direction="row"
               round
               hoverIndicator="accent-1"
-              pad={{ vertical: 'small', right: 'small', left: 'xsmall' }}
+              background={{ color: 'accent-1', opacity: 'strong' }}
+              pad={{ vertical: 'small', horizontal: 'small' }}
             >
               <Box
-                align="start"
+                align="center"
                 width={
                   size === 'large'
-                    ? '60px'
+                    ? '84px'
                     : size === 'medium'
-                    ? '48px'
+                    ? '60px'
                     : '36px'
                 }
                 height={
                   size === 'large'
-                    ? '60px'
+                    ? '84px'
                     : size === 'medium'
-                    ? '48px'
+                    ? '60px'
                     : '36px'
                 }
                 style={{ borderRadius: 30 }}
               >
                 <Image
                   fill
-                  alignSelf="start"
+                  alignSelf="center"
                   src={track.imageLink}
                   fit="contain"
                   style={{
-                    borderRadius: 30
+                    borderRadius: 50
                   }}
                 />
               </Box>
@@ -119,20 +135,20 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
               </Box>
             </Box>
             <Button
-              margin={{ right: 'xsmall' }}
+              primary
               title="remove from moodqueue"
+              size={size === 'large' ? 'large' : 'medium'}
               icon={
-                <SubtractCircle
-                  color={size === 'small' ? 'neutral-4' : undefined}
-                />
+                <SubtractCircle size={size === 'large' ? 'large' : 'medium'} />
               }
-              hoverIndicator="neutral-4"
+              hoverIndicator="status-error"
+              color="neutral-4"
               style={{ borderRadius: 30 }}
             />
           </Box>
         ))}
       </Box>
-      <Box direction="row" align="center" gap="small" margin="medium">
+      <Box direction="row" align="center" gap="small" margin="small">
         <Button
           title="play your moodqueue"
           primary={size == 'small'}
@@ -153,7 +169,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
           primary={size == 'small'}
           icon={<Previous />}
           label={size === 'small' ? undefined : 'start over'}
-          onClick={resetForm}
+          onClick={props.resetForm}
           hoverIndicator="brand"
           color="brand"
         />
