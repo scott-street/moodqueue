@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { Box, Grommet, grommet, ResponsiveContext } from 'grommet';
-import Form from '../components/form';
+import Form from '../components/form/form';
 import Redirect from '../components/redirect';
 import { BounceLoader } from 'react-spinners';
 import Head from 'next/head';
@@ -11,7 +11,6 @@ import {
   useNotification
 } from '../common/hooks/useNotification';
 import { SpotifyProvider } from '../common/hooks/useSpotify';
-import { FormProvider } from '../common/hooks/useForm';
 
 const BaseApp: FunctionComponent = () => {
   const {
@@ -85,9 +84,7 @@ const App = () => (
     <NotificationProvider>
       <SpotifyProvider>
         <Redirect>
-          <FormProvider>
-            <BaseApp />
-          </FormProvider>
+          <BaseApp />
         </Redirect>
       </SpotifyProvider>
     </NotificationProvider>
