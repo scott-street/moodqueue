@@ -12,6 +12,8 @@ import { useSpotify } from '../common/hooks/useSpotify';
 import { Track } from '../types/Track';
 import { TrackSource } from '../types/TrackSource';
 import { BounceLoader } from 'react-spinners';
+import { getSourcesString } from '../common/Helpers';
+import { motion } from 'framer-motion';
 
 interface ResultsProps {
   size: string;
@@ -44,6 +46,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
     }
     return result;
   };
+
   useEffect(() => {
     document.title = 'your queue | moodqueue';
     const trackSources = getTrackSourceFromFormSelection(source);
@@ -69,16 +72,21 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
           ? Mood[props.mood].toLowerCase() + ' queue:'
           : ' queue:'}
       </Heading>
-      <Text textAlign="center" size={size !== 'small' ? 'medium' : 'small'}>
-        {tracks ? tracks.length : 0} songs
-      </Text>
+      <Box direction="row" border="between" gap="small" align="center">
+        <Text textAlign="center" size={size !== 'small' ? 'medium' : 'small'}>
+          {tracks ? tracks.length + ' songs' : 'loading...'}
+        </Text>
+        <Text textAlign="center" size={size !== 'small' ? 'medium' : 'small'}>
+          based off your {getSourcesString(source)}
+        </Text>
+      </Box>
       <Box
         overflow={{ vertical: 'auto' }}
         gap="medium"
         alignContent="center"
         pad={{
           vertical: 'small',
-          horizontal: size !== 'small' ? 'xlarge' : 'large'
+          horizontal: size !== 'small' ? 'xlarge' : 'none'
         }}
         fill
       >
@@ -103,78 +111,88 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                 opacity: 0.5,
                 image: `url(${track.imageLink})`
               }}
-              border={{ side: 'all', size: 'medium', color: 'accent-3' }}
+              border={{
+                side: 'all',
+                size: 'medium',
+                color: 'accent-3',
+                style: 'outset'
+              }}
               key={i}
             >
-              <Box
-                onClick={() =>
-                  window.open(
-                    `https://open.spotify.com/track/${track.id}`,
-                    '_blank'
-                  )
-                }
-                gap="small"
-                align="center"
-                justify="center"
-                direction="row"
-                round
-                hoverIndicator="accent-1"
-                background={{ color: 'accent-1', opacity: 'strong' }}
-                pad={{ vertical: 'small', horizontal: 'small' }}
-              >
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Box
+                  onClick={() =>
+                    window.open(
+                      `https://open.spotify.com/track/${track.id}`,
+                      '_blank'
+                    )
+                  }
+                  gap="small"
                   align="center"
-                  width={
-                    size === 'large'
-                      ? '84px'
-                      : size === 'medium'
-                      ? '60px'
-                      : '36px'
-                  }
-                  height={
-                    size === 'large'
-                      ? '84px'
-                      : size === 'medium'
-                      ? '60px'
-                      : '36px'
-                  }
-                  style={{ borderRadius: 30 }}
+                  justify="center"
+                  direction="row"
+                  round
+                  hoverIndicator="accent-1"
+                  background={{ color: 'accent-1', opacity: 'strong' }}
+                  border={{ side: 'all', size: 'small', color: 'accent-3' }}
+                  pad={{ vertical: 'small', horizontal: 'small' }}
                 >
-                  <Image
-                    fill
-                    alignSelf="center"
-                    src={track.imageLink}
-                    fit="contain"
-                    style={{
-                      borderRadius: 50
-                    }}
-                  />
-                </Box>
-                <Box align="start">
-                  <Text textAlign="start" weight="bold" size={size}>
-                    {track.name}
-                  </Text>
-                  <Text
-                    textAlign="start"
-                    size={size !== 'small' ? 'small' : 'xsmall'}
+                  <Box
+                    align="center"
+                    width={
+                      size === 'large'
+                        ? '84px'
+                        : size === 'medium'
+                        ? '60px'
+                        : '36px'
+                    }
+                    height={
+                      size === 'large'
+                        ? '84px'
+                        : size === 'medium'
+                        ? '60px'
+                        : '36px'
+                    }
+                    style={{ borderRadius: 30 }}
                   >
-                    {track.artist}
-                  </Text>
+                    <Image
+                      fill
+                      alignSelf="center"
+                      src={track.imageLink}
+                      fit="contain"
+                      style={{
+                        borderRadius: 50
+                      }}
+                    />
+                  </Box>
+                  <Box align="start">
+                    <Text textAlign="start" weight="bold" size={size}>
+                      {track.name}
+                    </Text>
+                    <Text
+                      textAlign="start"
+                      size={size !== 'small' ? 'small' : 'xsmall'}
+                    >
+                      {track.artist}
+                    </Text>
+                  </Box>
                 </Box>
-              </Box>
-              <Button
-                primary
-                title="remove from moodqueue"
-                size={size === 'large' ? 'large' : 'medium'}
-                icon={
-                  <SubtractCircle
-                    size={size === 'large' ? 'large' : 'medium'}
-                  />
-                }
-                hoverIndicator="status-error"
-                color="neutral-4"
-                style={{ borderRadius: 30 }}
-              />
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <Button
+                  primary
+                  title="remove from moodqueue"
+                  size={size === 'large' ? 'large' : 'medium'}
+                  icon={
+                    <SubtractCircle
+                      size={size === 'large' ? 'large' : 'medium'}
+                    />
+                  }
+                  hoverIndicator="status-error"
+                  color="neutral-4"
+                  style={{ borderRadius: 30 }}
+                />
+              </motion.div>
             </Box>
           ))
         ) : (
@@ -186,31 +204,39 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
           </Box>
         )}
       </Box>
-      <Box direction="row" align="center" gap="small" margin="small">
-        <Button
-          title="play your moodqueue"
-          primary={size == 'small'}
-          label={size === 'small' ? undefined : 'start queue'}
-          icon={<CirclePlay />}
-          hoverIndicator="accent-1"
-        />
-        <Button
-          title="share your moodqueue"
-          primary={size == 'small'}
-          label={size === 'small' ? undefined : 'share'}
-          icon={<ShareOption />}
-          hoverIndicator="accent-3"
-          color="accent-3"
-        />
-        <Button
-          title="start over to begin a new moodqueue"
-          primary={size == 'small'}
-          icon={<Previous />}
-          label={size === 'small' ? undefined : 'start over'}
-          onClick={props.resetForm}
-          hoverIndicator="brand"
-          color="brand"
-        />
+      <Box
+        direction="row"
+        align="center"
+        gap="medium"
+        margin={size !== 'small' ? 'small' : 'medium'}
+      >
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <Button
+            title="play your moodqueue"
+            primary
+            label={size === 'small' ? undefined : 'start queue'}
+            icon={<CirclePlay />}
+          />
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <Button
+            title="share your moodqueue"
+            primary
+            label={size === 'small' ? undefined : 'share'}
+            icon={<ShareOption />}
+            color="accent-3"
+          />
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <Button
+            title="start over to begin a new moodqueue"
+            primary
+            icon={<Previous />}
+            label={size === 'small' ? undefined : 'start over'}
+            onClick={props.resetForm}
+            color="brand"
+          />
+        </motion.div>
       </Box>
     </Box>
   );

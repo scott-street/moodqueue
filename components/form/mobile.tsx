@@ -174,7 +174,13 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
                 primary
                 icon={<Spotify />}
               />
-              <Button label="reset" icon={<Erase />} onClick={resetForm} />
+              <Button
+                label="reset"
+                icon={<Erase />}
+                onClick={resetForm}
+                color="accent-3"
+                primary
+              />
               <Button
                 focusIndicator={false}
                 icon={<FormClose />}
@@ -267,7 +273,7 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
           round
           values={[
             {
-              value: Math.ceil((progress / 4) * 100)
+              value: Math.ceil((progress / 3) * 100)
             }
           ]}
         />

@@ -51,9 +51,9 @@ const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) => {
       align={size === 'medium' || size === 'large' ? 'start' : 'center'}
       justify={size !== 'large' ? 'center' : 'evenly'}
       flex
-      gap={size !== 'large' ? 'large' : 'none'}
+      gap={size !== 'large' ? 'large' : 'large'}
     >
-      <Text textAlign="center" weight="bold" size={size}>
+      <Text textAlign="center" size={size}>
         choose from your:
       </Text>
       <Box gap="small">
