@@ -68,12 +68,13 @@ const CompactForm: FunctionComponent<CompactFormProps> = (props) => {
       >
         {progress === 3 ? (
           <Button
-            margin="xsmall"
+            margin="none"
             hoverIndicator="accent-1"
             alignSelf="center"
             disabled={progress !== 3}
             label="continue"
             onClick={submitForm}
+            size="large"
             icon={<Spotify />}
           />
         ) : (
