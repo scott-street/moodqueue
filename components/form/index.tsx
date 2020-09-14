@@ -1,11 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, Reducer, useReducer } from 'react';
 import { Box, Heading, Avatar, Header, Text, ResponsiveContext } from 'grommet';
 import { User } from 'grommet-icons';
 import { UserInfo, defaultUser } from '../../types/UserInfo';
 import MobileForm from './mobile';
 import CompactForm from './compact';
 import { motion } from 'framer-motion';
-import { baseContainer, baseItem } from '../motion';
+import { baseContainer, baseItem } from '../../common/motion';
+import {
+  FormState,
+  FormAction,
+  formReducer,
+  initialFormState,
+  resetFormState
+} from './hooks/reducer';
+import Results from '../results';
 
 interface FormProps {
   user: UserInfo;
@@ -13,6 +21,23 @@ interface FormProps {
 
 const Form: FunctionComponent<FormProps> = (props) => {
   const name = props.user.name ? props.user.name.toLowerCase() : 'stranger';
+  const [progress, setProgress] = React.useState(0);
+  const [showResults, setShowResults] = React.useState(false);
+
+  const [state, dispatch] = useReducer<Reducer<FormState, FormAction>>(
+    formReducer,
+    initialFormState
+  );
+
+  const submitForm = () => {
+    setShowResults(true);
+  };
+
+  const resetForm = () => {
+    dispatch(resetFormState());
+    setProgress(0);
+    setShowResults(false);
+  };
 
   return (
     <ResponsiveContext.Consumer>
@@ -119,17 +144,39 @@ const Form: FunctionComponent<FormProps> = (props) => {
                   variants={baseItem}
                   style={{ width: '100%', height: '100%' }}
                 >
-                  <Box
-                    align="center"
-                    fill
-                    pad={size === 'large' ? 'none' : 'xsmall'}
-                  >
-                    {size !== 'large' ? (
-                      <MobileForm size={size} />
-                    ) : (
-                      <CompactForm size={size} />
-                    )}
-                  </Box>
+                  {showResults ? (
+                    <Results size={size} {...state} resetForm={resetForm} />
+                  ) : (
+                    <Box
+                      align="center"
+                      fill
+                      pad={size === 'large' ? 'none' : 'xsmall'}
+                    >
+                      {size !== 'large' ? (
+                        <MobileForm
+                          size={size}
+                          moodIndex={state.mood}
+                          numSongs={state.numSongs}
+                          source={state.source}
+                          progress={progress}
+                          setProgress={(prog) => setProgress(prog)}
+                          submitForm={submitForm}
+                          resetForm={resetForm}
+                          dispatch={(value) => dispatch(value)}
+                        />
+                      ) : (
+                        <CompactForm
+                          moodIndex={state.mood}
+                          numSongs={state.numSongs}
+                          source={state.source}
+                          progress={progress}
+                          setProgress={(prog) => setProgress(prog)}
+                          submitForm={submitForm}
+                          dispatch={(value) => dispatch(value)}
+                        />
+                      )}
+                    </Box>
+                  )}
                 </motion.div>
               </Box>
             </Box>

@@ -2,15 +2,18 @@ import React, { FunctionComponent } from 'react';
 import { Box, Text, Button, RangeInput } from 'grommet';
 import { Subtract, Add } from 'grommet-icons';
 import { motion } from 'framer-motion';
-import { useForm } from '../../common/hooks/useForm';
+import { FormAction, update } from '../hooks/reducer';
 
 interface SizePickerProps {
   size: string;
+  numSongs: number;
+  progress: number;
+  setProgress(prog: number): void;
+  dispatch(value: FormAction): void;
 }
 
 const SizePicker: FunctionComponent<SizePickerProps> = (props) => {
-  const { size } = props;
-  const { numSongs, setNumSongs, progress, setProgress } = useForm();
+  const { size, numSongs, progress, setProgress, dispatch } = props;
 
   return (
     <Box gap="small" align="center" flex justify="center">
@@ -44,9 +47,9 @@ const SizePicker: FunctionComponent<SizePickerProps> = (props) => {
                 let num = numSongs;
                 let prog = progress;
                 if (num - 1 === 0) prog--;
-                num--;
+                if (num - 1 >= 0) num--;
                 setProgress(prog);
-                setNumSongs(num);
+                dispatch(update('numSongs', num));
               }}
             />
           </motion.div>
@@ -63,7 +66,7 @@ const SizePicker: FunctionComponent<SizePickerProps> = (props) => {
             if (value > 0 && numSongs === 0) prog++;
             else if (value === 0) prog--;
             setProgress(prog);
-            setNumSongs(value);
+            dispatch(update('numSongs', value));
           }}
         />
         {size !== 'small' && (
@@ -76,9 +79,9 @@ const SizePicker: FunctionComponent<SizePickerProps> = (props) => {
                 let num = numSongs;
                 let prog = progress;
                 if (num === 0) prog++;
-                num++;
+                if (num + 1 <= 50) num++;
                 setProgress(prog);
-                setNumSongs(num);
+                dispatch(update('numSongs', num));
               }}
             />
           </motion.div>

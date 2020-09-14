@@ -3,7 +3,7 @@ import { Box, Heading, Text, Button } from 'grommet';
 import { Spotify } from 'grommet-icons';
 import { useAuth } from '../common/hooks/useAuth';
 import { motion } from 'framer-motion';
-import { baseContainer, baseItem } from './motion';
+import { baseContainer, baseItem } from '../common/motion';
 
 interface LoginProps {
   size: string;

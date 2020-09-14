@@ -1,5 +1,8 @@
-import { defaultFormSelection, FormSelection } from '../../types/FormSelection';
-import { Mood } from '../../types/Mood';
+import {
+  defaultFormSelection,
+  FormSelection
+} from '../../../types/FormSelection';
+import { Mood } from '../../../types/Mood';
 
 export interface FormState {
   mood: Mood;

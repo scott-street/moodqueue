@@ -1,44 +1,81 @@
 import React, { FunctionComponent } from 'react';
-import { Box, Button, Meter } from 'grommet';
+import { Box, Button, Heading, Meter } from 'grommet';
 import { Spotify } from 'grommet-icons';
-import QueueTitle from './queue-title';
-import MoodSelection from './mood-selection';
-import SizePicker from './size-picker';
-import SourceSelection from './source-selection';
-import { useForm } from '../../common/hooks/useForm';
+import MoodSelection from './components/mood-selection';
+import SizePicker from './components/size-picker';
+import SourceSelection from './components/source-selection';
+import { FormAction } from './hooks/reducer';
+import { Mood } from '../../types/Mood';
+import { FormSelection } from '../../types/FormSelection';
 
 interface CompactFormProps {
-  size: string;
+  moodIndex: Mood;
+  numSongs: number;
+  source: FormSelection;
+  progress: number;
+  setProgress(prog: number): void;
+  submitForm(): void;
+  dispatch(value: FormAction): void;
 }
 
 const CompactForm: FunctionComponent<CompactFormProps> = (props) => {
-  const { size } = props;
-  const { progress } = useForm();
+  const {
+    moodIndex,
+    numSongs,
+    source,
+    progress,
+    setProgress,
+    submitForm,
+    dispatch
+  } = props;
 
   return (
-    <Box justify={size !== 'large' ? 'between' : 'evenly'} align="center" fill>
-      <QueueTitle size={size} />
+    <Box justify="evenly" align="center" fill>
+      <Heading textAlign="center" margin="none">
+        new queue
+      </Heading>
       <Box gap="small" align="center">
-        <MoodSelection size={size} />
+        <MoodSelection
+          size="large"
+          moodIndex={moodIndex}
+          progress={progress}
+          setProgress={(prog) => setProgress(prog)}
+          dispatch={(value) => dispatch(value)}
+        />
         <Box fill="horizontal">
-          <SizePicker size={size} />
+          <SizePicker
+            size="large"
+            numSongs={numSongs}
+            progress={progress}
+            setProgress={(prog) => setProgress(prog)}
+            dispatch={(value) => dispatch(value)}
+          />
         </Box>
         <Box direction="row" align="start" fill="horizontal" justify="evenly">
-          <SourceSelection size={size} />
+          <SourceSelection
+            size="large"
+            source={source}
+            progress={progress}
+            setProgress={(prog) => setProgress(prog)}
+            dispatch={(value) => dispatch(value)}
+          />
         </Box>
       </Box>
       <Box
         animation={
-          progress === 4 ? { type: 'pulse', duration: 500 } : undefined
+          progress === 3 ? { type: 'pulse', duration: 500 } : undefined
         }
       >
-        {progress === 4 ? (
+        {progress === 3 ? (
           <Button
+            margin="small"
             hoverIndicator="accent-1"
             alignSelf="center"
+            disabled={progress !== 3}
             label="continue"
+            onClick={submitForm}
             size="large"
-            icon={<Spotify size="medium" />}
+            icon={<Spotify size="large" />}
           />
         ) : (
           <Meter
@@ -48,7 +85,7 @@ const CompactForm: FunctionComponent<CompactFormProps> = (props) => {
             round
             values={[
               {
-                value: Math.ceil((progress / 4) * 100)
+                value: Math.ceil((progress / 3) * 100)
               }
             ]}
           />

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { Box, Button, Meter, Layer } from 'grommet';
+import { Box, Button, Meter, Layer, Heading } from 'grommet';
 import {
   Previous,
   Next,
@@ -12,32 +12,52 @@ import {
   Erase
 } from 'grommet-icons';
 import { motion } from 'framer-motion';
-import QueueTitle from './queue-title';
-import MoodSelection from './mood-selection';
-import SizePicker from './size-picker';
-import SourceSelection from './source-selection';
-import { pageVariants } from '../motion';
-import { useForm } from '../../common/hooks/useForm';
+import MoodSelection from './components/mood-selection';
+import SizePicker from './components/size-picker';
+import SourceSelection from './components/source-selection';
+import { pageVariants } from '../../common/motion';
+import { FormSelection } from '../../types/FormSelection';
+import { Mood } from '../../types/Mood';
+import { FormAction } from './hooks/reducer';
 
 interface MobileFormProps {
   size: string;
+  moodIndex: Mood;
+  numSongs: number;
+  source: FormSelection;
+  progress: number;
+  setProgress(prog: number): void;
+  submitForm(): void;
+  resetForm(): void;
+  dispatch(value: FormAction): void;
 }
 
 const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
-  const { size } = props;
-  const [index, setIndex] = useState(0);
+  const {
+    size,
+    moodIndex,
+    numSongs,
+    source,
+    progress,
+    setProgress,
+    submitForm,
+    resetForm,
+    dispatch
+  } = props;
+  const [pageIndex, setPageIndex] = useState(0);
   const [visible, setVisible] = useState(false);
-  const { progress, resetForm } = useForm();
 
   useEffect(() => {
-    if (progress === 4) {
+    if (progress === 3) {
       setVisible(true);
     }
   }, [progress]);
 
   return (
     <Box justify="between" fill flex>
-      <QueueTitle size={size} />
+      <Heading textAlign="center" margin="none" size={size}>
+        new queue
+      </Heading>
       <Box align="center" justify="between" direction="row" fill="horizontal">
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <Button
@@ -53,46 +73,64 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
             style={{ borderRadius: 30 }}
             primary={size === 'medium'}
             onClick={() => {
-              let i = index;
+              let i = pageIndex;
               if (i !== 0) {
                 i--;
-                setIndex(i);
+                setPageIndex(i);
               }
             }}
-            disabled={index === 0}
+            disabled={pageIndex === 0}
           />
         </motion.div>
-        {index === 0 && (
+        {pageIndex === 0 && (
           <motion.div
             initial="hidden"
             animate="visible"
             variants={pageVariants}
             transition={{ ease: 'easeOut', duration: 2 }}
           >
-            <MoodSelection size={size} />
+            <MoodSelection
+              size={size}
+              moodIndex={moodIndex}
+              progress={progress}
+              setProgress={(prog) => setProgress(prog)}
+              dispatch={(value) => dispatch(value)}
+            />
           </motion.div>
         )}
-        {index === 1 && (
+        {pageIndex === 1 && (
           <motion.div
             initial="hidden"
             animate="visible"
             variants={pageVariants}
             transition={{ ease: 'easeOut', duration: 2 }}
           >
-            <SizePicker size={size} />
+            <SizePicker
+              size={size}
+              numSongs={numSongs}
+              progress={progress}
+              setProgress={(prog) => setProgress(prog)}
+              dispatch={(value) => dispatch(value)}
+            />
           </motion.div>
         )}
-        {index === 2 && (
+        {pageIndex === 2 && (
           <motion.div
             initial="hidden"
             animate="visible"
             variants={pageVariants}
             transition={{ ease: 'easeOut', duration: 2 }}
           >
-            <SourceSelection size={size} />
+            <SourceSelection
+              size={size}
+              source={source}
+              progress={progress}
+              setProgress={(prog) => setProgress(prog)}
+              dispatch={(value) => dispatch(value)}
+            />
           </motion.div>
         )}
-        {progress === 4 && visible && (
+        {progress === 3 && visible && (
           <Layer
             responsive={false}
             position="top"
@@ -123,7 +161,7 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
               }}
               align="center"
               animation={
-                progress === 4 && size === 'medium'
+                progress === 3 && size === 'medium'
                   ? { type: 'pulse', duration: 500 }
                   : undefined
               }
@@ -132,6 +170,7 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
                 margin={{ top: 'xsmall' }}
                 alignSelf="center"
                 label="continue"
+                onClick={submitForm}
                 primary
                 icon={<Spotify />}
               />
@@ -150,14 +189,14 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <Button
             onClick={() => {
-              let i = index;
+              let i = pageIndex;
               if (i !== 2) {
                 i++;
-                setIndex(i);
+                setPageIndex(i);
               }
             }}
             alignSelf="center"
-            disabled={index === 2}
+            disabled={pageIndex === 2}
             icon={size === 'medium' ? <Next /> : <FormNext color="accent-1" />}
             hoverIndicator={size === 'medium' ? 'accent-3' : undefined}
             style={{ borderRadius: 30 }}
@@ -170,9 +209,9 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Button
               title="mood selection"
-              onClick={() => setIndex(0)}
+              onClick={() => setPageIndex(0)}
               icon={
-                index === 0 ? (
+                pageIndex === 0 ? (
                   <RadialSelected color="accent-1" size={size} />
                 ) : (
                   <Radial size={size} />
@@ -181,23 +220,23 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
               style={{ borderRadius: 30 }}
               focusIndicator={false}
               hoverIndicator={
-                index === 0 ? false : size === 'medium' && 'accent-1'
+                pageIndex === 0 ? false : size === 'medium' && 'accent-1'
               }
             />
           </motion.div>
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Button
               title=""
-              onClick={() => setIndex(1)}
+              onClick={() => setPageIndex(1)}
               icon={
-                index === 1 ? (
+                pageIndex === 1 ? (
                   <RadialSelected color="accent-1" size={size} />
                 ) : (
                   <Radial size={size} />
                 )
               }
               hoverIndicator={
-                index === 1 ? false : size === 'medium' && 'accent-1'
+                pageIndex === 1 ? false : size === 'medium' && 'accent-1'
               }
               style={{ borderRadius: 30 }}
               focusIndicator={false}
@@ -205,16 +244,16 @@ const MobileForm: FunctionComponent<MobileFormProps> = (props) => {
           </motion.div>
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Button
-              onClick={() => setIndex(2)}
+              onClick={() => setPageIndex(2)}
               icon={
-                index === 2 ? (
+                pageIndex === 2 ? (
                   <RadialSelected color="accent-1" size={size} />
                 ) : (
                   <Radial size={size} />
                 )
               }
               hoverIndicator={
-                index === 2 ? false : size === 'medium' && 'accent-1'
+                pageIndex === 2 ? false : size === 'medium' && 'accent-1'
               }
               style={{ borderRadius: 30 }}
               focusIndicator={false}
