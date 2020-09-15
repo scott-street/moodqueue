@@ -5,7 +5,7 @@ export interface ResultState {
 }
 
 export const initialResultState: ResultState = {
-  tracks: []
+  tracks: undefined
 };
 
 export const resultReducer = (state: ResultState, action: ResultAction) => {

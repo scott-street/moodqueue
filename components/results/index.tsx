@@ -96,7 +96,13 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
         overflow={{ vertical: 'auto' }}
         gap="medium"
         alignContent="center"
-        justify={state.tracks.length > 1 ? 'start' : 'center'}
+        justify={
+          state.tracks
+            ? state.tracks.length > 1
+              ? 'start'
+              : 'center'
+            : 'center'
+        }
         pad={{
           vertical: 'small',
           horizontal: size !== 'small' ? 'xlarge' : 'large'
