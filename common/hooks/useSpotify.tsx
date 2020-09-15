@@ -47,6 +47,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         artist: track.album.artists[0].name,
                         imageLink: track.album.images[0].url,
                         id: track.id,
+                        uri: track.uri,
                     } as Track)
             )
 
@@ -101,6 +102,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         artist: track.album.artists[0].name,
                         imageLink: track.album.images[0].url,
                         id: track.id,
+                        uri: track.uri,
                     }))
                 })
         } catch (e) {
@@ -135,6 +137,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                                 artist: data.tracks[0].album.artists[0].name,
                                 imageLink: data.tracks[0].album.images[0].url,
                                 id: data.tracks[0].id,
+                                uri: data.tracks[0].uri,
                             }
                         })
                 })
@@ -164,6 +167,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         artist: item.track.album.artists[0].name,
                         imageLink: item.track.album.images[0].url,
                         id: item.track.id,
+                        uri: item.track.uri,
                     }))
                 })
         } catch (e) {
