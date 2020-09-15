@@ -65,7 +65,10 @@ const BaseApp: FunctionComponent = () => {
               user ? (
                 <Form user={user} />
               ) : (
-                <BounceLoader size={300} color="#6FFFB0" />
+                <BounceLoader
+                  size={size === 'large' ? 300 : size === 'medium' ? 200 : 100}
+                  color="#6FFFB0"
+                />
               )
             ) : (
               <Login size={size} />

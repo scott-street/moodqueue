@@ -212,7 +212,12 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
             ))
           )
         ) : (
-          <BounceLoader size={300} color="#6FFFB0" />
+          <Box align="center" justify="center" fill>
+            <BounceLoader
+              size={size === 'large' ? 300 : size === 'medium' ? 200 : 100}
+              color="#6FFFB0"
+            />
+          </Box>
         )}
       </Box>
       <Box direction="row" align="center" gap="small" margin="small">
