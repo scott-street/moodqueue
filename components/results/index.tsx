@@ -4,9 +4,8 @@ import React, {
   useEffect,
   useReducer
 } from 'react';
-import { Box, Heading, Button, Text, Image } from 'grommet';
+import { Box, Heading, Button, Text, Image, Layer } from 'grommet';
 import { Previous, CirclePlay, SubtractCircle } from 'grommet-icons';
-
 import { Mood } from '../../types/Mood';
 import { FormSelection } from '../../types/FormSelection';
 import { useSpotify } from '../../common/hooks/useSpotify';
@@ -20,9 +19,11 @@ import {
   resultReducer,
   initialResultState,
   remove,
-  update
+  update,
+  updateTrackToShow
 } from './reducer';
 import { getSourcesString } from '../../common/Helpers';
+import Options from './options';
 
 interface ResultsProps {
   size: string;
@@ -146,18 +147,11 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                 key={i}
               >
                 <Box
-                  onClick={() =>
-                    window.open(
-                      `https://open.spotify.com/track/${track.id}`,
-                      '_blank'
-                    )
-                  }
                   gap="small"
                   align="center"
                   justify="center"
                   direction="row"
                   round
-                  hoverIndicator="accent-1"
                   background={{ color: 'accent-1', opacity: 'strong' }}
                   pad={{ vertical: 'small', horizontal: 'small' }}
                 >
@@ -177,7 +171,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                         ? '60px'
                         : '36px'
                     }
-                    style={{ borderRadius: 30 }}
+                    round="small"
                   >
                     <Image
                       fill
@@ -207,11 +201,14 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                     icon={<More width="24px" height="24px" />}
                     size="small"
                     hoverIndicator="accent-3"
-                    onClick={() => {}}
+                    onClick={() =>
+                      dispatch(updateTrackToShow('trackToShow', track))
+                    }
                   />
                 </Box>
                 <Button
                   primary
+                  alignSelf="center"
                   title="remove from moodqueue"
                   size={size === 'large' ? 'large' : 'medium'}
                   icon={
@@ -236,7 +233,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
           </Box>
         )}
       </Box>
-      <Box direction="row" align="center" gap="small" margin="small">
+      <Box direction="row" align="center" gap="xsmall" margin="small">
         <Button
           title="play your moodqueue"
           primary
@@ -250,6 +247,11 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
             );
           }}
           hoverIndicator="accent-1"
+        />
+        <Options
+          size={size}
+          track={state.trackToShow}
+          close={() => dispatch(updateTrackToShow('trackToShow', undefined))}
         />
         <Button
           title="start over to begin a new moodqueue"
