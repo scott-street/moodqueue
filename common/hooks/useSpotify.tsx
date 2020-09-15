@@ -10,10 +10,12 @@ import { getTrackIdList, combineTwoArraysOnId } from "../Helpers"
 
 export interface SpotifyContextValue {
     getQueue: (trackSource: TrackSource[], count: number, mood: Mood) => Promise<Track[]>
+    addToQueue: (tracks: Track[]) => Promise<void[]>
 }
 
 export const SpotifyContext = React.createContext<SpotifyContextValue>({
     getQueue: () => undefined,
+    addToQueue: () => undefined,
 })
 
 interface SpotifyProviderProps {
@@ -201,6 +203,21 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         }
     }
 
+    const addSongToQueue = async (uri: string): Promise<void> => {
+        try {
+            return await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + accessToken,
+                },
+                method: "POST",
+            }).then(() => {})
+        } catch (e) {
+            notifyError("Error")
+        }
+    }
+
     const getQueue = async (
         trackSource: TrackSource[],
         count: number,
@@ -252,8 +269,17 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         })
     }
 
+    const addToQueue = (tracks: Track[]): Promise<void[]> => {
+        return Promise.all(
+            tracks.map((track) => {
+                addSongToQueue(track.uri)
+            })
+        )
+    }
+
     const spotifyContextValue = {
         getQueue,
+        addToQueue,
     }
 
     return <SpotifyContext.Provider value={props.value ?? spotifyContextValue} {...props} />
