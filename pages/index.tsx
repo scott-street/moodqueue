@@ -56,6 +56,7 @@ const BaseApp: FunctionComponent = () => {
             background="#1F2730" // this is to force the dark theme
           >
             <Head>
+              <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
               <link rel="shortcut icon" href="/favicon.ico" key={0} />
               <title key={1}>
                 {user ? 'home | moodqueue' : 'login | moodqueue'}
