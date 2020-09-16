@@ -10,7 +10,7 @@ import { getTrackIdList, combineTwoArraysOnId } from "../Helpers"
 
 export interface SpotifyContextValue {
     getQueue: (trackSource: TrackSource[], count: number, mood: Mood) => Promise<Track[]>
-    addToQueue: (tracks: Track[]) => Promise<void[]>
+    addToQueue: (tracks: Track[]) => Promise<void | void[]>
 }
 
 export const SpotifyContext = React.createContext<SpotifyContextValue>({
@@ -25,7 +25,7 @@ interface SpotifyProviderProps {
 
 export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (props) => {
     const { accessToken } = useAuth()
-    const { notifyError } = useNotification()
+    const { notifyError, notifySuccess } = useNotification()
 
     const getTopSongs = async (count: number): Promise<Track[]> => {
         try {
@@ -203,7 +203,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         }
     }
 
-    const addSongToQueue = async (uri: string): Promise<void> => {
+    const addSongToQueue = async (uri: string) => {
         try {
             return await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
                 headers: {
@@ -212,9 +212,17 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                     Authorization: "Bearer " + accessToken,
                 },
                 method: "POST",
-            }).then(() => {})
+            }).then((res) => {
+                if (!res.ok) {
+                    notifyError(
+                        "Error adding songs to queue. \n Spotify must be playing music to add to queue."
+                    )
+                } else {
+                    notifySuccess("Songs added to queue")
+                }
+            })
         } catch (e) {
-            notifyError("Error")
+            throw e
         }
     }
 
@@ -269,12 +277,12 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         })
     }
 
-    const addToQueue = (tracks: Track[]): Promise<void[]> => {
+    const addToQueue = (tracks: Track[]): Promise<void | void[]> => {
         return Promise.all(
             tracks.map((track) => {
                 addSongToQueue(track.uri)
             })
-        )
+        ).catch((e) => notifyError(e))
     }
 
     const spotifyContextValue = {
