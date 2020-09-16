@@ -10,10 +10,12 @@ import { getTrackIdList, combineTwoArraysOnId } from "../Helpers"
 
 export interface SpotifyContextValue {
     getQueue: (trackSource: TrackSource[], count: number, mood: Mood) => Promise<Track[]>
+    addToQueue: (tracks: Track[]) => Promise<void | void[]>
 }
 
 export const SpotifyContext = React.createContext<SpotifyContextValue>({
     getQueue: () => undefined,
+    addToQueue: () => undefined,
 })
 
 interface SpotifyProviderProps {
@@ -23,7 +25,7 @@ interface SpotifyProviderProps {
 
 export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (props) => {
     const { accessToken } = useAuth()
-    const { notifyError } = useNotification()
+    const { notifyError, notifySuccess } = useNotification()
 
     const getTopSongs = async (count: number): Promise<Track[]> => {
         try {
@@ -47,6 +49,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         artist: track.album.artists[0].name,
                         imageLink: track.album.images[0].url,
                         id: track.id,
+                        uri: track.uri,
                     } as Track)
             )
 
@@ -101,6 +104,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         artist: track.album.artists[0].name,
                         imageLink: track.album.images[0].url,
                         id: track.id,
+                        uri: track.uri,
                     }))
                 })
         } catch (e) {
@@ -135,6 +139,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                                 artist: data.tracks[0].album.artists[0].name,
                                 imageLink: data.tracks[0].album.images[0].url,
                                 id: data.tracks[0].id,
+                                uri: data.tracks[0].uri,
                             }
                         })
                 })
@@ -164,6 +169,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         artist: item.track.album.artists[0].name,
                         imageLink: item.track.album.images[0].url,
                         id: item.track.id,
+                        uri: item.track.uri,
                     }))
                 })
         } catch (e) {
@@ -194,6 +200,29 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                 })
         } catch (e) {
             notifyError("Error")
+        }
+    }
+
+    const addSongToQueue = async (uri: string) => {
+        try {
+            return await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + accessToken,
+                },
+                method: "POST",
+            }).then((res) => {
+                if (!res.ok) {
+                    notifyError(
+                        "Error adding songs to queue. \n Spotify must be playing music to add to queue."
+                    )
+                } else {
+                    notifySuccess("Songs added to queue")
+                }
+            })
+        } catch (e) {
+            throw e
         }
     }
 
@@ -248,8 +277,17 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         })
     }
 
+    const addToQueue = (tracks: Track[]): Promise<void | void[]> => {
+        return Promise.all(
+            tracks.map((track) => {
+                addSongToQueue(track.uri)
+            })
+        ).catch((e) => notifyError(e))
+    }
+
     const spotifyContextValue = {
         getQueue,
+        addToQueue,
     }
 
     return <SpotifyContext.Provider value={props.value ?? spotifyContextValue} {...props} />
