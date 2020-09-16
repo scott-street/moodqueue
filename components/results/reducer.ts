@@ -2,15 +2,22 @@ import { Track } from '../../types/Track';
 
 export interface ResultState {
   tracks: Track[];
+  trackToShow: Track;
 }
 
 export const initialResultState: ResultState = {
-  tracks: undefined
+  tracks: undefined,
+  trackToShow: undefined
 };
 
 export const resultReducer = (state: ResultState, action: ResultAction) => {
   switch (action.type) {
     case Action.UPDATE:
+      return {
+        ...state,
+        [action.field]: action.value
+      };
+    case Action.UPDATE_TRACK:
       return {
         ...state,
         [action.field]: action.value
@@ -32,6 +39,7 @@ export const resultReducer = (state: ResultState, action: ResultAction) => {
 
 export enum Action {
   UPDATE,
+  UPDATE_TRACK,
   REMOVE
 }
 
@@ -43,6 +51,21 @@ interface UpdateAction {
 
 export const update = (field: string, value: any): UpdateAction => ({
   type: Action.UPDATE,
+  field: field,
+  value: value
+});
+
+interface UpdateTrackAction {
+  type: Action.UPDATE_TRACK;
+  field: string;
+  value: any;
+}
+
+export const updateTrackToShow = (
+  field: string,
+  value: any
+): UpdateTrackAction => ({
+  type: Action.UPDATE_TRACK,
   field: field,
   value: value
 });
@@ -59,4 +82,4 @@ export const remove = (field: string, value: any): RemoveAction => ({
   value: value
 });
 
-export type ResultAction = RemoveAction | UpdateAction;
+export type ResultAction = RemoveAction | UpdateAction | UpdateTrackAction;

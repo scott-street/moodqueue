@@ -48,6 +48,7 @@ const BaseApp: FunctionComponent = () => {
           <Box
             align="center"
             justify="center"
+            pad="medium"
             fill
             style={{
               background:
@@ -56,6 +57,10 @@ const BaseApp: FunctionComponent = () => {
             background="#1F2730" // this is to force the dark theme
           >
             <Head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+              />
               <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
               <link rel="shortcut icon" href="/favicon.ico" key={0} />
               <title key={1}>
