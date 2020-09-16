@@ -131,18 +131,15 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                 style={{
                   borderTopLeftRadius: 30,
                   borderTopRightRadius: 30,
-                  borderBottomLeftRadius: 30
+                  borderBottomLeftRadius: 30,
+                  background:
+                    'linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)'
                 }}
                 pad={{
                   vertical: 'xlarge',
                   horizontal: size !== 'small' ? 'medium' : 'small'
                 }}
                 align="center"
-                background={{
-                  color: '#34495E',
-                  opacity: 0.5,
-                  image: `url(${track.imageLink})`
-                }}
                 border={{ side: 'all', size: 'medium', color: 'accent-3' }}
                 key={i}
               >
@@ -151,9 +148,9 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                   align="center"
                   justify="center"
                   direction="row"
-                  round
                   background={{ color: 'accent-1', opacity: 'strong' }}
                   pad={{ vertical: 'small', horizontal: 'small' }}
+                  round="small"
                 >
                   <Box
                     align="center"
@@ -171,16 +168,12 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                         ? '60px'
                         : '36px'
                     }
-                    round="small"
                   >
                     <Image
                       fill
                       alignSelf="center"
                       src={track.imageLink}
                       fit="contain"
-                      style={{
-                        borderRadius: 50
-                      }}
                     />
                   </Box>
                   <Box align="start">

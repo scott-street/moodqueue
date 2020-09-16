@@ -27,17 +27,13 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
         <Box
           align="center"
           justify="center"
-          round
           background="#34495E"
+          round={{ corner: 'bottom' }}
           pad={{ top: 'xsmall', bottom: 'small', horizontal: 'xsmall' }}
           gap="small"
           border={{ side: 'all', color: 'accent-1', size: 'small' }}
         >
-          <Image
-            src={track.imageLink}
-            fit="contain"
-            style={{ borderRadius: 20 }}
-          />
+          <Image src={track.imageLink} fit="contain" />
           <Box
             align="center"
             justify="center"
@@ -57,6 +53,7 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
                   borderRadius: 30
                 }}
                 onCanPlay={setVolume}
+                controlsList="nodownload"
               >
                 <source src={track.previewUrl} type="audio/mp3" />
                 <Text textAlign="center">
