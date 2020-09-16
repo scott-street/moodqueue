@@ -100,7 +100,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
               <Text
                 weight={size !== 'small' ? 'bold' : 'normal'}
                 textAlign={size !== 'small' ? 'start' : 'center'}
-                size={size !== 'small' ? 'large' : 'medium'}
+                size={size}
               >
                 let your mood inspire you
               </Text>
@@ -162,19 +162,17 @@ const Form: FunctionComponent<FormProps> = (props) => {
                 <Results size={size} {...state} resetForm={resetForm} />
               ) : (
                 <Box justify="between" align="center" flex fill>
-                  <Heading textAlign="center" margin="none">
+                  <Heading
+                    textAlign="center"
+                    margin="none"
+                    size={size !== 'small' ? 'medium' : 'small'}
+                  >
                     new queue
                   </Heading>
-                  <Box
-                    fill
-                    justify="evenly"
-                    align="center"
-                    gap={size === 'small' ? 'large' : 'medium'}
-                  >
+                  <Box fill justify="evenly" align="center" gap="medium">
                     <Box gap="small" align="center">
                       <Text
                         textAlign="center"
-                        weight="bold"
                         size={size !== 'small' ? 'medium' : 'small'}
                       >
                         what music are you in the mood for?
@@ -236,7 +234,6 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     <Box gap="xsmall" fill="horizontal">
                       <Text
                         textAlign="center"
-                        weight="bold"
                         size={size !== 'small' ? 'medium' : 'small'}
                       >
                         number of songs:{' '}
@@ -249,22 +246,24 @@ const Form: FunctionComponent<FormProps> = (props) => {
                         </Text>
                       </Text>
                       <Box direction="row" align="center" gap="small">
-                        <Button
-                          icon={
-                            <Subtract
-                              size={size !== 'small' ? 'medium' : 'small'}
-                            />
-                          }
-                          style={{ borderRadius: 30 }}
-                          onClick={() => {
-                            let num = state.numSongs;
-                            let prog = progress;
-                            if (num - 1 === 0) prog--;
-                            if (num - 1 >= 0) num--;
-                            setProgress(prog);
-                            dispatch(update('numSongs', num));
-                          }}
-                        />
+                        {size !== 'small' && (
+                          <Button
+                            icon={
+                              <Subtract
+                                size={size !== 'small' ? 'medium' : 'small'}
+                              />
+                            }
+                            style={{ borderRadius: 30 }}
+                            onClick={() => {
+                              let num = state.numSongs;
+                              let prog = progress;
+                              if (num - 1 === 0) prog--;
+                              if (num - 1 >= 0) num--;
+                              setProgress(prog);
+                              dispatch(update('numSongs', num));
+                            }}
+                          />
+                        )}
                         <RangeInput
                           max={50}
                           min={0}
@@ -280,20 +279,24 @@ const Form: FunctionComponent<FormProps> = (props) => {
                             dispatch(update('numSongs', value));
                           }}
                         />
-                        <Button
-                          icon={
-                            <Add size={size !== 'small' ? 'medium' : 'small'} />
-                          }
-                          style={{ borderRadius: 30 }}
-                          onClick={() => {
-                            let num = state.numSongs;
-                            let prog = progress;
-                            if (num === 0) prog++;
-                            if (num + 1 <= 50) num++;
-                            setProgress(prog);
-                            dispatch(update('numSongs', num));
-                          }}
-                        />
+                        {size !== 'small' && (
+                          <Button
+                            icon={
+                              <Add
+                                size={size !== 'small' ? 'medium' : 'small'}
+                              />
+                            }
+                            style={{ borderRadius: 30 }}
+                            onClick={() => {
+                              let num = state.numSongs;
+                              let prog = progress;
+                              if (num === 0) prog++;
+                              if (num + 1 <= 50) num++;
+                              setProgress(prog);
+                              dispatch(update('numSongs', num));
+                            }}
+                          />
+                        )}
                       </Box>
                     </Box>
                     <Box
@@ -304,7 +307,6 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     >
                       <Text
                         textAlign="center"
-                        weight="bold"
                         size={size !== 'small' ? 'medium' : 'small'}
                       >
                         choose from your:
@@ -314,7 +316,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                           label={
                             <Box>
                               <Text
-                                size={size !== 'small' ? 'medium' : 'small'}
+                                size={size !== 'small' ? 'medium' : 'xsmall'}
                               >
                                 saved songs
                               </Text>
@@ -338,7 +340,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                           label={
                             <Box>
                               <Text
-                                size={size !== 'small' ? 'medium' : 'small'}
+                                size={size !== 'small' ? 'medium' : 'xsmall'}
                               >
                                 top tracks
                               </Text>
@@ -362,7 +364,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                           label={
                             <Box>
                               <Text
-                                size={size !== 'small' ? 'medium' : 'small'}
+                                size={size !== 'small' ? 'medium' : 'xsmall'}
                               >
                                 top artists
                               </Text>
@@ -386,7 +388,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                           label={
                             <Box>
                               <Text
-                                size={size !== 'small' ? 'medium' : 'small'}
+                                size={size !== 'small' ? 'medium' : 'xsmall'}
                               >
                                 recommended
                               </Text>
@@ -417,7 +419,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     disabled={progress !== 3}
                     label="continue"
                     onClick={submitForm}
-                    size={size === 'small' ? 'medium' : 'large'}
+                    size={size}
                     icon={
                       <Spotify size={size !== 'large' ? 'medium' : 'large'} />
                     }
@@ -427,7 +429,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
             </Box>
           </Box>
           {size === 'small' && (
-            <Box align="center" margin={{ bottom: 'small' }}>
+            <Box align="center">
               {props.user.profileImages[0] ? (
                 <Avatar
                   src={props.user.profileImages[0].url}

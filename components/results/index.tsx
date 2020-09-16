@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useReducer
 } from 'react';
-import { Box, Heading, Button, Text, Image, Layer } from 'grommet';
+import { Box, Heading, Button, Text, Image } from 'grommet';
 import { Previous, CirclePlay, SubtractCircle } from 'grommet-icons';
 import { Mood } from '../../types/Mood';
 import { FormSelection } from '../../types/FormSelection';
@@ -80,7 +80,11 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
         vertical: 'small'
       }}
     >
-      <Heading textAlign="center" margin="none">
+      <Heading
+        textAlign="center"
+        margin="none"
+        size={size !== 'small' ? 'medium' : 'small'}
+      >
         here's your{' '}
         {props.mood >= 0
           ? Mood[props.mood].toLowerCase() + ' queue:'
@@ -107,7 +111,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
         }
         pad={{
           vertical: 'small',
-          horizontal: size !== 'small' ? 'xlarge' : 'large'
+          horizontal: size !== 'small' ? 'xlarge' : 'none'
         }}
         fill
       >
@@ -118,7 +122,10 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                 oops! no more songs
               </Text>
               <Sad width="48px" height="48px" />
-              <Text textAlign="center">
+              <Text
+                textAlign="center"
+                size={size !== 'small' ? 'medium' : 'small'}
+              >
                 click the start over button below to make a new moodqueue!
               </Text>
             </Box>
@@ -146,74 +153,97 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                 <Box
                   gap="small"
                   align="center"
-                  justify="center"
+                  justify="between"
+                  fill
                   direction="row"
-                  background={{ color: 'accent-1', opacity: 'strong' }}
-                  pad={{ vertical: 'small', horizontal: 'small' }}
+                  pad={{ vertical: 'small', right: 'small' }}
                   round="small"
                 >
-                  <Box
-                    align="center"
-                    width={
-                      size === 'large'
-                        ? '84px'
-                        : size === 'medium'
-                        ? '60px'
-                        : '36px'
-                    }
-                    height={
-                      size === 'large'
-                        ? '84px'
-                        : size === 'medium'
-                        ? '60px'
-                        : '36px'
-                    }
-                  >
-                    <Image
-                      fill
-                      alignSelf="center"
-                      src={track.imageLink}
-                      fit="contain"
-                    />
-                  </Box>
-                  <Box align="start">
-                    <Text textAlign="start" weight="bold" size={size}>
-                      {track.name}
-                    </Text>
-                    <Text
-                      textAlign="start"
-                      size={size !== 'small' ? 'small' : 'xsmall'}
+                  <Box direction="row" align="center" gap="small" round="small">
+                    <Box
+                      align="center"
+                      width={
+                        size === 'large'
+                          ? '120px'
+                          : size === 'medium'
+                          ? '96px'
+                          : '72px'
+                      }
+                      height={
+                        size === 'large'
+                          ? '120px'
+                          : size === 'medium'
+                          ? '96px'
+                          : '72px'
+                      }
                     >
-                      {track.artist}
-                    </Text>
+                      <Image
+                        fill
+                        alignSelf="center"
+                        src={track.imageLink}
+                        fit="contain"
+                      />
+                    </Box>
+                    <Box align="start">
+                      <Text textAlign="start" weight="bold" size={size}>
+                        {track.name}
+                      </Text>
+                      <Text
+                        textAlign="start"
+                        size={size !== 'small' ? 'small' : 'xsmall'}
+                      >
+                        {track.artist}
+                      </Text>
+                    </Box>
                   </Box>
                   <Button
                     title="more"
+                    primary
                     style={{ borderRadius: 30 }}
                     alignSelf="center"
-                    icon={<More width="24px" height="24px" />}
+                    icon={
+                      <More
+                        width={
+                          size === 'small'
+                            ? '24px'
+                            : size === 'large'
+                            ? '48px'
+                            : '24px'
+                        }
+                        height={
+                          size === 'small'
+                            ? '24px'
+                            : size === 'large'
+                            ? '48px'
+                            : '24px'
+                        }
+                      />
+                    }
                     size="small"
-                    hoverIndicator="accent-3"
+                    hoverIndicator="transparent"
+                    color="brand"
                     onClick={() =>
                       dispatch(updateTrackToShow('trackToShow', track))
                     }
                   />
                 </Box>
-                <Button
-                  primary
-                  alignSelf="center"
-                  title="remove from moodqueue"
-                  size={size === 'large' ? 'large' : 'medium'}
-                  icon={
-                    <SubtractCircle
-                      size={size === 'large' ? 'large' : 'medium'}
-                    />
-                  }
-                  hoverIndicator="status-error"
-                  color="neutral-4"
-                  style={{ borderRadius: 30 }}
-                  onClick={() => dispatch(remove('tracks', track.id))}
-                />
+                {size !== 'small' && (
+                  <Button
+                    primary
+                    alignSelf="center"
+                    title="remove from moodqueue"
+                    size={size === 'large' ? 'large' : 'medium'}
+                    icon={
+                      <SubtractCircle
+                        size={size === 'large' ? 'large' : 'medium'}
+                      />
+                    }
+                    color="neutral-4"
+                    hoverIndicator="transparent"
+                    style={{ borderRadius: 30 }}
+                    onClick={() => dispatch(remove('tracks', track.id))}
+                  />
+                )}
               </Box>
             ))
           )
@@ -226,7 +256,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
           </Box>
         )}
       </Box>
-      <Box direction="row" align="center" gap="xsmall" margin="small">
+      <Box direction="row" align="center" gap="xsmall" margin="medium">
         <Button
           title="play your moodqueue"
           primary
@@ -245,6 +275,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
           size={size}
           track={state.trackToShow}
           close={() => dispatch(updateTrackToShow('trackToShow', undefined))}
+          dispatch={(value) => dispatch(value)}
         />
         <Button
           title="start over to begin a new moodqueue"

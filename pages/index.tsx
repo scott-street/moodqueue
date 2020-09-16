@@ -48,6 +48,7 @@ const BaseApp: FunctionComponent = () => {
           <Box
             align="center"
             justify="center"
+            pad="medium"
             fill
             style={{
               background:

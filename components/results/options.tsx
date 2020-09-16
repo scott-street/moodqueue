@@ -1,16 +1,18 @@
 import { Layer, Box, Image, Text, Anchor, Button } from 'grommet';
-import { FormClose, Spotify } from 'grommet-icons';
+import { Spotify, SubtractCircle } from 'grommet-icons';
 import React, { FunctionComponent } from 'react';
 import { Track } from '../../types/Track';
+import { remove, ResultAction } from './reducer';
 
 interface OptionsProps {
   size: string;
   track: Track;
   close(): void;
+  dispatch(value: ResultAction): void;
 }
 
 const Options: FunctionComponent<OptionsProps> = (props) => {
-  const { track, close, size } = props;
+  const { track, close, size, dispatch } = props;
 
   const setVolume = () => {
     let player = document.getElementById('previewPlayer') as HTMLAudioElement;
@@ -20,27 +22,34 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
   if (track) {
     return (
       <Layer
-        position="center"
+        position={size !== 'small' ? 'center' : 'bottom'}
+        responsive={false}
         onClickOutside={close}
-        style={{ background: 'transparent', borderRadius: 30 }}
+        style={{
+          background: 'transparent',
+          borderRadius: size !== 'small' ? 30 : 0,
+          width: size === 'small' ? '100%' : undefined
+        }}
       >
         <Box
           align="center"
+          overflow={{ vertical: 'auto' }}
           justify="center"
-          background="#34495E"
-          round={{ corner: 'bottom' }}
+          background={{ color: '#34495E', opacity: 0.9 }}
+          round={size !== 'small' ? { corner: 'bottom' } : undefined}
           pad={{ top: 'xsmall', bottom: 'small', horizontal: 'xsmall' }}
           gap="small"
           border={{ side: 'all', color: 'accent-1', size: 'small' }}
+          flex
         >
-          <Image src={track.imageLink} fit="contain" />
+          <Image src={track.imageLink} fit="contain" fill={size === 'small'} />
           <Box
             align="center"
             justify="center"
-            gap="small"
+            gap={size !== 'small' ? 'small' : 'small'}
             pad={{ vertical: 'xsmall', horizontal: 'medium' }}
             round
-            fill
+            fill={size !== 'small' ? true : 'horizontal'}
           >
             {track.previewUrl && (
               <audio
@@ -62,15 +71,27 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
               </audio>
             )}
             <Anchor
+              alignSelf="center"
               href={`https://open.spotify.com/track/${track.id}`}
               target="blank"
-              label="open in spotify"
+              label={`Open ${track.name} in Spotify`}
               icon={<Spotify />}
             />
+            {size === 'small' && (
+              <Button
+                size="small"
+                icon={<SubtractCircle />}
+                label="remove from queue"
+                alignSelf="center"
+                color="neutral-4"
+                primary
+                onClick={() => {
+                  dispatch(remove('tracks', track.id));
+                  close();
+                }}
+              />
+            )}
           </Box>
-          {size === 'small' && (
-            <Button alignSelf="center" icon={<FormClose />} onClick={close} />
-          )}
         </Box>
       </Layer>
     );
