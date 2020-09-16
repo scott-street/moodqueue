@@ -179,7 +179,11 @@ const Form: FunctionComponent<FormProps> = (props) => {
                       >
                         what music are you in the mood for?
                       </Text>
-                      <Box direction="row" gap="small">
+                      <Box
+                        direction="row"
+                        gap="small"
+                        overflow={{ horizontal: 'auto' }}
+                      >
                         {Object.keys(Mood).map(
                           (mood, i) =>
                             isNaN(Number(Mood[mood])) && (

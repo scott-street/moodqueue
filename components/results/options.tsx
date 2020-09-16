@@ -35,10 +35,10 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
           align="center"
           overflow={{ vertical: 'auto' }}
           justify="center"
-          background={{ color: '#34495E', opacity: 0.9 }}
+          background={{ color: '#34495E' }}
           round={size !== 'small' ? { corner: 'bottom' } : undefined}
           pad={{ top: 'xsmall', bottom: 'small', horizontal: 'xsmall' }}
-          gap="small"
+          gap={size !== 'small' ? 'small' : 'medium'}
           border={{ side: 'all', color: 'accent-1', size: 'small' }}
           flex
         >
@@ -46,7 +46,7 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
           <Box
             align="center"
             justify="center"
-            gap={size !== 'small' ? 'small' : 'small'}
+            gap={size !== 'small' ? 'small' : 'medium'}
             pad={{ vertical: 'xsmall', horizontal: 'medium' }}
             round
             fill={size !== 'small' ? true : 'horizontal'}

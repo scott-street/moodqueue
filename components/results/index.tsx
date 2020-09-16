@@ -143,7 +143,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                     'linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)'
                 }}
                 pad={{
-                  vertical: 'small',
+                  vertical: 'xlarge',
                   horizontal: size !== 'small' ? 'xlarge' : 'large'
                 }}
                 align="center"
@@ -198,7 +198,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                   </Box>
                   <Button
                     title="more"
-                    primary
+                    primary={size !== 'small'}
                     style={{ borderRadius: 30 }}
                     alignSelf="center"
                     icon={
@@ -221,7 +221,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                     }
                     size="small"
                     hoverIndicator="transparent"
-                    color="brand"
+                    color={size !== 'small' ? 'brand' : undefined}
                     onClick={() =>
                       dispatch(updateTrackToShow('trackToShow', track))
                     }
