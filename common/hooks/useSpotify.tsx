@@ -3,7 +3,12 @@ import { useAuth } from "./useAuth"
 import { Track, PropertyTrack } from "../../types/Track"
 import { TrackSource } from "../../types/TrackSource"
 import { Mood } from "../../types/Mood"
-import { happyComparator, sadComparator } from "../MoodComparators"
+import {
+    happyComparator,
+    partyComparator,
+    sadComparator,
+    sleepyComparator,
+} from "../MoodComparators"
 import { useNotification } from "./useNotification"
 import { processQueue } from "../QueueProcessor"
 import { getTrackIdList, combineTwoArraysOnId } from "../Helpers"
@@ -237,6 +242,10 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         let comparator
         if (mood === Mood.HAPPY) {
             comparator = happyComparator
+        } else if (mood === Mood.SLEEPY) {
+            comparator = sleepyComparator
+        } else if (mood === Mood.PARTY) {
+            comparator = partyComparator
         } else {
             comparator = sadComparator
         }
