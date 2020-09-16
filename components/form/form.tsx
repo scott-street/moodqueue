@@ -194,7 +194,8 @@ const Form: FunctionComponent<FormProps> = (props) => {
                                 style={{
                                   borderTopLeftRadius: 30,
                                   borderTopRightRadius: 30,
-                                  borderBottomLeftRadius: 30
+                                  borderBottomLeftRadius: 30,
+                                  outline: 'none'
                                 }}
                                 pad={{
                                   horizontal: 'medium',
@@ -205,6 +206,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                                   state.mood === i ? 'accent-1' : 'light-2'
                                 }
                                 gap="xsmall"
+                                focusIndicator={false}
                                 onClick={() => {
                                   let prog = progress;
                                   let index = i;
@@ -425,7 +427,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     margin="small"
                     hoverIndicator={size !== 'small' ? 'accent-1' : false}
                     alignSelf="center"
-                    primary={size === 'small'}
+                    primary={size === 'small' || progress === 3}
                     disabled={progress !== 3}
                     label="continue"
                     onClick={submitForm}

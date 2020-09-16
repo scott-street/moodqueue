@@ -198,7 +198,6 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                   </Box>
                   <Button
                     title="more"
-                    primary={size !== 'small'}
                     style={{ borderRadius: 30 }}
                     alignSelf="center"
                     icon={
@@ -220,8 +219,7 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                       />
                     }
                     size="small"
-                    hoverIndicator="transparent"
-                    color={size !== 'small' ? 'brand' : undefined}
+                    hoverIndicator="accent-3"
                     onClick={() =>
                       dispatch(updateTrackToShow('trackToShow', track))
                     }
@@ -229,17 +227,16 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                 </Box>
                 {size !== 'small' && (
                   <Button
-                    primary
+                    hoverIndicator="dark-1"
                     alignSelf="center"
                     title="remove from moodqueue"
                     size={size === 'large' ? 'large' : 'medium'}
                     icon={
                       <SubtractCircle
+                        color="status-error"
                         size={size === 'large' ? 'large' : 'medium'}
                       />
                     }
-                    color="neutral-4"
-                    hoverIndicator="transparent"
                     style={{ borderRadius: 30 }}
                     onClick={() => dispatch(remove('tracks', track.id))}
                   />
@@ -283,8 +280,8 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
           icon={<Previous />}
           label={size === 'small' ? undefined : 'start over'}
           onClick={props.resetForm}
-          hoverIndicator="brand"
-          color="brand"
+          hoverIndicator="accent-3"
+          color="accent-3"
         />
       </Box>
     </Box>

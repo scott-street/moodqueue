@@ -46,14 +46,9 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
         size={size !== 'large' ? 'medium' : 'large'}
         onClick={() => openSpotifyAccountLogin(redirect)}
         label={size !== 'small' ? 'Login to Spotify' : 'Login'}
-        icon={
-          <Spotify
-            color={size !== 'small' ? 'plain' : undefined}
-            size={size !== 'large' ? 'medium' : 'large'}
-          />
-        }
+        icon={<Spotify size={size !== 'large' ? 'medium' : 'large'} />}
         hoverIndicator="accent-1"
-        primary={size === 'small'}
+        primary
       />
     </Box>
   );
