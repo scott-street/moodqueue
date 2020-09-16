@@ -35,7 +35,7 @@ interface ResultsProps {
 
 const Results: FunctionComponent<ResultsProps> = (props) => {
   const { size, source, numSongs, mood } = props;
-  const { getQueue } = useSpotify();
+  const { getQueue, addToQueue } = useSpotify();
 
   const [state, dispatch] = useReducer<Reducer<ResultState, ResultAction>>(
     resultReducer,
@@ -143,8 +143,8 @@ const Results: FunctionComponent<ResultsProps> = (props) => {
                     'linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)'
                 }}
                 pad={{
-                  vertical: 'xlarge',
-                  horizontal: size !== 'small' ? 'medium' : 'small'
+                  vertical: 'small',
+                  horizontal: size !== 'small' ? 'xlarge' : 'large'
                 }}
                 align="center"
                 border={{ side: 'all', size: 'medium', color: 'accent-3' }}

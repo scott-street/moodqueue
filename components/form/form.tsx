@@ -13,6 +13,8 @@ import {
 import { Spotify, User, Subtract, Add } from 'grommet-icons';
 import { EmotionHappy as Happy } from '@styled-icons/remix-fill/EmotionHappy';
 import { EmotionSad as Sad } from '@styled-icons/remix-fill/EmotionSad';
+import { Bed as Sleepy } from '@styled-icons/boxicons-regular/Bed';
+import { GlassCheers as Party } from '@styled-icons/fa-solid/GlassCheers';
 import { UserInfo, defaultUser } from '../../types/UserInfo';
 import { Mood } from '../../types/Mood';
 import Results from '../results';
@@ -223,6 +225,10 @@ const Form: FunctionComponent<FormProps> = (props) => {
                                 )}
                                 {mood === Mood.HAPPY.toString() ? (
                                   <Happy width="32px" height="32px" />
+                                ) : mood === Mood.SLEEPY.toString() ? (
+                                  <Sleepy width="32px" height="32px" />
+                                ) : mood === Mood.PARTY.toString() ? (
+                                  <Party width="32px" height="32px" />
                                 ) : (
                                   <Sad width="32px" height="32px" />
                                 )}
