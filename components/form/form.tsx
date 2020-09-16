@@ -419,7 +419,13 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     disabled={progress !== 3}
                     label="continue"
                     onClick={submitForm}
-                    size={size}
+                    size={
+                      size === 'large'
+                        ? 'large'
+                        : size === 'medium'
+                        ? 'medium'
+                        : 'small'
+                    }
                     icon={
                       <Spotify size={size !== 'large' ? 'medium' : 'large'} />
                     }
