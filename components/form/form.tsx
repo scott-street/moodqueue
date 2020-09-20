@@ -5,29 +5,22 @@ import {
   Avatar,
   Header,
   Text,
-  RangeInput,
   Button,
-  ResponsiveContext,
-  CheckBox
+  ResponsiveContext
 } from 'grommet';
-import { Spotify, User, Subtract, Add } from 'grommet-icons';
-import { EmotionHappy as Happy } from '@styled-icons/remix-fill/EmotionHappy';
-import { EmotionSad as Sad } from '@styled-icons/remix-fill/EmotionSad';
-import { Bed as Sleepy } from '@styled-icons/boxicons-regular/Bed';
-import { GlassCheers as Party } from '@styled-icons/fa-solid/GlassCheers';
+import { Spotify, User } from 'grommet-icons';
 import { UserInfo, defaultUser } from '../../types/UserInfo';
-import { Mood } from '../../types/Mood';
 import Results from '../results';
 import {
   formReducer,
   initialFormState,
-  update,
   FormState,
   FormAction,
-  updateSourceSelection,
   resetFormState
 } from './reducer';
-import { FormSelection } from '../../types/FormSelection';
+import MoodSelection from './mood-selection';
+import SizePicker from './size-picker';
+import SourceSelection from './souce';
 
 interface FormProps {
   user: UserInfo;
@@ -51,36 +44,6 @@ const Form: FunctionComponent<FormProps> = (props) => {
     dispatch(resetFormState());
     setProgress(0);
     setShowResults(false);
-  };
-
-  const updateProgressAfterCheckboxChange = (
-    index: number,
-    checked: boolean
-  ) => {
-    const current = state.source;
-    let prog = progress;
-    let selected: FormSelection = {
-      saved: index === 0 ? checked : state.source.saved,
-      tracks: index === 1 ? checked : state.source.tracks,
-      artists: index === 2 ? checked : state.source.artists,
-      recommended: index === 3 ? checked : state.source.recommended
-    };
-    if (
-      selected.artists === false &&
-      selected.recommended === false &&
-      selected.tracks === false &&
-      selected.saved === false
-    ) {
-      prog--;
-    } else if (
-      current.artists === false &&
-      current.recommended === false &&
-      current.tracks === false &&
-      current.saved === false
-    ) {
-      prog++;
-    }
-    setProgress(prog);
   };
 
   return (
@@ -172,256 +135,27 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     new queue
                   </Heading>
                   <Box fill justify="evenly" align="center" gap="medium">
-                    <Box gap="small" align="center">
-                      <Text
-                        textAlign="center"
-                        size={size !== 'small' ? 'medium' : 'small'}
-                      >
-                        what music are you in the mood for?
-                      </Text>
-                      <Box
-                        direction="row"
-                        gap="small"
-                        overflow={{ horizontal: 'auto' }}
-                      >
-                        {Object.keys(Mood).map(
-                          (mood, i) =>
-                            isNaN(Number(Mood[mood])) && (
-                              <Box
-                                hoverIndicator={
-                                  state.mood === i ? 'accent-3' : 'accent-1'
-                                }
-                                style={{
-                                  borderTopLeftRadius: 30,
-                                  borderTopRightRadius: 30,
-                                  borderBottomLeftRadius: 30,
-                                  outline: 'none'
-                                }}
-                                pad={{
-                                  horizontal: 'medium',
-                                  vertical: 'xsmall'
-                                }}
-                                align="center"
-                                background={
-                                  state.mood === i ? 'accent-1' : 'light-2'
-                                }
-                                gap="xsmall"
-                                focusIndicator={false}
-                                onClick={() => {
-                                  let prog = progress;
-                                  let index = i;
-                                  if (state.mood === -1) prog++;
-                                  if (state.mood === i) {
-                                    prog--;
-                                    index = -1;
-                                  }
-                                  dispatch(update('mood', index));
-                                  setProgress(prog);
-                                }}
-                                key={i}
-                              >
-                                {size !== 'small' && (
-                                  <Text
-                                    size="xsmall"
-                                    weight="bold"
-                                    textAlign="center"
-                                  >
-                                    {Mood[mood].toLowerCase()}
-                                  </Text>
-                                )}
-                                {mood === Mood.HAPPY.toString() ? (
-                                  <Happy width="32px" height="32px" />
-                                ) : mood === Mood.SLEEPY.toString() ? (
-                                  <Sleepy width="32px" height="32px" />
-                                ) : mood === Mood.PARTY.toString() ? (
-                                  <Party width="32px" height="32px" />
-                                ) : (
-                                  <Sad width="32px" height="32px" />
-                                )}
-                              </Box>
-                            )
-                        )}
-                      </Box>
-                    </Box>
-                    <Box gap="xsmall" fill="horizontal">
-                      <Text
-                        textAlign="center"
-                        size={size !== 'small' ? 'medium' : 'small'}
-                      >
-                        number of songs:{' '}
-                        <Text
-                          textAlign="center"
-                          color="accent-1"
-                          size={size !== 'small' ? 'medium' : 'small'}
-                        >
-                          {state.numSongs}
-                        </Text>
-                      </Text>
-                      <Box direction="row" align="center" gap="small">
-                        {size !== 'small' && (
-                          <Button
-                            icon={
-                              <Subtract
-                                size={size !== 'small' ? 'medium' : 'small'}
-                              />
-                            }
-                            style={{ borderRadius: 30 }}
-                            onClick={() => {
-                              let num = state.numSongs;
-                              let prog = progress;
-                              if (num - 1 === 0) prog--;
-                              if (num - 1 >= 0) num--;
-                              setProgress(prog);
-                              dispatch(update('numSongs', num));
-                            }}
-                          />
-                        )}
-                        <RangeInput
-                          max={50}
-                          min={0}
-                          step={1}
-                          name="number of songs:"
-                          value={state.numSongs}
-                          onChange={(event) => {
-                            let prog = progress;
-                            const value = +event.target.value;
-                            if (value > 0 && state.numSongs === 0) prog++;
-                            else if (value === 0) prog--;
-                            setProgress(prog);
-                            dispatch(update('numSongs', value));
-                          }}
-                        />
-                        {size !== 'small' && (
-                          <Button
-                            icon={
-                              <Add
-                                size={size !== 'small' ? 'medium' : 'small'}
-                              />
-                            }
-                            style={{ borderRadius: 30 }}
-                            onClick={() => {
-                              let num = state.numSongs;
-                              let prog = progress;
-                              if (num === 0) prog++;
-                              if (num + 1 <= 50) num++;
-                              setProgress(prog);
-                              dispatch(update('numSongs', num));
-                            }}
-                          />
-                        )}
-                      </Box>
-                    </Box>
-                    <Box
-                      direction="row"
-                      align="start"
-                      fill="horizontal"
-                      justify="evenly"
-                    >
-                      <Text
-                        textAlign="center"
-                        size={size !== 'small' ? 'medium' : 'small'}
-                      >
-                        choose from your:
-                      </Text>
-                      <Box gap="small">
-                        <CheckBox
-                          label={
-                            <Box>
-                              <Text
-                                size={size !== 'small' ? 'medium' : 'xsmall'}
-                              >
-                                saved songs
-                              </Text>
-                            </Box>
-                          }
-                          checked={state.source.saved}
-                          onChange={(event) => {
-                            updateProgressAfterCheckboxChange(
-                              0,
-                              event.target.checked
-                            );
-                            dispatch(
-                              updateSourceSelection(
-                                'saved',
-                                event.target.checked
-                              )
-                            );
-                          }}
-                        />
-                        <CheckBox
-                          label={
-                            <Box>
-                              <Text
-                                size={size !== 'small' ? 'medium' : 'xsmall'}
-                              >
-                                top tracks
-                              </Text>
-                            </Box>
-                          }
-                          checked={state.source.tracks}
-                          onChange={(event) => {
-                            updateProgressAfterCheckboxChange(
-                              1,
-                              event.target.checked
-                            );
-                            dispatch(
-                              updateSourceSelection(
-                                'tracks',
-                                event.target.checked
-                              )
-                            );
-                          }}
-                        />
-                        <CheckBox
-                          label={
-                            <Box>
-                              <Text
-                                size={size !== 'small' ? 'medium' : 'xsmall'}
-                              >
-                                top artists
-                              </Text>
-                            </Box>
-                          }
-                          checked={state.source.artists}
-                          onChange={(event) => {
-                            updateProgressAfterCheckboxChange(
-                              2,
-                              event.target.checked
-                            );
-                            dispatch(
-                              updateSourceSelection(
-                                'artists',
-                                event.target.checked
-                              )
-                            );
-                          }}
-                        />
-                        <CheckBox
-                          label={
-                            <Box>
-                              <Text
-                                size={size !== 'small' ? 'medium' : 'xsmall'}
-                              >
-                                recommended
-                              </Text>
-                            </Box>
-                          }
-                          checked={state.source.recommended}
-                          onChange={(event) => {
-                            updateProgressAfterCheckboxChange(
-                              3,
-                              event.target.checked
-                            );
-                            dispatch(
-                              updateSourceSelection(
-                                'recommended',
-                                event.target.checked
-                              )
-                            );
-                          }}
-                        />
-                      </Box>
-                    </Box>
+                    <MoodSelection
+                      size={size}
+                      moodIndex={state.mood}
+                      progress={progress}
+                      setProgress={(prog) => setProgress(prog)}
+                      dispatch={(value) => dispatch(value)}
+                    />
+                    <SizePicker
+                      size={size}
+                      numSongs={state.numSongs}
+                      progress={progress}
+                      setProgress={(prog) => setProgress(prog)}
+                      dispatch={(value) => dispatch(value)}
+                    />
+                    <SourceSelection
+                      size={size}
+                      source={state.source}
+                      progress={progress}
+                      setProgress={(prog) => setProgress(prog)}
+                      dispatch={(value) => dispatch(value)}
+                    />
                   </Box>
                   <Button
                     margin="small"
