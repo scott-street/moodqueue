@@ -10,7 +10,7 @@ import {
 } from 'grommet';
 import { Spotify, User } from 'grommet-icons';
 import { UserInfo, defaultUser } from '../../types/UserInfo';
-import Results from '../results';
+import { Results } from '../results';
 import {
   formReducer,
   initialFormState,
