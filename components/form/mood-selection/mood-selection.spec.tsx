@@ -119,8 +119,8 @@ describe('<MoodSelection />', () => {
       />
     );
 
-    const moreBtn = wrapper.find('#mood-box-0').hostNodes();
-    moreBtn.simulate('click');
+    const moodBox = wrapper.find('#mood-box-0').hostNodes();
+    moodBox.simulate('click');
     expect(dispatchMock.mock.calls.length).to.be.eql(1);
   });
 });

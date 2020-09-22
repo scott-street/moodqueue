@@ -101,8 +101,8 @@ describe('<SizePicker />', () => {
       />
     );
 
-    const moreBtn = wrapper.find('#size-picker').hostNodes();
-    moreBtn.simulate('click');
+    const picker = wrapper.find('#size-picker').hostNodes();
+    picker.simulate('click');
     expect(dispatchMock.mock.calls.length).to.be.eql(1);
   });
 });
