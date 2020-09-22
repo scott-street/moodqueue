@@ -16,10 +16,11 @@ import {
   initialFormState,
   FormState,
   FormAction,
-  resetFormState
+  resetFormState,
+  update
 } from './reducer';
-import MoodSelection from './mood-selection';
-import SizePicker from './size-picker';
+import { MoodSelection } from './mood-selection';
+import { SizePicker } from './size-picker';
 import { SourceSelection } from './souce';
 
 interface FormProps {
@@ -28,8 +29,6 @@ interface FormProps {
 
 const Form: FunctionComponent<FormProps> = (props) => {
   const name = props.user.name ? props.user.name.toLowerCase() : 'stranger';
-  const [progress, setProgress] = React.useState(0);
-  const [showResults, setShowResults] = React.useState(false);
 
   const [state, dispatch] = useReducer<Reducer<FormState, FormAction>>(
     formReducer,
@@ -37,13 +36,11 @@ const Form: FunctionComponent<FormProps> = (props) => {
   );
 
   const submitForm = () => {
-    setShowResults(true);
+    dispatch(update('showResults', true));
   };
 
   const resetForm = () => {
     dispatch(resetFormState());
-    setProgress(0);
-    setShowResults(false);
   };
 
   return (
@@ -123,7 +120,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                 horizontal: size !== 'small' ? 'medium' : 'small'
               }}
             >
-              {showResults ? (
+              {state.showResults ? (
                 <Results size={size} {...state} resetForm={resetForm} />
               ) : (
                 <Box justify="between" align="center" flex fill>
@@ -138,22 +135,19 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     <MoodSelection
                       size={size}
                       moodIndex={state.mood}
-                      progress={progress}
-                      setProgress={(prog) => setProgress(prog)}
+                      progress={state.progress}
                       dispatch={(value) => dispatch(value)}
                     />
                     <SizePicker
                       size={size}
                       numSongs={state.numSongs}
-                      progress={progress}
-                      setProgress={(prog) => setProgress(prog)}
+                      progress={state.progress}
                       dispatch={(value) => dispatch(value)}
                     />
                     <SourceSelection
                       size={size}
                       source={state.source}
-                      progress={progress}
-                      setProgress={(prog) => setProgress(prog)}
+                      progress={state.progress}
                       dispatch={(value) => dispatch(value)}
                     />
                   </Box>
@@ -161,8 +155,8 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     margin="small"
                     hoverIndicator={size !== 'small' ? 'accent-1' : false}
                     alignSelf="center"
-                    primary={size === 'small' || progress === 3}
-                    disabled={progress !== 3}
+                    primary={size === 'small' || state.progress === 3}
+                    disabled={state.progress !== 3}
                     label="continue"
                     onClick={submitForm}
                     size={

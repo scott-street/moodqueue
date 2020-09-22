@@ -11,12 +11,11 @@ interface MoodSelectionProps {
   progress: number;
   moodIndex: number;
   size: string;
-  setProgress(prog: number): void;
   dispatch(value: FormAction): void;
 }
 
-const MoodSelection: FunctionComponent<MoodSelectionProps> = (props) => {
-  const { size, moodIndex, progress, setProgress, dispatch } = props;
+export const MoodSelection: FunctionComponent<MoodSelectionProps> = (props) => {
+  const { size, moodIndex, progress, dispatch } = props;
   return (
     <Box gap="small" align="center">
       <Text textAlign="center" size={size !== 'small' ? 'medium' : 'small'}>
@@ -27,6 +26,7 @@ const MoodSelection: FunctionComponent<MoodSelectionProps> = (props) => {
           (mood, i) =>
             isNaN(Number(Mood[mood])) && (
               <Box
+                id={`mood-box-${i}`}
                 hoverIndicator={moodIndex === i ? 'accent-3' : 'accent-1'}
                 style={{
                   borderTopLeftRadius: 30,
@@ -51,23 +51,28 @@ const MoodSelection: FunctionComponent<MoodSelectionProps> = (props) => {
                     index = -1;
                   }
                   dispatch(update('mood', index));
-                  setProgress(prog);
+                  dispatch(update('progress', prog));
                 }}
                 key={i}
               >
                 {size !== 'small' && (
-                  <Text size="xsmall" weight="bold" textAlign="center">
+                  <Text
+                    size="xsmall"
+                    weight="bold"
+                    textAlign="center"
+                    id="mood-txt"
+                  >
                     {Mood[mood].toLowerCase()}
                   </Text>
                 )}
                 {mood === Mood.HAPPY.toString() ? (
-                  <Happy width="32px" height="32px" />
+                  <Happy width="32px" height="32px" id="happy-emoji" />
                 ) : mood === Mood.SLEEPY.toString() ? (
-                  <Sleepy width="32px" height="32px" />
+                  <Sleepy width="32px" height="32px" id="sleepy-emoji" />
                 ) : mood === Mood.PARTY.toString() ? (
-                  <Party width="32px" height="32px" />
+                  <Party width="32px" height="32px" id="party-emoji" />
                 ) : (
-                  <Sad width="32px" height="32px" />
+                  <Sad width="32px" height="32px" id="sad-emoji" />
                 )}
               </Box>
             )
@@ -76,5 +81,3 @@ const MoodSelection: FunctionComponent<MoodSelectionProps> = (props) => {
     </Box>
   );
 };
-
-export default MoodSelection;

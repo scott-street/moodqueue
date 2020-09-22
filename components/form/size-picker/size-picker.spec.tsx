@@ -1,75 +1,107 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, mount } from 'enzyme';
-import { ResultListItem } from './result-list-item';
-import { Track } from '../../../types/Track';
+import { SizePicker } from '../size-picker';
 
-const mockTrack: Track = {
-  previewUrl: '',
-  name: 'myMockTrack',
-  artist: 'myMockArtist',
-  imageLink: '',
-  id: '1',
-  uri: ''
-};
-describe('<ResultListItem />', () => {
+// test that value doesn't decrement when 0 and doesn't increment when 50
+
+describe('<SizePicker />', () => {
   it('renders without crashing', () => {
     render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-  });
-
-  it('renders the track name', () => {
-    const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.text()).to.contain(mockTrack.name);
-  });
-
-  it('renders the track artist', () => {
-    const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.text()).to.contain(mockTrack.artist);
-  });
-
-  it('renders more details button', () => {
-    const wrapper = render(
-      <ResultListItem size={'large'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.find('#more-details-btn')).to.have.length(1);
-  });
-
-  it('renders remove track button for large screens', () => {
-    const wrapper = render(
-      <ResultListItem size={'large'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.find('#remove-track-btn')).to.have.length(1);
-  });
-
-  it("doesn't render remove track button for small screens", () => {
-    const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.find('#remove-track-btn')).to.have.length(0);
-  });
-
-  it("triggers prop 'dispatch' on more details button click", () => {
-    const dispatchMock = jest.fn();
-    const wrapper = mount(
-      <ResultListItem
+      <SizePicker
         size={'large'}
-        dispatch={dispatchMock}
-        track={mockTrack}
+        numSongs={0}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+  });
+
+  it('renders the number of songs', () => {
+    const wrapper = render(
+      <SizePicker
+        size={'large'}
+        numSongs={10}
+        progress={0}
+        dispatch={jest.fn()}
       />
     );
 
-    const moreBtn = wrapper.find('#more-details-btn').hostNodes();
+    expect(wrapper.text()).to.contain('10');
+  });
+
+  it('renders +/- buttons for large screens', () => {
+    const wrapper = render(
+      <SizePicker
+        size={'large'}
+        numSongs={0}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#add-btn')).to.have.length(1);
+    expect(wrapper.find('#subtract-btn')).to.have.length(1);
+  });
+
+  it("doesn't render +/- buttons for small screens", () => {
+    const wrapper = render(
+      <SizePicker
+        size={'small'}
+        numSongs={0}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#add-btn')).to.have.length(0);
+    expect(wrapper.find('#subtract-btn')).to.have.length(0);
+  });
+
+  it("triggers prop 'dispatch' on + button click", () => {
+    const dispatchMock = jest.fn();
+    const wrapper = mount(
+      <SizePicker
+        size={'large'}
+        numSongs={0}
+        progress={0}
+        dispatch={dispatchMock}
+      />
+    );
+
+    const moreBtn = wrapper.find('#add-btn').hostNodes();
+    moreBtn.simulate('click');
+    expect(dispatchMock.mock.calls.length).to.be.eql(1);
+  });
+
+  it("triggers prop 'dispatch' on - button click", () => {
+    const dispatchMock = jest.fn();
+    const wrapper = mount(
+      <SizePicker
+        size={'large'}
+        numSongs={0}
+        progress={0}
+        dispatch={dispatchMock}
+      />
+    );
+
+    const moreBtn = wrapper.find('#subtract-btn').hostNodes();
+    moreBtn.simulate('click');
+    expect(dispatchMock.mock.calls.length).to.be.eql(1);
+  });
+
+  it("triggers prop 'dispatch' on range input change", () => {
+    const dispatchMock = jest.fn();
+    const wrapper = mount(
+      <SizePicker
+        size={'large'}
+        numSongs={0}
+        progress={0}
+        dispatch={dispatchMock}
+      />
+    );
+
+    const moreBtn = wrapper.find('#size-picker').hostNodes();
     moreBtn.simulate('click');
     expect(dispatchMock.mock.calls.length).to.be.eql(1);
   });

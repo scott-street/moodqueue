@@ -1,1 +1,1 @@
-export { default } from './size-picker';
+export * from './size-picker';

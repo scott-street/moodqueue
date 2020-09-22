@@ -1,1 +1,1 @@
-export { default } from './mood-selection';
+export * from './mood-selection';

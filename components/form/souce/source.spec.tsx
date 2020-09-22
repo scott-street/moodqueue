@@ -2,75 +2,94 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, mount } from 'enzyme';
 import { SourceSelection } from './source';
-import { Track } from '../../../types/Track';
+import { FormSelection } from '../../../types/FormSelection';
 
-const mockTrack: Track = {
-  previewUrl: '',
-  name: 'myMockTrack',
-  artist: 'myMockArtist',
-  imageLink: '',
-  id: '1',
-  uri: ''
+// test to see if check box is checked
+
+const exampleFormSelection: FormSelection = {
+  saved: true,
+  artists: false,
+  tracks: false,
+  recommended: true
 };
-describe('<ResultListItem />', () => {
+
+describe('<SourceSelection />', () => {
   it('renders without crashing', () => {
     render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-  });
-
-  it('renders the track name', () => {
-    const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.text()).to.contain(mockTrack.name);
-  });
-
-  it('renders the track artist', () => {
-    const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.text()).to.contain(mockTrack.artist);
-  });
-
-  it('renders more details button', () => {
-    const wrapper = render(
-      <ResultListItem size={'large'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.find('#more-details-btn')).to.have.length(1);
-  });
-
-  it('renders remove track button for large screens', () => {
-    const wrapper = render(
-      <ResultListItem size={'large'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.find('#remove-track-btn')).to.have.length(1);
-  });
-
-  it("doesn't render remove track button for small screens", () => {
-    const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.find('#remove-track-btn')).to.have.length(0);
-  });
-
-  it("triggers prop 'dispatch' on more details button click", () => {
-    const dispatchMock = jest.fn();
-    const wrapper = mount(
-      <ResultListItem
+      <SourceSelection
         size={'large'}
-        dispatch={dispatchMock}
-        track={mockTrack}
+        source={exampleFormSelection}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+  });
+
+  it('renders saved checkbox and it is checked', () => {
+    const wrapper = render(
+      <SourceSelection
+        size={'large'}
+        source={exampleFormSelection}
+        progress={0}
+        dispatch={jest.fn()}
       />
     );
 
-    const moreBtn = wrapper.find('#more-details-btn').hostNodes();
-    moreBtn.simulate('click');
+    expect(wrapper.find('#saved-checkbox')).to.have.length(1);
+  });
+
+  it('renders artists checkbox', () => {
+    const wrapper = render(
+      <SourceSelection
+        size={'large'}
+        source={exampleFormSelection}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#artists-checkbox')).to.have.length(1);
+  });
+
+  it('renders tracks checkbox', () => {
+    const wrapper = render(
+      <SourceSelection
+        size={'large'}
+        source={exampleFormSelection}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#tracks-checkbox')).to.have.length(1);
+  });
+
+  it('renders recommended checkbox', () => {
+    const wrapper = render(
+      <SourceSelection
+        size={'large'}
+        source={exampleFormSelection}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#recommended-checkbox')).to.have.length(1);
+  });
+
+  it("triggers prop 'dispatch' on check box click", () => {
+    const dispatchMock = jest.fn();
+    const wrapper = mount(
+      <SourceSelection
+        size={'large'}
+        source={exampleFormSelection}
+        progress={0}
+        dispatch={dispatchMock}
+      />
+    );
+
+    const checkbox = wrapper.find('#saved-checkbox').hostNodes();
+    checkbox.simulate('click');
     expect(dispatchMock.mock.calls.length).to.be.eql(1);
   });
 });

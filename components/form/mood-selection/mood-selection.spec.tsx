@@ -1,75 +1,125 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, mount } from 'enzyme';
-import { ResultListItem } from './result-list-item';
-import { Track } from '../../../types/Track';
+import { MoodSelection } from '../mood-selection';
 
-const mockTrack: Track = {
-  previewUrl: '',
-  name: 'myMockTrack',
-  artist: 'myMockArtist',
-  imageLink: '',
-  id: '1',
-  uri: ''
-};
-describe('<ResultListItem />', () => {
+// test color change of box
+
+describe('<MoodSelection />', () => {
   it('renders without crashing', () => {
     render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
+      <MoodSelection
+        size={'large'}
+        moodIndex={-1}
+        progress={0}
+        dispatch={jest.fn()}
+      />
     );
   });
 
-  it('renders the track name', () => {
+  it('renders the happy mood', () => {
     const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
+      <MoodSelection
+        size={'large'}
+        moodIndex={-1}
+        progress={0}
+        dispatch={jest.fn()}
+      />
     );
 
-    expect(wrapper.text()).to.contain(mockTrack.name);
+    expect(wrapper.find('#mood-box-0')).to.have.length(1);
   });
 
-  it('renders the track artist', () => {
+  it('renders the sad mood', () => {
     const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
+      <MoodSelection
+        size={'large'}
+        moodIndex={-1}
+        progress={0}
+        dispatch={jest.fn()}
+      />
     );
 
-    expect(wrapper.text()).to.contain(mockTrack.artist);
+    expect(wrapper.find('#mood-box-1')).to.have.length(1);
+  });
+
+  it('renders the sleepy mood', () => {
+    const wrapper = render(
+      <MoodSelection
+        size={'large'}
+        moodIndex={-1}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#mood-box-2')).to.have.length(1);
+  });
+
+  it('renders the party mood', () => {
+    const wrapper = render(
+      <MoodSelection
+        size={'large'}
+        moodIndex={-1}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#mood-box-3')).to.have.length(1);
   });
 
   it('renders more details button', () => {
     const wrapper = render(
-      <ResultListItem size={'large'} dispatch={jest.fn()} track={mockTrack} />
+      <MoodSelection
+        size={'large'}
+        moodIndex={-1}
+        progress={0}
+        dispatch={jest.fn()}
+      />
     );
 
     expect(wrapper.find('#more-details-btn')).to.have.length(1);
   });
 
-  it('renders remove track button for large screens', () => {
+  it('renders mood text for large screens', () => {
     const wrapper = render(
-      <ResultListItem size={'large'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.find('#remove-track-btn')).to.have.length(1);
-  });
-
-  it("doesn't render remove track button for small screens", () => {
-    const wrapper = render(
-      <ResultListItem size={'small'} dispatch={jest.fn()} track={mockTrack} />
-    );
-
-    expect(wrapper.find('#remove-track-btn')).to.have.length(0);
-  });
-
-  it("triggers prop 'dispatch' on more details button click", () => {
-    const dispatchMock = jest.fn();
-    const wrapper = mount(
-      <ResultListItem
+      <MoodSelection
         size={'large'}
-        dispatch={dispatchMock}
-        track={mockTrack}
+        moodIndex={-1}
+        progress={0}
+        dispatch={jest.fn()}
       />
     );
 
-    const moreBtn = wrapper.find('#more-details-btn').hostNodes();
+    expect(wrapper.find('#mood-txt')).to.have.length(1);
+  });
+
+  it("doesn't render mood name for small screens", () => {
+    const wrapper = render(
+      <MoodSelection
+        size={'small'}
+        moodIndex={-1}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#mood-txt')).to.have.length(0);
+  });
+
+  it("triggers prop 'dispatch' on happy mood box click", () => {
+    const dispatchMock = jest.fn();
+    const wrapper = mount(
+      <MoodSelection
+        size={'large'}
+        moodIndex={-1}
+        progress={0}
+        dispatch={dispatchMock}
+      />
+    );
+
+    const moreBtn = wrapper.find('#mood-box-0').hostNodes();
     moreBtn.simulate('click');
     expect(dispatchMock.mock.calls.length).to.be.eql(1);
   });

@@ -1,20 +1,19 @@
 import { Box, CheckBox, Text } from 'grommet';
 import React, { FunctionComponent } from 'react';
 import { FormSelection } from '../../../types/FormSelection';
-import { FormAction, updateSourceSelection } from '../reducer';
+import { FormAction, update, updateSourceSelection } from '../reducer';
 
 interface SourceSelectionProps {
   progress: number;
   source: FormSelection;
   size: string;
-  setProgress(prog: number): void;
   dispatch(value: FormAction): void;
 }
 
 export const SourceSelection: FunctionComponent<SourceSelectionProps> = (
   props
 ) => {
-  const { size, source, progress, setProgress, dispatch } = props;
+  const { size, source, progress, dispatch } = props;
 
   const updateProgressAfterCheckboxChange = (
     index: number,
@@ -43,7 +42,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (
     ) {
       prog++;
     }
-    setProgress(prog);
+    dispatch(update('progress', prog));
   };
 
   return (
@@ -53,6 +52,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (
       </Text>
       <Box gap="small">
         <CheckBox
+          id="saved-checkbox"
           label={
             <Box>
               <Text size={size !== 'small' ? 'medium' : 'xsmall'}>
@@ -67,6 +67,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (
           }}
         />
         <CheckBox
+          id="tracks-checkbox"
           label={
             <Box>
               <Text size={size !== 'small' ? 'medium' : 'xsmall'}>
@@ -81,6 +82,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (
           }}
         />
         <CheckBox
+          id="artists-checkbox"
           label={
             <Box>
               <Text size={size !== 'small' ? 'medium' : 'xsmall'}>
@@ -95,6 +97,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (
           }}
         />
         <CheckBox
+          id="recommended-checkbox"
           label={
             <Box>
               <Text size={size !== 'small' ? 'medium' : 'xsmall'}>
