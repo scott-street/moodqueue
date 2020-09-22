@@ -20,7 +20,7 @@ import {
 } from './reducer';
 import MoodSelection from './mood-selection';
 import SizePicker from './size-picker';
-import SourceSelection from './souce';
+import { SourceSelection } from './souce';
 
 interface FormProps {
   user: UserInfo;

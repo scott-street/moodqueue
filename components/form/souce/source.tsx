@@ -11,7 +11,9 @@ interface SourceSelectionProps {
   dispatch(value: FormAction): void;
 }
 
-const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) => {
+export const SourceSelection: FunctionComponent<SourceSelectionProps> = (
+  props
+) => {
   const { size, source, progress, setProgress, dispatch } = props;
 
   const updateProgressAfterCheckboxChange = (
@@ -112,5 +114,3 @@ const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) => {
     </Box>
   );
 };
-
-export default SourceSelection;
