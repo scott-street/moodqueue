@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import { render, mount } from 'enzyme';
 import { SizePicker } from '../size-picker';
 
-// test that value doesn't decrement when 0 and doesn't increment when 50
-
 describe('<SizePicker />', () => {
   it('renders without crashing', () => {
     render(
@@ -102,7 +100,40 @@ describe('<SizePicker />', () => {
     );
 
     const picker = wrapper.find('#size-picker').hostNodes();
-    picker.simulate('click');
+    const event = { target: { value: 1 } };
+    picker.simulate('change', event);
     expect(dispatchMock.mock.calls.length).to.be.eql(1);
+  });
+
+  it('num songs does not go below 0 when subtract button is clicked', () => {
+    const dispatchMock = jest.fn();
+    const wrapper = mount(
+      <SizePicker
+        size={'large'}
+        numSongs={0}
+        progress={0}
+        dispatch={dispatchMock}
+      />
+    );
+
+    const moreBtn = wrapper.find('#add-btn').hostNodes();
+    moreBtn.simulate('click');
+    expect(wrapper.text()).to.contain('0');
+  });
+
+  it('num songs does not go above 50 when add button is clicked', () => {
+    const dispatchMock = jest.fn();
+    const wrapper = mount(
+      <SizePicker
+        size={'large'}
+        numSongs={50}
+        progress={0}
+        dispatch={dispatchMock}
+      />
+    );
+
+    const moreBtn = wrapper.find('#add-btn').hostNodes();
+    moreBtn.simulate('click');
+    expect(wrapper.text()).to.contain('50');
   });
 });

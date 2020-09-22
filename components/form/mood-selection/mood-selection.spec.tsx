@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import { render, mount } from 'enzyme';
 import { MoodSelection } from '../mood-selection';
 
-// test color change of box
-
 describe('<MoodSelection />', () => {
   it('renders without crashing', () => {
     render(
@@ -69,19 +67,6 @@ describe('<MoodSelection />', () => {
     expect(wrapper.find('#mood-box-3')).to.have.length(1);
   });
 
-  it('renders more details button', () => {
-    const wrapper = render(
-      <MoodSelection
-        size={'large'}
-        moodIndex={-1}
-        progress={0}
-        dispatch={jest.fn()}
-      />
-    );
-
-    expect(wrapper.find('#more-details-btn')).to.have.length(1);
-  });
-
   it('renders mood text for large screens', () => {
     const wrapper = render(
       <MoodSelection
@@ -106,6 +91,22 @@ describe('<MoodSelection />', () => {
     );
 
     expect(wrapper.find('#mood-txt')).to.have.length(0);
+  });
+
+  it('renders mood box with different color when it is selected by user', () => {
+    const wrapper = render(
+      <MoodSelection
+        size={'large'}
+        moodIndex={0}
+        progress={0}
+        dispatch={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find('#mood-box-0').get(0).props.style).to.have.property(
+      'backgroundColor',
+      '#6FFFB0'
+    );
   });
 
   it("triggers prop 'dispatch' on happy mood box click", () => {

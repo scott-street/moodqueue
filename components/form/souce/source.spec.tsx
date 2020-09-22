@@ -35,7 +35,10 @@ describe('<SourceSelection />', () => {
       />
     );
 
-    expect(wrapper.find('#saved-checkbox')).to.have.length(1);
+    expect(wrapper.find('#saved-checkbox'))
+      .to.have.length(1)
+      .and.prop('checked')
+      .to.equal(true);
   });
 
   it('renders artists checkbox', () => {
@@ -89,7 +92,8 @@ describe('<SourceSelection />', () => {
     );
 
     const checkbox = wrapper.find('#saved-checkbox').hostNodes();
-    checkbox.simulate('click');
+    const event = { target: { value: true } };
+    checkbox.simulate('change', event);
     expect(dispatchMock.mock.calls.length).to.be.eql(1);
   });
 });
