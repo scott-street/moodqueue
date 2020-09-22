@@ -27,7 +27,7 @@ interface FormProps {
   user: UserInfo;
 }
 
-const Form: FunctionComponent<FormProps> = (props) => {
+export const Form: FunctionComponent<FormProps> = (props) => {
   const name = props.user.name ? props.user.name.toLowerCase() : 'stranger';
 
   const [state, dispatch] = useReducer<Reducer<FormState, FormAction>>(
@@ -74,6 +74,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                 </Heading>
                 {props.user.profileImages[0] ? (
                   <Avatar
+                    id="avatar-profile-image"
                     src={props.user.profileImages[0].url}
                     size="xlarge"
                     border={{ size: 'small', side: 'all', color: 'accent-1' }}
@@ -82,6 +83,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                   />
                 ) : (
                   <Avatar
+                    id="avatar-default"
                     background="accent-2"
                     border={{ size: 'small', side: 'all', color: 'accent-1' }}
                     size="large"
@@ -152,6 +154,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                     />
                   </Box>
                   <Button
+                    id="submit-form-btn"
                     margin="small"
                     hoverIndicator={size !== 'small' ? 'accent-1' : false}
                     alignSelf="center"
@@ -178,6 +181,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
             <Box align="center">
               {props.user.profileImages[0] ? (
                 <Avatar
+                  id="avatar-profile-image-small"
                   src={props.user.profileImages[0].url}
                   size={size !== 'small' ? 'xlarge' : 'large'}
                   border={{ size: 'small', side: 'all', color: 'accent-1' }}
@@ -186,6 +190,7 @@ const Form: FunctionComponent<FormProps> = (props) => {
                 />
               ) : (
                 <Avatar
+                  id="avatar-default-small"
                   background="accent-2"
                   border={{ size: 'small', side: 'all', color: 'accent-1' }}
                   size={size !== 'small' ? 'large' : 'medium'}
@@ -205,8 +210,6 @@ const Form: FunctionComponent<FormProps> = (props) => {
     </ResponsiveContext.Consumer>
   );
 };
-
-export default Form;
 
 export async function getStaticProps() {
   return {
