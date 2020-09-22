@@ -27,7 +27,7 @@ export const SizePicker: FunctionComponent<SizePickerProps> = (props) => {
       <Box direction="row" align="center" gap="small">
         {size !== 'small' && (
           <Button
-            id="subract-btn"
+            id="subtract-btn"
             icon={<Subtract size={size !== 'small' ? 'medium' : 'small'} />}
             style={{ borderRadius: 30 }}
             onClick={() => {

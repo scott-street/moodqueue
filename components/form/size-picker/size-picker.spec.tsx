@@ -56,7 +56,7 @@ describe('<SizePicker />', () => {
     expect(wrapper.find('#subtract-btn')).to.have.length(0);
   });
 
-  it("triggers prop 'dispatch' on + button click", () => {
+  it("triggers prop two 'dispatch' calls on + button click", () => {
     const dispatchMock = jest.fn();
     const wrapper = mount(
       <SizePicker
@@ -69,10 +69,10 @@ describe('<SizePicker />', () => {
 
     const moreBtn = wrapper.find('#add-btn').hostNodes();
     moreBtn.simulate('click');
-    expect(dispatchMock.mock.calls.length).to.be.eql(1);
+    expect(dispatchMock.mock.calls.length).to.be.eql(2);
   });
 
-  it("triggers prop 'dispatch' on - button click", () => {
+  it("triggers prop two 'dispatch' calls on - button click", () => {
     const dispatchMock = jest.fn();
     const wrapper = mount(
       <SizePicker
@@ -85,10 +85,10 @@ describe('<SizePicker />', () => {
 
     const moreBtn = wrapper.find('#subtract-btn').hostNodes();
     moreBtn.simulate('click');
-    expect(dispatchMock.mock.calls.length).to.be.eql(1);
+    expect(dispatchMock.mock.calls.length).to.be.eql(2);
   });
 
-  it("triggers prop 'dispatch' on range input change", () => {
+  it("triggers prop two 'dispatch' calls on range input change", () => {
     const dispatchMock = jest.fn();
     const wrapper = mount(
       <SizePicker
@@ -102,7 +102,7 @@ describe('<SizePicker />', () => {
     const picker = wrapper.find('#size-picker').hostNodes();
     const event = { target: { value: 1 } };
     picker.simulate('change', event);
-    expect(dispatchMock.mock.calls.length).to.be.eql(1);
+    expect(dispatchMock.mock.calls.length).to.be.eql(2);
   });
 
   it('num songs does not go below 0 when subtract button is clicked', () => {

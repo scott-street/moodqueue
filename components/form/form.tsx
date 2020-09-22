@@ -53,6 +53,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
           >
             <Box border="between" gap="small">
               <Heading
+                id="app-name-txt"
                 textAlign={size !== 'small' ? 'start' : 'center'}
                 size={size !== 'small' ? 'large' : 'medium'}
                 margin="none"
@@ -69,7 +70,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
             </Box>
             {size !== 'small' && (
               <Box direction="row" align="center" gap="small">
-                <Heading textAlign="center" margin="none">
+                <Heading textAlign="center" margin="none" id="username-txt">
                   {name}
                 </Heading>
                 {props.user.profileImages[0] ? (
@@ -127,6 +128,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
               ) : (
                 <Box justify="between" align="center" flex fill>
                   <Heading
+                    id="queue-title"
                     textAlign="center"
                     margin="none"
                     size={size !== 'small' ? 'medium' : 'small'}

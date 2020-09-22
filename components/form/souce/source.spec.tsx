@@ -35,10 +35,8 @@ describe('<SourceSelection />', () => {
       />
     );
 
-    expect(wrapper.find('#saved-checkbox'))
-      .to.have.length(1)
-      .and.prop('checked')
-      .to.equal(true);
+    expect(wrapper.find('#saved-checkbox')).to.have.length(1);
+    expect(wrapper.find('#saved-checkbox').prop('checked')).to.equal(true);
   });
 
   it('renders artists checkbox', () => {
@@ -80,7 +78,7 @@ describe('<SourceSelection />', () => {
     expect(wrapper.find('#recommended-checkbox')).to.have.length(1);
   });
 
-  it("triggers prop 'dispatch' on check box click", () => {
+  it("triggers prop two 'dispatch' calls on check box click", () => {
     const dispatchMock = jest.fn();
     const wrapper = mount(
       <SourceSelection
@@ -94,6 +92,6 @@ describe('<SourceSelection />', () => {
     const checkbox = wrapper.find('#saved-checkbox').hostNodes();
     const event = { target: { value: true } };
     checkbox.simulate('change', event);
-    expect(dispatchMock.mock.calls.length).to.be.eql(1);
+    expect(dispatchMock.mock.calls.length).to.be.eql(2);
   });
 });

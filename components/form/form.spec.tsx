@@ -2,6 +2,7 @@ import React from 'react';
 import { render, shallow } from 'enzyme';
 import { Form } from '../form';
 import { UserInfo } from '../../types/UserInfo';
+import { expect } from 'chai';
 
 const testUser: UserInfo = {
   name: 'test',
@@ -25,19 +26,19 @@ describe('<Form/>', () => {
   it('renders new queue in title', () => {
     const wrapper = render(<Form user={testUser} />);
 
-    expect(wrapper.text()).to.contain('new queue');
+    expect(wrapper.find('#queue-title').text()).to.contain('new queue');
   });
 
   it('renders user name in header', () => {
     const wrapper = render(<Form user={testUser} />);
 
-    expect(wrapper.text()).to.contain(testUser.name);
+    expect(wrapper.find('#username-txt').text()).to.contain(testUser.name);
   });
 
   it('renders app name in header', () => {
     const wrapper = render(<Form user={testUser} />);
 
-    expect(wrapper.text()).to.contain('moodqueue');
+    expect(wrapper.find('#app-name-txt').text()).to.contain('moodqueue');
   });
 
   it('renders continue button', () => {
@@ -56,11 +57,7 @@ describe('<Form/>', () => {
       id: 'test123',
       email: 'test123@gmail.com',
       profileUrl: 'spotify.com',
-      profileImages: [
-        {
-          url: ''
-        }
-      ]
+      profileImages: []
     };
 
     const wrapper = render(<Form user={userWithNoImage} />);
