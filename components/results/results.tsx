@@ -81,7 +81,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 alignContent="center"
                 justify={state.tracks ? (state.tracks.length > 1 ? "start" : "center") : "center"}
                 pad={{
-                    vertical: "small",
+                    vertical: size === "small" ? "small" : "none",
                     horizontal: size !== "small" ? "xlarge" : "none",
                 }}
                 fill
@@ -104,7 +104,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     />
                 )}
             </Box>
-            <Box direction="row" align="center" gap="xsmall" margin="medium">
+            <Box direction="row" align="center" gap="xsmall" margin="small">
                 <Button
                     id="play-queue-btn"
                     title="play your moodqueue"

@@ -58,4 +58,9 @@ describe("<Home/>", () => {
         const wrapper = render(<Home user={userWithNoImage} size={"large"} />)
         expect(wrapper.find("#avatar-default").length).to.be.eql(1)
     })
+
+    it("renders avatar with small screen", () => {
+        const wrapper = render(<Home user={testUser} size={"small"} />)
+        expect(wrapper.find("#avatar-profile-image-small").length).to.be.eql(1)
+    })
 })
