@@ -1,222 +1,83 @@
-import React, { FunctionComponent, Reducer, useReducer } from 'react';
-import {
-  Box,
-  Heading,
-  Avatar,
-  Header,
-  Text,
-  Button,
-  ResponsiveContext
-} from 'grommet';
-import { Spotify, User } from 'grommet-icons';
-import { UserInfo, defaultUser } from '../../types/UserInfo';
-import { Results } from '../results';
-import {
-  formReducer,
-  initialFormState,
-  FormState,
-  FormAction,
-  resetFormState,
-  update
-} from './reducer';
-import { MoodSelection } from './mood-selection';
-import { SizePicker } from './size-picker';
-import { SourceSelection } from './souce';
+import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
+import { Box, Heading, Button } from "grommet"
+import { Spotify } from "grommet-icons"
+import { formReducer, initialFormState, FormState, FormAction, resetFormState } from "./reducer"
+import { MoodSelection } from "./mood-selection"
+import { SizePicker } from "./size-picker"
+import { SourceSelection } from "./souce"
+import { FormSelection } from "../../types/FormSelection"
+import { Mood } from "../../types/Mood"
 
 interface FormProps {
-  user: UserInfo;
+    size: string
+    handleSubmit(mood: Mood, numSongs: number, source: FormSelection): void
 }
 
 export const Form: FunctionComponent<FormProps> = (props) => {
-  const name = props.user.name ? props.user.name.toLowerCase() : 'stranger';
+    const { handleSubmit, size } = props
+    const [state, dispatch] = useReducer<Reducer<FormState, FormAction>>(
+        formReducer,
+        initialFormState
+    )
 
-  const [state, dispatch] = useReducer<Reducer<FormState, FormAction>>(
-    formReducer,
-    initialFormState
-  );
+    useEffect(() => {
+        dispatch(resetFormState())
+    }, [])
 
-  const submitForm = () => {
-    dispatch(update('showResults', true));
-  };
+    const submitForm = () => {
+        handleSubmit(state.mood, state.numSongs, state.source)
+    }
 
-  const resetForm = () => {
-    dispatch(resetFormState());
-  };
-
-  return (
-    <ResponsiveContext.Consumer>
-      {(size) => (
-        <Box fill justify="between" overflow={{ horizontal: 'hidden' }}>
-          <Header
-            justify={size !== 'small' ? 'evenly' : 'center'}
-            direction={size !== 'small' ? 'row' : 'column'}
-          >
-            <Box border="between" gap="small">
-              <Heading
-                id="app-name-txt"
-                textAlign={size !== 'small' ? 'start' : 'center'}
-                size={size !== 'small' ? 'large' : 'medium'}
+    return (
+        <Box justify="between" align="center" flex fill>
+            <Heading
+                id="queue-title"
+                textAlign="center"
                 margin="none"
-              >
-                moodqueue
-              </Heading>
-              <Text
-                weight={size !== 'small' ? 'bold' : 'normal'}
-                textAlign={size !== 'small' ? 'start' : 'center'}
-                size={size}
-              >
-                let your mood inspire you
-              </Text>
-            </Box>
-            {size !== 'small' && (
-              <Box direction="row" align="center" gap="small">
-                <Heading textAlign="center" margin="none" id="username-txt">
-                  {name}
-                </Heading>
-                {props.user.profileImages[0] ? (
-                  <Avatar
-                    id="avatar-profile-image"
-                    src={props.user.profileImages[0].url}
-                    size="xlarge"
-                    border={{ size: 'small', side: 'all', color: 'accent-1' }}
-                    onClick={() => window.open(props.user.profileUrl, '_blank')}
-                    title="click to open your spotify profile"
-                  />
-                ) : (
-                  <Avatar
-                    id="avatar-default"
-                    background="accent-2"
-                    border={{ size: 'small', side: 'all', color: 'accent-1' }}
-                    size="large"
-                    onClick={() => window.open(props.user.profileUrl, '_blank')}
-                    title="click to open your spotify profile"
-                  >
-                    <User color="accent-1" size="large" />
-                  </Avatar>
-                )}
-              </Box>
-            )}
-          </Header>
-          <Box
-            align="center"
-            margin="small"
-            fill="vertical"
-            flex
-            justify="center"
-            overflow="auto"
-          >
-            <Box
-              fill
-              flex
-              justify={size !== 'large' ? 'between' : 'evenly'}
-              align="center"
-              border={{
-                side: 'all',
-                size: 'xlarge',
-                style: 'outset',
-                color: 'accent-1'
-              }}
-              background={{ color: '#2F3E4D', opacity: 0.7 }}
-              round="large"
-              margin={size === 'small' ? 'small' : undefined}
-              pad={{
-                horizontal: size !== 'small' ? 'medium' : 'small'
-              }}
+                size={size !== "small" ? "medium" : "small"}
             >
-              {state.showResults ? (
-                <Results size={size} {...state} resetForm={resetForm} />
-              ) : (
-                <Box justify="between" align="center" flex fill>
-                  <Heading
-                    id="queue-title"
-                    textAlign="center"
-                    margin="none"
-                    size={size !== 'small' ? 'medium' : 'small'}
-                  >
-                    new queue
-                  </Heading>
-                  <Box fill justify="evenly" align="center" gap="medium">
-                    <MoodSelection
-                      size={size}
-                      moodIndex={state.mood}
-                      progress={state.progress}
-                      dispatch={(value) => dispatch(value)}
-                    />
-                    <SizePicker
-                      size={size}
-                      numSongs={state.numSongs}
-                      progress={state.progress}
-                      dispatch={(value) => dispatch(value)}
-                    />
-                    <SourceSelection
-                      size={size}
-                      source={state.source}
-                      progress={state.progress}
-                      dispatch={(value) => dispatch(value)}
-                    />
-                  </Box>
-                  <Button
-                    id="submit-form-btn"
-                    margin="small"
-                    hoverIndicator={size !== 'small' ? 'accent-1' : false}
-                    alignSelf="center"
-                    primary={size === 'small' || state.progress === 3}
-                    disabled={state.progress !== 3}
-                    label="continue"
-                    onClick={submitForm}
-                    size={
-                      size === 'large'
-                        ? 'large'
-                        : size === 'medium'
-                        ? 'medium'
-                        : 'small'
-                    }
-                    icon={
-                      <Spotify size={size !== 'large' ? 'medium' : 'large'} />
-                    }
-                  />
-                </Box>
-              )}
-            </Box>
-          </Box>
-          {size === 'small' && (
-            <Box align="center">
-              {props.user.profileImages[0] ? (
-                <Avatar
-                  id="avatar-profile-image-small"
-                  src={props.user.profileImages[0].url}
-                  size={size !== 'small' ? 'xlarge' : 'large'}
-                  border={{ size: 'small', side: 'all', color: 'accent-1' }}
-                  onClick={() => window.open(props.user.profileUrl, '_blank')}
-                  title="click to open your spotify profile"
+                new queue
+            </Heading>
+            <Box fill justify="evenly" align="center" gap="medium">
+                <MoodSelection
+                    size={size}
+                    moodIndex={state.mood}
+                    progress={state.progress}
+                    dispatch={(value) => dispatch(value)}
                 />
-              ) : (
-                <Avatar
-                  id="avatar-default-small"
-                  background="accent-2"
-                  border={{ size: 'small', side: 'all', color: 'accent-1' }}
-                  size={size !== 'small' ? 'large' : 'medium'}
-                  onClick={() => window.open(props.user.profileUrl, '_blank')}
-                  title="click to open your spotify profile"
-                >
-                  <User
-                    color="accent-1"
-                    size={size !== 'small' ? 'large' : 'medium'}
-                  />
-                </Avatar>
-              )}
+                <SizePicker
+                    size={size}
+                    numSongs={state.numSongs}
+                    progress={state.progress}
+                    dispatch={(value) => dispatch(value)}
+                />
+                <SourceSelection
+                    size={size}
+                    source={state.source}
+                    progress={state.progress}
+                    dispatch={(value) => dispatch(value)}
+                />
             </Box>
-          )}
+            <Button
+                id="submit-form-btn"
+                margin="small"
+                hoverIndicator={size !== "small" ? "accent-1" : false}
+                alignSelf="center"
+                primary={size === "small" || state.progress === 3}
+                disabled={state.progress !== 3}
+                label="continue"
+                onClick={submitForm}
+                size={size === "large" ? "large" : size === "medium" ? "medium" : "small"}
+                icon={<Spotify size={size !== "large" ? "medium" : "large"} />}
+            />
         </Box>
-      )}
-    </ResponsiveContext.Consumer>
-  );
-};
+    )
+}
 
 export async function getStaticProps() {
-  return {
-    props: {
-      user: defaultUser
+    return {
+        props: {
+            size: "large",
+        },
     }
-  };
 }
