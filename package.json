@@ -10,7 +10,7 @@
     "test:watch": "jest -watch",
     "test:coverage": "jest --collectCoverage",
     "cy:open": "cypress open",
-    "preinstall": "git config core.hooksPath hooks"
+    "preinstall": "if test \"$NODE_ENV\" != \"production\" ; then git config core.hooksPath hooks; fi"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,scss,md}": [
