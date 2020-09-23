@@ -24,10 +24,6 @@ export const Form: FunctionComponent<FormProps> = (props) => {
         dispatch(resetFormState())
     }, [])
 
-    const submitForm = () => {
-        handleSubmit(state.mood, state.numSongs, state.source)
-    }
-
     return (
         <Box justify="between" align="center" flex fill>
             <Heading
@@ -66,7 +62,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
                 primary={size === "small" || state.progress === 3}
                 disabled={state.progress !== 3}
                 label="continue"
-                onClick={submitForm}
+                onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
                 size={size === "large" ? "large" : size === "medium" ? "medium" : "small"}
                 icon={<Spotify size={size !== "large" ? "medium" : "large"} />}
             />
