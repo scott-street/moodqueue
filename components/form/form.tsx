@@ -1,6 +1,5 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
 import { Box, Heading, Button } from "grommet"
-import { Spotify } from "grommet-icons"
 import { formReducer, initialFormState, FormState, FormAction, resetFormState } from "./reducer"
 import { MoodSelection } from "./mood-selection"
 import { SizePicker } from "./size-picker"
@@ -64,7 +63,6 @@ export const Form: FunctionComponent<FormProps> = (props) => {
                 label="continue"
                 onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
                 size={size === "large" ? "large" : size === "medium" ? "medium" : "small"}
-                icon={<Spotify size={size !== "large" ? "medium" : "large"} />}
             />
         </Box>
     )

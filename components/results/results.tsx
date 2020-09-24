@@ -104,7 +104,12 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     />
                 )}
             </Box>
-            <Box direction="row" align="center" gap="xsmall" margin="small">
+            <Box
+                direction="row"
+                align="center"
+                gap="xsmall"
+                margin={size === "small" ? { bottom: "small", top: "xsmall" } : "small"}
+            >
                 <Button
                     id="play-queue-btn"
                     title="play your moodqueue"

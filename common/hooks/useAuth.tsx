@@ -53,6 +53,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=${scopes}&redirect_uri=${redirect}&state=${rand}&show_dialog=true`
         if (size === "small") {
             window.open(url, "_blank", "toolbar=0,location=0,menubar=0")
+            //window.close();
         } else window.location.href = url
     }
     const setUserInfo = async () => {
