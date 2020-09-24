@@ -2,7 +2,7 @@ import React from "react"
 import { UserInfo } from "../../types/UserInfo"
 
 export interface AuthContextValue {
-    openSpotifyAccountLogin: (param: string) => void
+    openSpotifyAccountLogin: (param: string, param2: string) => void
     setUserInfo: () => Promise<void>
     setAuthRedirect: (param: string) => void
     setAccessToken: (param: string) => void
