@@ -60,6 +60,7 @@ const BaseApp: FunctionComponent = () => {
                             />
                             <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                             <link rel="shortcut icon" href="/favicon.ico" key={0} />
+                            <link rel="manifest" href="/manifest.json" />
                             <title key={1}>{user ? "home | moodqueue" : "login | moodqueue"}</title>
                         </Head>
                         {accessToken ? (
