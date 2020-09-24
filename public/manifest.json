@@ -24,8 +24,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "../pages",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#1F2730",
+  "theme_color": "#3f5efb",
   "background_color": "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)"
 }
