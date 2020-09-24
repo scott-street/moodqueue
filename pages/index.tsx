@@ -63,7 +63,11 @@ const BaseApp: FunctionComponent = () => {
                             <link rel="shortcut icon" href="/favicon.ico" key={0} />
                             <link rel="manifest" href="/manifest.json" />
                             <title key={1}>{user ? "home | moodqueue" : "login | moodqueue"}</title>
-                            <style>{"body { background: #fc466b;}"}</style>
+                            <style>
+                                {
+                                    "body { background: #1F2730; background-image: linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%);}"
+                                }
+                            </style>
                         </Head>
                         {accessToken ? (
                             user ? (
