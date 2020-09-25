@@ -1,6 +1,6 @@
 import React from "react"
 import { render, shallow } from "enzyme"
-import { Home } from "../home"
+import { Home } from "./"
 import { UserInfo } from "../../types/UserInfo"
 import { expect } from "chai"
 

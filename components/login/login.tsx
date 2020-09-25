@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Heading, Text, Button } from "grommet"
 import { Spotify } from "grommet-icons"
-import { useAuth } from "../common/hooks/useAuth"
+import { useAuth } from "../../common/hooks/useAuth"
 
 interface LoginProps {
     size: string
@@ -26,17 +26,23 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
         >
             <Box align="center" margin={size === "small" ? "small" : undefined}>
                 <Heading
+                    id="login-title-txt"
                     margin={{ top: "none" }}
                     textAlign="center"
                     size={size !== "small" ? "large" : "medium"}
                 >
                     moodqueue
                 </Heading>
-                <Text textAlign="center" size={size !== "small" ? "large" : "medium"}>
+                <Text
+                    textAlign="center"
+                    size={size !== "small" ? "large" : "medium"}
+                    id="login-desc-txt"
+                >
                     create playlists, update your queue, get inspired
                 </Text>
             </Box>
             <Button
+                id="login-btn"
                 alignSelf="center"
                 style={
                     size !== "small"

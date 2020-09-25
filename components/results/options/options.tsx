@@ -11,7 +11,7 @@ interface OptionsProps {
     dispatch(value: ResultAction): void
 }
 
-const Options: FunctionComponent<OptionsProps> = (props) => {
+export const Options: FunctionComponent<OptionsProps> = (props) => {
     const { track, close, size, dispatch } = props
 
     const setVolume = () => {
@@ -22,6 +22,7 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
     if (track) {
         return (
             <Layer
+                id="options-layer"
                 position={size !== "small" ? "center" : "bottom"}
                 responsive={false}
                 onClickOutside={close}
@@ -42,7 +43,12 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
                     border={{ side: "all", color: "accent-1", size: "small" }}
                     flex
                 >
-                    <Image src={track.imageLink} fit="contain" fill={size === "small"} />
+                    <Image
+                        src={track.imageLink}
+                        fit="contain"
+                        fill={size === "small"}
+                        id="album-artwork-img"
+                    />
                     <Box
                         align="center"
                         justify="center"
@@ -66,11 +72,12 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
                             >
                                 <source src={track.previewUrl} type="audio/mp3" />
                                 <Text textAlign="center">
-                                    Sorry, your browser does not support the audio element
+                                    sorry, your browser does not support the audio element :(
                                 </Text>
                             </audio>
                         )}
                         <Anchor
+                            id="spotify-anchor"
                             alignSelf="center"
                             href={`https://open.spotify.com/track/${track.id}`}
                             target="blank"
@@ -79,6 +86,7 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
                         />
                         {size === "small" && (
                             <Button
+                                id="remove-btn"
                                 size="small"
                                 icon={<SubtractCircle />}
                                 label="remove from queue"
@@ -97,5 +105,3 @@ const Options: FunctionComponent<OptionsProps> = (props) => {
         )
     } else return null
 }
-
-export default Options
