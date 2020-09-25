@@ -2,7 +2,7 @@ import React from "react"
 import { UserInfo } from "../../types/UserInfo"
 
 export interface AuthContextValue {
-    openSpotifyAccountLogin: (param: string) => void
+    openSpotifyAccountLogin: (param: string, param2: string) => void
     setUserInfo: () => Promise<void>
     setAuthRedirect: (param: string) => void
     setAccessToken: (param: string) => void
@@ -45,12 +45,13 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         return text
     }
 
-    const openSpotifyAccountLogin = (redirect: string) => {
+    const openSpotifyAccountLogin = (redirect: string, size: string) => {
         const rand = generateRandomString(16)
         const scopes =
             "user-top-read user-library-read user-read-private user-read-email user-modify-playback-state"
+        const forceDialog = size === "small" ? false : true
         //make sure to change show_dialog to false if we don't want to show the spotify login redirect anymore
-        const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=${scopes}&redirect_uri=${redirect}&state=${rand}&show_dialog=true`
+        const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=${scopes}&redirect_uri=${redirect}&state=${rand}&show_dialog=${forceDialog}`
         window.location.href = url
     }
     const setUserInfo = async () => {
