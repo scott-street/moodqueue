@@ -38,7 +38,14 @@ describe("<Home/>", () => {
     it("renders app name in header", () => {
         const wrapper = render(<Home user={testUser} size={"large"} />)
 
-        expect(wrapper.find("#app-name-txt").text()).to.contain("moodqueue")
+        expect(wrapper.find("#app-name-txt").text()).to.contain("mdqueue")
+    })
+
+    it("renders icons in header", () => {
+        const wrapper = render(<Home user={testUser} size={"large"} />)
+
+        expect(wrapper.find("#happy-emoji-hdr")).to.be.length(1)
+        expect(wrapper.find("#sad-emoji-hdr")).to.be.length(1)
     })
 
     it("renders avatar with profile image", () => {

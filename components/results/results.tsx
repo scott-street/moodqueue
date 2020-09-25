@@ -14,9 +14,11 @@ import {
     updateTrackToShow,
 } from "./reducer"
 import { getSourcesString } from "../../common/Helpers"
-import Options from "./options/options"
+import { Options } from "./options/"
 import { ResultList } from "./result-list/result-list"
 import { Track } from "../../types/Track"
+import { motion } from "framer-motion"
+import { baseItemTop } from "../animations/motion"
 
 interface ResultsProps {
     size: string
@@ -76,7 +78,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 </Text>
             </Box>
             <Box
-                overflow={{ vertical: "auto" }}
+                overflow="hidden"
                 gap="medium"
                 alignContent="center"
                 justify={state.tracks ? (state.tracks.length > 1 ? "start" : "center") : "center"}
@@ -86,57 +88,67 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 }}
                 fill
             >
-                {state.tracks && state.tracks.length === 0 ? (
-                    <Box align="center" gap="small">
-                        <Text textAlign="center" size={size} weight="bold">
-                            oops! no more songs
-                        </Text>
-                        <Sad width="48px" height="48px" />
-                        <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
-                            click the start over button below to make a new moodqueue!
-                        </Text>
-                    </Box>
-                ) : (
-                    <ResultList
-                        tracks={state.tracks || props.tracks}
-                        dispatch={(value) => dispatch(value)}
-                        size={size}
-                    />
-                )}
+                <motion.div
+                    className="item"
+                    variants={baseItemTop}
+                    style={{ width: "100%", height: "100%" }}
+                >
+                    {state.tracks && state.tracks.length === 0 ? (
+                        <Box align="center" gap="small">
+                            <Text textAlign="center" size={size} weight="bold">
+                                oops! no more songs
+                            </Text>
+                            <Sad width="48px" height="48px" />
+                            <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
+                                click the start over button below to make a new moodqueue!
+                            </Text>
+                        </Box>
+                    ) : (
+                        <ResultList
+                            tracks={state.tracks || props.tracks}
+                            dispatch={(value) => dispatch(value)}
+                            size={size}
+                        />
+                    )}
+                </motion.div>
             </Box>
             <Box
                 direction="row"
                 align="center"
-                gap="xsmall"
+                gap={size !== "small" ? "small" : "xsmall"}
                 margin={size === "small" ? { bottom: "small", top: "xsmall" } : "small"}
             >
-                <Button
-                    id="play-queue-btn"
-                    title="play your moodqueue"
-                    primary
-                    label={size === "small" ? undefined : "start queue"}
-                    icon={<CirclePlay />}
-                    onClick={() => {
-                        addToQueue(state.tracks)
-                    }}
-                    hoverIndicator="accent-1"
-                />
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <Button
+                        id="play-queue-btn"
+                        title="play your moodqueue"
+                        primary
+                        label={size === "small" ? undefined : "start queue"}
+                        icon={<CirclePlay />}
+                        onClick={() => {
+                            addToQueue(state.tracks)
+                        }}
+                        hoverIndicator="accent-1"
+                    />
+                </motion.div>
                 <Options
                     size={size}
                     track={state.trackToShow}
                     close={() => dispatch(updateTrackToShow("trackToShow", undefined))}
                     dispatch={(value) => dispatch(value)}
                 />
-                <Button
-                    id="reset-btn"
-                    title="start over to begin a new moodqueue"
-                    primary
-                    icon={<Previous />}
-                    label={size === "small" ? undefined : "start over"}
-                    onClick={resetForm}
-                    hoverIndicator="accent-3"
-                    color="accent-3"
-                />
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <Button
+                        id="reset-btn"
+                        title="start over to begin a new moodqueue"
+                        primary
+                        icon={<Previous />}
+                        label={size === "small" ? undefined : "start over"}
+                        onClick={resetForm}
+                        hoverIndicator="accent-3"
+                        color="accent-3"
+                    />
+                </motion.div>
             </Box>
         </Box>
     )

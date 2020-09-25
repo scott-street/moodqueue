@@ -6,6 +6,7 @@ import { SizePicker } from "./size-picker"
 import { SourceSelection } from "./souce"
 import { FormSelection } from "../../types/FormSelection"
 import { Mood } from "../../types/Mood"
+import { motion } from "framer-motion"
 
 interface FormProps {
     size: string
@@ -33,7 +34,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
             >
                 new queue
             </Heading>
-            <Box fill justify="evenly" align="center" gap="medium">
+            <Box fill justify="evenly" align="center">
                 <MoodSelection
                     size={size}
                     moodIndex={state.mood}
@@ -53,17 +54,22 @@ export const Form: FunctionComponent<FormProps> = (props) => {
                     dispatch={(value) => dispatch(value)}
                 />
             </Box>
-            <Button
-                id="submit-form-btn"
-                margin="small"
-                hoverIndicator={size !== "small" ? "accent-1" : false}
-                alignSelf="center"
-                primary={state.progress === 3}
-                disabled={state.progress !== 3}
-                label="continue"
-                onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
-                size={size === "large" ? "large" : size === "medium" ? "medium" : "small"}
-            />
+            <motion.div
+                whileHover={{ scale: state.progress === 3 ? 1.1 : undefined }}
+                whileTap={{ scale: state.progress === 3 ? 0.9 : undefined }}
+            >
+                <Button
+                    margin={{ bottom: "small" }}
+                    id="submit-form-btn"
+                    hoverIndicator={size !== "small" ? "accent-1" : false}
+                    alignSelf="center"
+                    primary={state.progress === 3}
+                    disabled={state.progress !== 3}
+                    label="continue"
+                    onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
+                    size={size === "large" ? "large" : size === "medium" ? "medium" : "small"}
+                />
+            </motion.div>
         </Box>
     )
 }
