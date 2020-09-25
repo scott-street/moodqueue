@@ -46,3 +46,14 @@ export const getTrackSourceFromFormSelection = (formSelection: FormSelection): T
     }
     return result
 }
+
+export const getShortenedTrackName = (trackName: string) => {
+    if (trackName.length <= 14) {
+        return trackName
+    } else {
+        let temp: string = ""
+        temp = trackName.substring(0, 11)
+        temp += "..."
+        return temp
+    }
+}

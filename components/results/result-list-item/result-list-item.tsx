@@ -3,6 +3,7 @@ import { Box, Image, Text, Button } from "grommet"
 import { Track } from "../../../types/Track"
 import { More, SubtractCircle } from "grommet-icons"
 import { remove, updateTrackToShow } from "../reducer"
+import { getShortenedTrackName } from "../../../common/Helpers"
 
 interface ResultListItemProps {
     track: Track
@@ -49,7 +50,7 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                     </Box>
                     <Box align="start">
                         <Text textAlign="start" weight="bold" size={size}>
-                            {track.name}
+                            {size === "small" ? getShortenedTrackName(track.name) : track.name}
                         </Text>
                         <Text textAlign="start" size={size !== "small" ? "small" : "xsmall"}>
                             {track.artist}
