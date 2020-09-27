@@ -1,7 +1,7 @@
 import React from "react"
 import { expect } from "chai"
 import { render, mount } from "enzyme"
-import { MoodSelection } from "../mood-selection"
+import { MoodSelection } from "./"
 
 describe("<MoodSelection />", () => {
     it("renders without crashing", () => {

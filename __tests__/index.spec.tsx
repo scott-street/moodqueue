@@ -1,9 +1,9 @@
 import React from "react"
 import { shallow } from "enzyme"
-import LoginPage from "../pages/index"
+import Index from "../pages/index"
 
-describe("Login", () => {
+describe("Index", () => {
     it("renders without crashing", () => {
-        shallow(<LoginPage />)
+        shallow(<Index />)
     })
 })

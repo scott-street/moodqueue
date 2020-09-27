@@ -20,6 +20,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
     )
 
     useEffect(() => {
+        document.title = "home | moodqueue"
         dispatch(resetFormState())
     }, [])
 
