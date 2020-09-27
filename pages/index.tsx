@@ -8,6 +8,7 @@ import { Login } from "../components/login"
 import { AuthProvider, useAuth } from "../common/hooks/useAuth"
 import { NotificationProvider, useNotification } from "../common/hooks/useNotification"
 import { SpotifyProvider } from "../common/hooks/useSpotify"
+import { theme } from "../components/app.styles"
 
 const BaseApp: FunctionComponent = () => {
     const {
@@ -39,7 +40,7 @@ const BaseApp: FunctionComponent = () => {
     }, [accessToken])
 
     return (
-        <Grommet theme={grommet} full>
+        <Grommet theme={theme} full>
             <ResponsiveContext.Consumer>
                 {(size) => (
                     <Box
