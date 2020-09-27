@@ -10,7 +10,9 @@
     "test:watch": "jest -watch",
     "test:coverage": "jest --collectCoverage",
     "cy:open": "cypress open",
-    "preinstall": "if test \"$NODE_ENV\" != \"production\" ; then git config core.hooksPath hooks; fi"
+    "preinstall": "if test \"$NODE_ENV\" != \"production\" ; then git config core.hooksPath hooks; fi",
+    "storybook": "start-storybook -p 6006 -c .storybook",
+    "build-storybook": "build-storybook"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,scss,md}": [
@@ -58,10 +60,14 @@
     "styled-icons": "^10.19.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@storybook/react": "^6.0.22",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.6",
     "@types/react": "^16.9.43",
+    "babel-loader": "^8.1.0",
+    "babel-preset-react-app": "^9.1.2",
     "cypress": "^5.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
