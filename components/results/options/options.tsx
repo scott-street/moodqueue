@@ -79,6 +79,7 @@ export const Options: FunctionComponent<OptionsProps> = (props) => {
                         )}
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }}>
                             <Anchor
+                                id="spotify-anchor"
                                 alignSelf="center"
                                 href={`https://open.spotify.com/track/${track.id}`}
                                 target="blank"

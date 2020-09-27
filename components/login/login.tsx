@@ -4,8 +4,8 @@ import { Spotify } from "grommet-icons"
 import { useAuth } from "../../common/hooks/useAuth"
 import { motion } from "framer-motion"
 import { baseContainer, baseItemTop } from "../animations/motion"
-import { EmotionHappy as Happy } from "@styled-icons/remix-fill/EmotionHappy"
-import { EmotionSad as Sad } from "@styled-icons/remix-fill/EmotionSad"
+import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
+import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
 
 interface LoginProps {
     size: string
@@ -44,6 +44,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                             style={{ textAlign: "center" }}
                         >
                             <Heading
+                                id="login-title-txt"
                                 margin={{ top: "none" }}
                                 textAlign="center"
                                 size={size !== "small" ? "large" : "medium"}
@@ -61,7 +62,11 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                                 />
                                 dqueue
                             </Heading>
-                            <Text textAlign="center" size={size !== "small" ? "large" : "medium"}>
+                            <Text
+                                textAlign="center"
+                                size={size !== "small" ? "large" : "medium"}
+                                id="login-desc-txt"
+                            >
                                 update your queue and get inspired
                             </Text>
                         </motion.div>
@@ -73,6 +78,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                         variants={baseItemTop}
                     >
                         <Button
+                            id="login-btn"
                             alignSelf="center"
                             style={
                                 size !== "small"

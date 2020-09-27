@@ -12,8 +12,8 @@ import { Form } from "../form"
 import { Results } from "../results"
 import { motion } from "framer-motion"
 import { baseContainer, baseItemBottom } from "../animations/motion"
-import { EmotionHappy as Happy } from "@styled-icons/remix-fill/EmotionHappy"
-import { EmotionSad as Sad } from "@styled-icons/remix-fill/EmotionSad"
+import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
+import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
 
 interface HomeProps {
     user: UserInfo
