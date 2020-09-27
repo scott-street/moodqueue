@@ -1,6 +1,6 @@
 import React from "react"
 import { render, shallow } from "enzyme"
-import { Form } from "../form"
+import { Form } from "./"
 import { expect } from "chai"
 
 describe("<Form/>", () => {

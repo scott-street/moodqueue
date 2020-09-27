@@ -1,9 +1,9 @@
 import React from "react"
 import { Box, Heading, Text, Button } from "grommet"
 import { Spotify } from "grommet-icons"
-import { useAuth } from "../common/hooks/useAuth"
+import { useAuth } from "../../common/hooks/useAuth"
 import { motion } from "framer-motion"
-import { baseContainer, baseItemTop } from "./animations/motion"
+import { baseContainer, baseItemTop } from "../animations/motion"
 import { EmotionHappy as Happy } from "@styled-icons/remix-fill/EmotionHappy"
 import { EmotionSad as Sad } from "@styled-icons/remix-fill/EmotionSad"
 

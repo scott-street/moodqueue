@@ -1,7 +1,7 @@
 import React from "react"
 import { expect } from "chai"
-import { render, mount, shallow } from "enzyme"
-import { ResultList } from "./result-list"
+import { render, shallow } from "enzyme"
+import { ResultList } from "./"
 import { ResultListItem } from "../result-list-item"
 import { Track } from "../../../types/Track"
 

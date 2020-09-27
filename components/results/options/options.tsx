@@ -23,6 +23,7 @@ export const Options: FunctionComponent<OptionsProps> = (props) => {
     if (track) {
         return (
             <Layer
+                id="options-layer"
                 position={size !== "small" ? "center" : "bottom"}
                 responsive={false}
                 onClickOutside={close}
@@ -43,7 +44,12 @@ export const Options: FunctionComponent<OptionsProps> = (props) => {
                     border={{ side: "all", color: "accent-1", size: "small" }}
                     flex
                 >
-                    <Image src={track.imageLink} fit="contain" fill={size === "small"} />
+                    <Image
+                        src={track.imageLink}
+                        fit="contain"
+                        fill={size === "small"}
+                        id="album-artwork-img"
+                    />
                     <Box
                         align="center"
                         justify="center"
@@ -67,7 +73,7 @@ export const Options: FunctionComponent<OptionsProps> = (props) => {
                             >
                                 <source src={track.previewUrl} type="audio/mp3" />
                                 <Text textAlign="center">
-                                    Sorry, your browser does not support the audio element
+                                    sorry, your browser does not support the audio element :(
                                 </Text>
                             </audio>
                         )}
@@ -82,6 +88,7 @@ export const Options: FunctionComponent<OptionsProps> = (props) => {
                         </motion.div>
                         {size === "small" && (
                             <Button
+                                id="remove-btn"
                                 size="small"
                                 icon={<SubtractCircle />}
                                 label="remove from queue"

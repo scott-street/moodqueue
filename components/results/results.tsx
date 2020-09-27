@@ -14,8 +14,8 @@ import {
     updateTrackToShow,
 } from "./reducer"
 import { getSourcesString } from "../../common/Helpers"
-import { Options } from "./options/"
-import { ResultList } from "./result-list/result-list"
+import { Options } from "./options"
+import { ResultList } from "./result-list"
 import { Track } from "../../types/Track"
 import { motion } from "framer-motion"
 import { baseItemTop } from "../animations/motion"

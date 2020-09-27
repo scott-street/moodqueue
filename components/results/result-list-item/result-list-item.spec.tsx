@@ -1,7 +1,7 @@
 import React from "react"
 import { expect } from "chai"
 import { render, mount } from "enzyme"
-import { ResultListItem } from "./result-list-item"
+import { ResultListItem } from "./"
 import { Track } from "../../../types/Track"
 
 const mockTrack: Track = {
