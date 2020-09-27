@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react"
-import { Box, Heading, Text } from "grommet"
+import { Box } from "grommet"
 import { Track } from "../../../types/Track"
 import { ResultListItem } from "../result-list-item/result-list-item"
 

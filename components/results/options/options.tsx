@@ -3,6 +3,7 @@ import { Spotify, SubtractCircle } from "grommet-icons"
 import React, { FunctionComponent } from "react"
 import { Track } from "../../../types/Track"
 import { remove, ResultAction } from "../reducer"
+import { motion } from "framer-motion"
 
 interface OptionsProps {
     size: string
@@ -36,7 +37,7 @@ export const Options: FunctionComponent<OptionsProps> = (props) => {
                     align="center"
                     overflow={{ vertical: "auto" }}
                     justify="center"
-                    background={{ color: "#34495E" }}
+                    background={{ color: "#34495E", opacity: 0.8 }}
                     round={size !== "small" ? { corner: "bottom" } : undefined}
                     pad={{ top: "xsmall", bottom: "small", horizontal: "xsmall" }}
                     gap={size !== "small" ? "small" : "medium"}
@@ -76,14 +77,16 @@ export const Options: FunctionComponent<OptionsProps> = (props) => {
                                 </Text>
                             </audio>
                         )}
-                        <Anchor
-                            id="spotify-anchor"
-                            alignSelf="center"
-                            href={`https://open.spotify.com/track/${track.id}`}
-                            target="blank"
-                            label={`Open ${track.name} in Spotify`}
-                            icon={<Spotify />}
-                        />
+                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }}>
+                            <Anchor
+                                id="spotify-anchor"
+                                alignSelf="center"
+                                href={`https://open.spotify.com/track/${track.id}`}
+                                target="blank"
+                                label={`Open ${track.name} in Spotify`}
+                                icon={<Spotify />}
+                            />
+                        </motion.div>
                         {size === "small" && (
                             <Button
                                 id="remove-btn"

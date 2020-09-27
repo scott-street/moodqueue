@@ -5,7 +5,7 @@ describe('Results page', () => {
   });
 
   // having it read from the index component since we only have one next page as of now
-  it('should have the text Results Page', () => {
-    cy.contains('mood');
+  it('should have the text queue', () => {
+    cy.contains('queue');
   });
 });

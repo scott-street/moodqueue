@@ -4,7 +4,7 @@ describe('Index page', () => {
     cy.visit('/');
   });
 
-  it('should have the text moodqueue', () => {
-    cy.contains('moodqueue');
+  it('should have the text moodqueue minus the icons', () => {
+    cy.contains('mdqueue');
   });
 });

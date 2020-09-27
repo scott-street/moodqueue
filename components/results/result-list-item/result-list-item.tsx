@@ -4,6 +4,7 @@ import { Track } from "../../../types/Track"
 import { More, SubtractCircle } from "grommet-icons"
 import { remove, updateTrackToShow } from "../reducer"
 import { getShortenedTrackName } from "../../../common/Helpers"
+import { motion } from "framer-motion"
 
 interface ResultListItemProps {
     track: Track
@@ -57,38 +58,37 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         </Text>
                     </Box>
                 </Box>
-                <Button
-                    id="more-details-btn"
-                    title="more"
-                    style={{ borderRadius: 30 }}
-                    alignSelf="center"
-                    icon={
-                        <More
-                            width={size === "small" ? "24px" : size === "large" ? "48px" : "24px"}
-                            height={size === "small" ? "24px" : size === "large" ? "48px" : "24px"}
-                        />
-                    }
-                    size="small"
-                    hoverIndicator="accent-3"
-                    onClick={() => dispatch(updateTrackToShow("trackToShow", track))}
-                />
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <Button
+                        id="more-details-btn"
+                        title="more"
+                        style={{ borderRadius: 30 }}
+                        alignSelf="center"
+                        icon={<More size={size === "large" ? "large" : "medium"} />}
+                        size={size}
+                        hoverIndicator="dark-1"
+                        onClick={() => dispatch(updateTrackToShow("trackToShow", track))}
+                    />
+                </motion.div>
             </Box>
             {size !== "small" && (
-                <Button
-                    id="remove-track-btn"
-                    hoverIndicator="dark-1"
-                    alignSelf="center"
-                    title="remove from moodqueue"
-                    size={size === "large" ? "large" : "medium"}
-                    icon={
-                        <SubtractCircle
-                            color="status-error"
-                            size={size === "large" ? "large" : "medium"}
-                        />
-                    }
-                    style={{ borderRadius: 30 }}
-                    onClick={() => dispatch(remove("tracks", track.id))}
-                />
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <Button
+                        id="remove-track-btn"
+                        hoverIndicator="dark-1"
+                        alignSelf="center"
+                        title="remove from moodqueue"
+                        size={size === "large" ? "large" : "medium"}
+                        icon={
+                            <SubtractCircle
+                                color="status-error"
+                                size={size === "large" ? "large" : "medium"}
+                            />
+                        }
+                        style={{ borderRadius: 30 }}
+                        onClick={() => dispatch(remove("tracks", track.id))}
+                    />
+                </motion.div>
             )}
         </Box>
     )
