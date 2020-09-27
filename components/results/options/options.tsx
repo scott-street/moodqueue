@@ -37,7 +37,7 @@ export const Options: FunctionComponent<OptionsProps> = (props) => {
                     align="center"
                     overflow={{ vertical: "auto" }}
                     justify="center"
-                    background={{ color: "#34495E", opacity: 0.8 }}
+                    background={{ color: "#34495E" }}
                     round={size !== "small" ? { corner: "bottom" } : undefined}
                     pad={{ top: "xsmall", bottom: "small", horizontal: "xsmall" }}
                     gap={size !== "small" ? "small" : "medium"}
