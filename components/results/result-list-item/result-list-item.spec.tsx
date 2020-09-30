@@ -19,7 +19,7 @@ describe("<ResultListItem />", () => {
 
     it("renders the track name", () => {
         const wrapper = render(
-            <ResultListItem size={"small"} dispatch={jest.fn()} track={mockTrack} />
+            <ResultListItem size={"large"} dispatch={jest.fn()} track={mockTrack} />
         )
 
         expect(wrapper.text()).to.contain(mockTrack.name)
@@ -27,7 +27,7 @@ describe("<ResultListItem />", () => {
 
     it("renders the track artist", () => {
         const wrapper = render(
-            <ResultListItem size={"small"} dispatch={jest.fn()} track={mockTrack} />
+            <ResultListItem size={"large"} dispatch={jest.fn()} track={mockTrack} />
         )
 
         expect(wrapper.text()).to.contain(mockTrack.artist)
