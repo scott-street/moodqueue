@@ -27,12 +27,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
 
     return (
         <Box justify="between" align="center" flex fill>
-            <Heading
-                id="queue-title"
-                textAlign="center"
-                margin="none"
-                size={size !== "small" ? "medium" : "small"}
-            >
+            <Heading id="queue-title" textAlign="center" margin="none" size="small">
                 new queue
             </Heading>
             <Box fill justify="evenly" align="center">

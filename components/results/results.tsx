@@ -43,22 +43,8 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
     }, [])
 
     return (
-        <Box
-            align="center"
-            justify="between"
-            gap="small"
-            fill
-            pad={{
-                horizontal: "medium",
-                vertical: "small",
-            }}
-        >
-            <Heading
-                id="desc-title"
-                textAlign="center"
-                margin="none"
-                size={size !== "small" ? "medium" : "small"}
-            >
+        <Box align="center" justify="between" gap="small" fill>
+            <Heading id="desc-title" textAlign="center" margin="none" size="small">
                 here's your {mood >= 0 ? Mood[mood].toLowerCase() + " queue:" : " queue:"}
             </Heading>
             <Box direction="row" border="between" gap="small" align="center">
@@ -84,7 +70,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 justify={state.tracks ? (state.tracks.length > 1 ? "start" : "center") : "center"}
                 pad={{
                     vertical: size === "small" ? "small" : "none",
-                    horizontal: size !== "small" ? "xlarge" : "none",
                 }}
                 fill
             >

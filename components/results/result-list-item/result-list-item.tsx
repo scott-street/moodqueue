@@ -3,7 +3,7 @@ import { Box, Image, Text, Button } from "grommet"
 import { Track } from "../../../types/Track"
 import { More, SubtractCircle } from "grommet-icons"
 import { remove, updateTrackToShow } from "../reducer"
-import { getShortenedTrackName } from "../../../common/Helpers"
+import { getShortenedName } from "../../../common/Helpers"
 import { motion } from "framer-motion"
 
 interface ResultListItemProps {
@@ -27,10 +27,14 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
             }}
             pad={{
                 vertical: "xlarge",
-                horizontal: size !== "small" ? "xlarge" : "large",
+                horizontal: "large",
             }}
             align="center"
-            border={{ side: "all", size: "medium", color: "accent-3" }}
+            border={{
+                side: "all",
+                size: size !== "small" ? "medium" : "small",
+                color: "accent-3",
+            }}
         >
             <Box
                 gap="small"
@@ -43,18 +47,37 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
             >
                 <Box direction="row" align="center" gap="small" round="small">
                     <Box
+                        background={{
+                            color: size !== "small" ? "#1F2730" : undefined,
+                            opacity: 0.6,
+                        }}
+                        pad={size !== "small" ? "xsmall" : "none"}
+                        round="small"
                         align="center"
-                        width={size === "large" ? "120px" : size === "medium" ? "96px" : "72px"}
-                        height={size === "large" ? "120px" : size === "medium" ? "96px" : "72px"}
+                        width={size === "large" ? "144px" : size === "medium" ? "120px" : "72px"}
+                        height={size === "large" ? "144px" : size === "medium" ? "120px" : "72px"}
                     >
                         <Image fill alignSelf="center" src={track.imageLink} fit="contain" />
                     </Box>
                     <Box align="start">
-                        <Text textAlign="start" weight="bold" size={size}>
-                            {size === "small" ? getShortenedTrackName(track.name) : track.name}
+                        <Text
+                            textAlign="start"
+                            weight="bold"
+                            size={
+                                size === "large" ? "xxlarge" : size === "medium" ? "xlarge" : size
+                            }
+                        >
+                            {size === "small" ? getShortenedName(track.name, true) : track.name}
                         </Text>
-                        <Text textAlign="start" size={size !== "small" ? "small" : "xsmall"}>
-                            {track.artist}
+                        <Text
+                            textAlign="start"
+                            size={
+                                size === "large" ? "medium" : size === "medium" ? "small" : "xsmall"
+                            }
+                        >
+                            {size === "small"
+                                ? getShortenedName(track.artist, false)
+                                : track.artist}
                         </Text>
                     </Box>
                 </Box>
@@ -64,9 +87,9 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         title="more"
                         style={{ borderRadius: 30 }}
                         alignSelf="center"
-                        icon={<More size={size === "large" ? "large" : "medium"} />}
-                        size={size}
-                        hoverIndicator="dark-1"
+                        icon={<More size={size !== "small" ? "large" : "medium"} />}
+                        size={size !== "small" ? "large" : "small"}
+                        hoverIndicator="#24C0FF"
                         onClick={() => dispatch(updateTrackToShow("trackToShow", track))}
                     />
                 </motion.div>
@@ -78,11 +101,11 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         hoverIndicator="dark-1"
                         alignSelf="center"
                         title="remove from moodqueue"
-                        size={size === "large" ? "large" : "medium"}
+                        size="large"
                         icon={
                             <SubtractCircle
                                 color="status-error"
-                                size={size === "large" ? "large" : "medium"}
+                                size={size !== "small" ? "large" : "medium"}
                             />
                         }
                         style={{ borderRadius: 30 }}

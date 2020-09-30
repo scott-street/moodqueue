@@ -38,73 +38,89 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
             initial="hidden"
             animate="visible"
         >
-            <Box fill justify="between" overflow={{ horizontal: "hidden" }}>
-                <Header
-                    justify={size !== "small" ? "evenly" : "center"}
-                    direction={size !== "small" ? "row" : "column"}
-                >
+            <Box fill justify="between" overflow={{ horizontal: "hidden" }} pad="xsmall">
+                <Header justify="evenly" direction="row">
                     <Box border="between" gap="small">
                         <Heading
                             id="app-name-txt"
                             textAlign={size !== "small" ? "start" : "center"}
-                            size={size !== "small" ? "large" : "medium"}
+                            size="medium"
                             margin="none"
                         >
                             m
                             <Happy
-                                width={size !== "small" ? "48px" : "24px"}
-                                height={size !== "small" ? "48px" : "24px"}
+                                onClick={() =>
+                                    window.open("https://www.youtube.com/watch?v=cI0wUoCLnLk")
+                                }
+                                style={{ cursor: "pointer" }}
+                                width={size !== "small" ? "36px" : "24px"}
+                                height={size !== "small" ? "36px" : "24px"}
                                 id="happy-emoji-hdr"
                             />
                             <Sad
-                                width={size !== "small" ? "48px" : "24px"}
-                                height={size !== "small" ? "48px" : "24px"}
+                                onClick={() =>
+                                    window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+                                }
+                                style={{ cursor: "pointer" }}
+                                width={size !== "small" ? "36px" : "24px"}
+                                height={size !== "small" ? "36px" : "24px"}
                                 id="sad-emoji-hdr"
                             />
                             dqueue
                         </Heading>
                         <Text
-                            weight={size !== "small" ? "bold" : "normal"}
                             textAlign={size !== "small" ? "start" : "center"}
-                            size={size}
+                            size={size !== "small" ? "medium" : "small"}
                         >
                             let your mood inspire you
                         </Text>
                     </Box>
-                    {size !== "small" && (
-                        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                            <Box direction="row" align="center" gap="small">
-                                <Heading textAlign="center" margin="none" id="username-txt">
+
+                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                        <Box direction="row" align="center" gap="small">
+                            {size !== "small" && (
+                                <Heading
+                                    textAlign="center"
+                                    margin="none"
+                                    id="username-txt"
+                                    size="small"
+                                >
                                     {name}
                                 </Heading>
-                                {props.user.profileImages[0] ? (
-                                    <Avatar
-                                        id="avatar-profile-image"
-                                        src={props.user.profileImages[0].url}
-                                        size="xlarge"
-                                        border={{ size: "small", side: "all", color: "accent-1" }}
-                                        onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                        title="click to open your spotify profile"
+                            )}
+                            {props.user.profileImages[0] ? (
+                                <Avatar
+                                    id="avatar-profile-image"
+                                    src={props.user.profileImages[0].url}
+                                    size={size !== "small" ? "large" : "medium"}
+                                    border={{ size: "small", side: "all", color: "accent-1" }}
+                                    onClick={() => window.open(props.user.profileUrl, "_blank")}
+                                    title="click to open your spotify profile"
+                                />
+                            ) : (
+                                <Avatar
+                                    id="avatar-default"
+                                    background="accent-2"
+                                    border={{ size: "small", side: "all", color: "accent-1" }}
+                                    size={size !== "small" ? "large" : "medium"}
+                                    onClick={() => window.open(props.user.profileUrl, "_blank")}
+                                    title="click to open your spotify profile"
+                                >
+                                    <User
+                                        color="accent-1"
+                                        size={size !== "small" ? "large" : "medium"}
                                     />
-                                ) : (
-                                    <Avatar
-                                        id="avatar-default"
-                                        background="accent-2"
-                                        border={{ size: "small", side: "all", color: "accent-1" }}
-                                        size="large"
-                                        onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                        title="click to open your spotify profile"
-                                    >
-                                        <User color="accent-1" size="large" />
-                                    </Avatar>
-                                )}
-                            </Box>
-                        </motion.div>
-                    )}
+                                </Avatar>
+                            )}
+                        </Box>
+                    </motion.div>
                 </Header>
                 <Box
                     align="center"
-                    margin="small"
+                    margin={{
+                        horizontal: "small",
+                        vertical: size !== "small" ? "xsmall" : "none",
+                    }}
                     fill="vertical"
                     flex
                     justify="center"
@@ -117,7 +133,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         align="center"
                         border={{
                             side: "all",
-                            size: "xlarge",
+                            size: "large",
                             style: "outset",
                             color: "accent-1",
                         }}
@@ -126,6 +142,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         margin={size === "small" ? "small" : undefined}
                         pad={{
                             horizontal: size !== "small" ? "medium" : "small",
+                            vertical: "small",
                         }}
                     >
                         <motion.div
@@ -169,34 +186,6 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         </motion.div>
                     </Box>
                 </Box>
-                {size === "small" && (
-                    <Box align="center">
-                        {props.user.profileImages[0] ? (
-                            <Avatar
-                                id="avatar-profile-image-small"
-                                src={props.user.profileImages[0].url}
-                                size={size !== "small" ? "xlarge" : "large"}
-                                border={{ size: "small", side: "all", color: "accent-1" }}
-                                onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                title="click to open your spotify profile"
-                            />
-                        ) : (
-                            <Avatar
-                                id="avatar-default-small"
-                                background="accent-2"
-                                border={{ size: "small", side: "all", color: "accent-1" }}
-                                size={size !== "small" ? "large" : "medium"}
-                                onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                title="click to open your spotify profile"
-                            >
-                                <User
-                                    color="accent-1"
-                                    size={size !== "small" ? "large" : "medium"}
-                                />
-                            </Avatar>
-                        )}
-                    </Box>
-                )}
             </Box>
         </motion.div>
     )

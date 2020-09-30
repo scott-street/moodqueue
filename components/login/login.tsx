@@ -14,7 +14,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
     const { size } = props
     const { openSpotifyAccountLogin, redirect } = useAuth()
     return (
-        <Box align="center" justify="center" fill flex>
+        <Box align="center" justify="center" fill flex pad="medium">
             <motion.div
                 style={{ width: "100%", height: "100%" }}
                 className="container"
@@ -51,11 +51,19 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                             >
                                 m
                                 <Happy
+                                    onClick={() =>
+                                        window.open("https://www.youtube.com/watch?v=Tw0zYd0eIlk")
+                                    }
+                                    style={{ cursor: "pointer" }}
                                     width={size !== "small" ? "48px" : "24px"}
                                     height={size !== "small" ? "48px" : "24px"}
                                     id="happy-emoji"
                                 />
                                 <Sad
+                                    onClick={() =>
+                                        window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+                                    }
+                                    style={{ cursor: "pointer" }}
                                     width={size !== "small" ? "48px" : "24px"}
                                     height={size !== "small" ? "48px" : "24px"}
                                     id="sad-emoji"
