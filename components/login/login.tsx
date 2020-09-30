@@ -30,7 +30,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                     round="large"
                     border={{
                         side: "all",
-                        size: "xlarge",
+                        size: "large",
                         style: "outset",
                         color: "accent-1",
                     }}
