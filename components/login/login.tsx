@@ -1,11 +1,12 @@
 import React from "react"
-import { Box, Heading, Text, Button } from "grommet"
+import { Box, Heading, Text } from "grommet"
 import { Spotify } from "grommet-icons"
 import { useAuth } from "../../common/hooks/useAuth"
 import { motion } from "framer-motion"
 import { baseContainer, baseItemTop } from "../animations/motion"
 import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
 import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
+import { Button } from "../../ui/button/Button"
 
 interface LoginProps {
     size: string
@@ -71,28 +72,12 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                             </Text>
                         </motion.div>
                     </Box>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="item"
-                        variants={baseItemTop}
-                    >
-                        <Button
-                            id="login-btn"
-                            alignSelf="center"
-                            style={
-                                size !== "small"
-                                    ? { borderRadius: 50, padding: "20px 30px 20px 30px" }
-                                    : undefined
-                            }
-                            size={size !== "large" ? "medium" : "large"}
-                            onClick={() => openSpotifyAccountLogin(redirect, size)}
-                            label={size !== "small" ? "Login to Spotify" : "Login"}
-                            icon={<Spotify size={size !== "large" ? "medium" : "large"} />}
-                            hoverIndicator="accent-1"
-                            primary
-                        />
-                    </motion.div>
+                    <Button
+                        id="login-btn"
+                        text="Login"
+                        icon={<Spotify color={"#666666"} />}
+                        onClick={() => openSpotifyAccountLogin(redirect, size)}
+                    />
                 </Box>
             </motion.div>
         </Box>

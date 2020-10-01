@@ -11,7 +11,11 @@ describe("<Button />", () => {
             </Grommet>
         )
     })
-    it("renders", () => {
+    it("renders button", () => {
         render(testComponent({ text: "hi" }))
+    })
+
+    it("renders small button", () => {
+        render(testComponent({ text: "hi", small: true }))
     })
 })

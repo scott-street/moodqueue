@@ -1,5 +1,5 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
-import { Box, Heading, Button, Text } from "grommet"
+import { Box, Heading, Text } from "grommet"
 import { Previous, CirclePlay } from "grommet-icons"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
@@ -19,6 +19,7 @@ import { ResultList } from "./result-list"
 import { Track } from "../../types/Track"
 import { motion } from "framer-motion"
 import { baseItemTop } from "../animations/motion"
+import { Button } from "../../ui/button/Button"
 
 interface ResultsProps {
     size: string
@@ -118,37 +119,30 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 gap={size !== "small" ? "small" : "xsmall"}
                 margin={size === "small" ? { bottom: "small", top: "xsmall" } : "small"}
             >
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button
-                        id="play-queue-btn"
-                        title="play your moodqueue"
-                        primary
-                        label={size === "small" ? undefined : "start queue"}
-                        icon={<CirclePlay />}
-                        onClick={() => {
-                            addToQueue(state.tracks)
-                        }}
-                        hoverIndicator="accent-1"
-                    />
-                </motion.div>
+                <Button
+                    id="play-queue-btn"
+                    text="play queue"
+                    icon={<CirclePlay color={"#666666"} />}
+                    onClick={() => {
+                        addToQueue(state.tracks)
+                    }}
+                    small={size === "small"}
+                />
                 <Options
                     size={size}
                     track={state.trackToShow}
                     close={() => dispatch(updateTrackToShow("trackToShow", undefined))}
                     dispatch={(value) => dispatch(value)}
                 />
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button
-                        id="reset-btn"
-                        title="start over to begin a new moodqueue"
-                        primary
-                        icon={<Previous />}
-                        label={size === "small" ? undefined : "start over"}
-                        onClick={resetForm}
-                        hoverIndicator="accent-3"
-                        color="accent-3"
-                    />
-                </motion.div>
+                <Button
+                    id="reset-btn"
+                    text="start over"
+                    icon={<Previous color={"#666666"} />}
+                    onClick={resetForm}
+                    color="accent-3"
+                    small={size === "small"}
+                    secondary
+                />
             </Box>
         </Box>
     )
