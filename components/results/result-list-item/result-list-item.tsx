@@ -10,7 +10,7 @@ interface ResultListItemProps {
     track: Track
     size: any
     dispatch: any
-    align: string
+    align?: string
 }
 export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) => {
     const { track, size, dispatch, align } = props
@@ -24,16 +24,22 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                 borderTopRightRadius: 30,
                 borderBottomLeftRadius: 30,
                 background:
-                    align === "start"
+                    !align || align === "start"
                         ? "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)"
                         : align === "end"
                         ? "linear-gradient(215deg, rgba(252,70,107,1) 0%, rgba(63,94,251,1) 60%)"
-                        : "radial-gradient(circle, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
-                width: "70%",
+                        : "radial-gradient(circle, rgba(63,94,251,1) 25%, rgba(252,70,107,1) 100%)",
+                width: align
+                    ? size === "large"
+                        ? "70%"
+                        : size === "medium"
+                        ? "80%"
+                        : "90%"
+                    : "100%",
             }}
             pad={{
-                vertical: "large",
-                horizontal: "large",
+                vertical: size !== "small" ? "large" : "xlarge",
+                horizontal: size !== "small" ? "medium" : "large",
             }}
             align="center"
             alignSelf={align === "start" ? "start" : align === "end" ? "end" : "center"}
@@ -92,8 +98,9 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         title="more"
                         style={{ borderRadius: 30 }}
                         alignSelf="center"
+                        focusIndicator={false}
                         //color="#24C0FF"
-                        icon={<More />}
+                        icon={<More size={size === "large" ? "large" : "medium"} />}
                         size={size !== "small" ? "medium" : "small"}
                         //hoverIndicator="#24C0FF"
                         onClick={() => dispatch(updateTrackToShow("trackToShow", track))}
@@ -109,7 +116,7 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         primary
                         color="dark-1"
                         title="remove from moodqueue"
-                        icon={<SubtractCircle color="status-error" />}
+                        icon={<SubtractCircle color="status-error" size={size} />}
                         style={{ borderRadius: 30 }}
                         onClick={() => dispatch(remove("tracks", track.id))}
                     />

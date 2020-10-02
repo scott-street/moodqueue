@@ -1,6 +1,5 @@
-import { Avatar, Box, Header, Heading, Text } from "grommet"
-import { User } from "grommet-icons"
-import React, { FunctionComponent, useState } from "react"
+import { Box, Header, Heading, Text } from "grommet"
+import React, { FunctionComponent, useEffect, useState } from "react"
 import { BounceLoader } from "react-spinners"
 import { getTrackSourceFromFormSelection } from "../../common/Helpers"
 import { useSpotify } from "../../common/hooks/useSpotify"
@@ -14,6 +13,8 @@ import { motion } from "framer-motion"
 import { baseContainer, baseItemBottom } from "../animations/motion"
 import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
 import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
+import { UserAvatar } from "./avatar"
+import { Settings } from "./settings"
 
 interface HomeProps {
     user: UserInfo
@@ -22,13 +23,19 @@ interface HomeProps {
 
 export const Home: FunctionComponent<HomeProps> = (props) => {
     const { user, size } = props
-    const name = user.name ? user.name.toLowerCase() : "stranger"
     const [showResults, setShowResults] = useState(false)
     const [mood, setMood] = useState<Mood>(-1)
     const [source, setSource] = useState<FormSelection>(defaultFormSelection)
     const [tracks, setTracks] = useState<Track[]>()
     const [loading, setLoading] = useState(false)
+    const [resultsLayout, setResultsLayout] = useState("")
+    const [showLayer, setShowLayer] = useState(false)
     const { getQueue } = useSpotify()
+
+    useEffect(() => {
+        const resultsLayout = localStorage.getItem("resultsLayout") || "fun"
+        setResultsLayout(resultsLayout)
+    }, [])
 
     return (
         <motion.div
@@ -75,45 +82,11 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                             let your mood inspire you
                         </Text>
                     </Box>
-
-                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                        <Box direction="row" align="center" gap="small">
-                            {size !== "small" && (
-                                <Heading
-                                    textAlign="center"
-                                    margin="none"
-                                    id="username-txt"
-                                    size="small"
-                                >
-                                    {name}
-                                </Heading>
-                            )}
-                            {props.user.profileImages[0] ? (
-                                <Avatar
-                                    id="avatar-profile-image"
-                                    src={props.user.profileImages[0].url}
-                                    size={size !== "small" ? "large" : "medium"}
-                                    border={{ size: "small", side: "all", color: "accent-1" }}
-                                    onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                    title="click to open your spotify profile"
-                                />
-                            ) : (
-                                <Avatar
-                                    id="avatar-default"
-                                    background="accent-2"
-                                    border={{ size: "small", side: "all", color: "accent-1" }}
-                                    size={size !== "small" ? "large" : "medium"}
-                                    onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                    title="click to open your spotify profile"
-                                >
-                                    <User
-                                        color="accent-1"
-                                        size={size !== "small" ? "large" : "medium"}
-                                    />
-                                </Avatar>
-                            )}
-                        </Box>
-                    </motion.div>
+                    <UserAvatar
+                        user={user}
+                        size={size}
+                        handleAvatarClick={() => setShowLayer(true)}
+                    />
                 </Header>
                 <Box
                     align="center"
@@ -165,6 +138,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                                     size={size}
                                     mood={mood}
                                     source={source}
+                                    layout={resultsLayout}
                                     resetForm={() => setShowResults(false)}
                                 />
                             ) : (
@@ -186,6 +160,18 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         </motion.div>
                     </Box>
                 </Box>
+                {showLayer && (
+                    <Settings
+                        profileUrl={user.profileUrl}
+                        size={size}
+                        resultsLayout={resultsLayout}
+                        handleResultsLayoutChange={(checked) => {
+                            localStorage.setItem("resultsLayout", checked ? "fun" : "normal")
+                            setResultsLayout(checked ? "fun" : "normal")
+                        }}
+                        close={() => setShowLayer(false)}
+                    />
+                )}
             </Box>
         </motion.div>
     )

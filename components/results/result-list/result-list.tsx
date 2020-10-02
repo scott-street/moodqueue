@@ -5,12 +5,13 @@ import { ResultListItem } from "../result-list-item/result-list-item"
 
 interface ResultListProps {
     tracks: Track[]
+    layout: string
     dispatch: any
     size: any
 }
 
 export const ResultList: FunctionComponent<ResultListProps> = (props) => {
-    const { tracks, dispatch, size } = props
+    const { tracks, dispatch, size, layout } = props
     return (
         <Box
             overflow={{ vertical: "auto" }}
@@ -19,7 +20,7 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
             justify={tracks ? (tracks.length > 1 ? "start" : "center") : "center"}
             pad={{
                 vertical: "small",
-                horizontal: size !== "small" ? "xlarge" : "none",
+                horizontal: size !== "small" ? "medium" : "none",
             }}
             fill
         >
@@ -29,7 +30,15 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
                     track={track}
                     size={size}
                     dispatch={dispatch}
-                    align={i % 2 !== 0 ? "center" : i % 4 === 0 ? "start" : "end"}
+                    align={
+                        layout === "fun"
+                            ? i % 2 !== 0 || tracks.length <= 1
+                                ? "center"
+                                : i % 4 === 0
+                                ? "start"
+                                : "end"
+                            : undefined
+                    }
                 />
             ))}
         </Box>

@@ -34,12 +34,14 @@ const mockTracks: Track[] = [
 
 describe("<ResultList />", () => {
     it("renders without crashing", () => {
-        render(<ResultList tracks={mockTracks} size={"large"} dispatch={jest.fn()} />)
+        render(
+            <ResultList tracks={mockTracks} size={"large"} dispatch={jest.fn()} layout={"fun"} />
+        )
     })
 
     it("renders a <ResultListItem /> for each track", () => {
         const wrapper = shallow(
-            <ResultList tracks={mockTracks} size={"large"} dispatch={jest.fn()} />
+            <ResultList tracks={mockTracks} size={"large"} dispatch={jest.fn()} layout={"fun"} />
         )
 
         expect(wrapper.find(ResultListItem)).to.have.length(mockTracks.length)

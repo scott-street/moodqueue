@@ -47,22 +47,4 @@ describe("<Home/>", () => {
         expect(wrapper.find("#happy-emoji-hdr")).to.be.length(1)
         expect(wrapper.find("#sad-emoji-hdr")).to.be.length(1)
     })
-
-    it("renders avatar with profile image", () => {
-        const wrapper = render(<Home user={testUser} size={"large"} />)
-        expect(wrapper.find("#avatar-profile-image").length).to.be.eql(1)
-    })
-
-    it("renders default avatar if no profile image is present", () => {
-        const userWithNoImage: UserInfo = {
-            name: "test",
-            id: "test123",
-            email: "test123@gmail.com",
-            profileUrl: "spotify.com",
-            profileImages: [],
-        }
-
-        const wrapper = render(<Home user={userWithNoImage} size={"large"} />)
-        expect(wrapper.find("#avatar-default").length).to.be.eql(1)
-    })
 })

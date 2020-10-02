@@ -7,7 +7,7 @@ import { Mood } from "../../types/Mood"
 import { SpotifyContextValue, SpotifyProvider } from "../../common/hooks/useSpotify"
 import { Track } from "../../types/Track"
 import { act } from "react-dom/test-utils"
-import { BounceLoader } from "react-spinners"
+
 import { ResultList } from "./result-list"
 
 const source: FormSelection = {
@@ -40,6 +40,7 @@ describe("<Results />", () => {
     it("renders without crashing", () => {
         shallow(
             <Results
+                layout={"fun"}
                 tracks={mockTracks}
                 size={"large"}
                 mood={0}
@@ -52,6 +53,7 @@ describe("<Results />", () => {
     it("renders mood name in title", () => {
         const wrapper = render(
             <Results
+                layout={"fun"}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -66,6 +68,7 @@ describe("<Results />", () => {
     it("renders 'loading...' for number of tracks when tracks are loading", () => {
         const wrapper = render(
             <Results
+                layout={"fun"}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -91,6 +94,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    layout={"fun"}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -121,6 +125,7 @@ describe("<Results />", () => {
     it("renders queue sources in description", () => {
         const wrapper = render(
             <Results
+                layout={"fun"}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -145,6 +150,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    layout={"fun"}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -186,6 +192,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    layout={"fun"}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={[]}
@@ -216,6 +223,7 @@ describe("<Results />", () => {
     it("renders play queue button", () => {
         const wrapper = render(
             <Results
+                layout={"fun"}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -229,6 +237,7 @@ describe("<Results />", () => {
     it("renders start over button", () => {
         const wrapper = render(
             <Results
+                layout={"fun"}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -254,6 +263,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    layout={"fun"}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -297,6 +307,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    layout={"fun"}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}

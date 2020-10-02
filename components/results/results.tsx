@@ -22,6 +22,7 @@ import { baseItemTop } from "../animations/motion"
 
 interface ResultsProps {
     size: string
+    layout: string
     tracks: Track[]
     mood: Mood
     source: FormSelection
@@ -29,7 +30,7 @@ interface ResultsProps {
 }
 
 export const Results: FunctionComponent<ResultsProps> = (props) => {
-    const { size, tracks, source, mood, resetForm } = props
+    const { size, tracks, source, mood, resetForm, layout } = props
     const { addToQueue } = useSpotify()
 
     const [state, dispatch] = useReducer<Reducer<ResultState, ResultAction>>(
@@ -72,30 +73,35 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     vertical: size === "small" ? "small" : "none",
                 }}
                 fill
+                flex
             >
-                <motion.div
-                    className="item"
-                    variants={baseItemTop}
-                    style={{ width: "100%", height: "100%" }}
-                >
-                    {state.tracks && state.tracks.length === 0 ? (
-                        <Box align="center" gap="small">
-                            <Text textAlign="center" size={size} weight="bold">
-                                oops! no more songs
-                            </Text>
-                            <Sad width="48px" height="48px" />
-                            <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
-                                click the start over button below to make a new moodqueue!
-                            </Text>
-                        </Box>
-                    ) : (
+                {state.tracks && state.tracks.length === 0 ? (
+                    <Box align="center" gap="small" justify="center">
+                        <Text textAlign="center" size={size} weight="bold">
+                            oops! no more songs
+                        </Text>
+                        <Sad width="48px" height="48px" />
+                        <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
+                            click the start over button below to make a new moodqueue!
+                        </Text>
+                    </Box>
+                ) : (
+                    <motion.div
+                        className="item"
+                        variants={baseItemTop}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                    >
                         <ResultList
+                            layout={layout}
                             tracks={state.tracks || props.tracks}
                             dispatch={(value) => dispatch(value)}
                             size={size}
                         />
-                    )}
-                </motion.div>
+                    </motion.div>
+                )}
             </Box>
             <Box
                 direction="row"
