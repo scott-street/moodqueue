@@ -24,7 +24,13 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
             fill
         >
             {tracks.map((track, i) => (
-                <ResultListItem key={i} track={track} size={size} dispatch={dispatch} />
+                <ResultListItem
+                    key={i}
+                    track={track}
+                    size={size}
+                    dispatch={dispatch}
+                    align={i % 2 !== 0 ? "center" : i % 4 === 0 ? "start" : "end"}
+                />
             ))}
         </Box>
     )

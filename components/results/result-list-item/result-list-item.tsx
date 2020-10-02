@@ -10,9 +10,10 @@ interface ResultListItemProps {
     track: Track
     size: any
     dispatch: any
+    align: string
 }
 export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) => {
-    const { track, size, dispatch } = props
+    const { track, size, dispatch, align } = props
     return (
         <Box
             overflow={{ vertical: "hidden" }}
@@ -23,13 +24,19 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                 borderTopRightRadius: 30,
                 borderBottomLeftRadius: 30,
                 background:
-                    "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+                    align === "start"
+                        ? "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)"
+                        : align === "end"
+                        ? "linear-gradient(215deg, rgba(252,70,107,1) 0%, rgba(63,94,251,1) 60%)"
+                        : "radial-gradient(circle, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+                width: "70%",
             }}
             pad={{
-                vertical: "xlarge",
+                vertical: "large",
                 horizontal: "large",
             }}
             align="center"
+            alignSelf={align === "start" ? "start" : align === "end" ? "end" : "center"}
             border={{
                 side: "all",
                 size: size !== "small" ? "medium" : "small",
@@ -54,8 +61,8 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         pad={size !== "small" ? "xsmall" : "none"}
                         round="small"
                         align="center"
-                        width={size === "large" ? "144px" : size === "medium" ? "120px" : "72px"}
-                        height={size === "large" ? "144px" : size === "medium" ? "120px" : "72px"}
+                        width={size === "large" ? "84px" : size === "medium" ? "72px" : "72px"}
+                        height={size === "large" ? "84px" : size === "medium" ? "72px" : "72px"}
                     >
                         <Image fill alignSelf="center" src={track.imageLink} fit="contain" />
                     </Box>
@@ -63,9 +70,7 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         <Text
                             textAlign="start"
                             weight="bold"
-                            size={
-                                size === "large" ? "xxlarge" : size === "medium" ? "xlarge" : size
-                            }
+                            size={size === "large" ? "xlarge" : size === "medium" ? "large" : size}
                         >
                             {size === "small" ? getShortenedName(track.name, true) : track.name}
                         </Text>
@@ -87,9 +92,10 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         title="more"
                         style={{ borderRadius: 30 }}
                         alignSelf="center"
-                        icon={<More size={size !== "small" ? "large" : "medium"} />}
-                        size={size !== "small" ? "large" : "small"}
-                        hoverIndicator="#24C0FF"
+                        //color="#24C0FF"
+                        icon={<More />}
+                        size={size !== "small" ? "medium" : "small"}
+                        //hoverIndicator="#24C0FF"
                         onClick={() => dispatch(updateTrackToShow("trackToShow", track))}
                     />
                 </motion.div>
@@ -100,14 +106,10 @@ export const ResultListItem: FunctionComponent<ResultListItemProps> = (props) =>
                         id="remove-track-btn"
                         hoverIndicator="dark-1"
                         alignSelf="center"
+                        primary
+                        color="dark-1"
                         title="remove from moodqueue"
-                        size="large"
-                        icon={
-                            <SubtractCircle
-                                color="status-error"
-                                size={size !== "small" ? "large" : "medium"}
-                            />
-                        }
+                        icon={<SubtractCircle color="status-error" />}
                         style={{ borderRadius: 30 }}
                         onClick={() => dispatch(remove("tracks", track.id))}
                     />
