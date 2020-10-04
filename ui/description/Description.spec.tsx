@@ -11,11 +11,26 @@ describe("<Description />", () => {
             </Grommet>
         )
     })
-    it("renders description", () => {
-        render(testComponent({ text: "update your queue" }))
+
+    it("renders text description", () => {
+        render(
+            testComponent({
+                text: "update your queue",
+                header: false,
+                textAlign: "center",
+                size: "medium",
+            })
+        )
     })
 
-    // it("renders small button", () => {
-    //     render(testComponent({ text: "hi", small: true }))
-    // })
+    it("renders header description", () => {
+        render(
+            testComponent({
+                text: "new queue",
+                header: true,
+                textAlign: "center",
+                size: "medium",
+            })
+        )
+    })
 })

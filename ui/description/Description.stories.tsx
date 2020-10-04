@@ -1,4 +1,4 @@
-// src/stories/Button.stories.tsx
+// src/stories/Description.stories.tsx
 
 import * as React from "react"
 import { Grommet, grommet, Box } from "grommet"
@@ -13,8 +13,8 @@ const withGrommet = (child: React.ReactChild) => {
     )
 }
 
-export const large = () => withGrommet(<Description text="Hello, World!" large />)
+export const header = () => withGrommet(<Description text="Hello, World!" header />)
 
-export const medium = () => withGrommet(<Description text="Hello, World!" />)
+export const boldText = () => withGrommet(<Description text="Hello, World!" weight="bold" />)
 
-export const small = () => withGrommet(<Description text="Hello, World!" small />)
+export const normalText = () => withGrommet(<Description text="Hello, World!" />)
