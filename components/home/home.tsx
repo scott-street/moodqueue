@@ -1,4 +1,4 @@
-import { Avatar, Box, Header, Heading, Text } from "grommet"
+import { Avatar, Box, Header, Heading } from "grommet"
 import { User } from "grommet-icons"
 import React, { FunctionComponent, useState } from "react"
 import { BounceLoader } from "react-spinners"
@@ -14,6 +14,7 @@ import { motion } from "framer-motion"
 import { baseContainer, baseItemBottom } from "../animations/motion"
 import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
 import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
+import { Description } from "../../ui/description/Description"
 
 interface HomeProps {
     user: UserInfo
@@ -63,20 +64,22 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                             />
                             dqueue
                         </Heading>
-                        <Text
+                        <Description
                             weight={size !== "small" ? "bold" : "normal"}
                             textAlign={size !== "small" ? "start" : "center"}
                             size={size}
-                        >
-                            let your mood inspire you
-                        </Text>
+                            text="let your mood inspire you"
+                        />
                     </Box>
                     {size !== "small" && (
                         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                             <Box direction="row" align="center" gap="small">
-                                <Heading textAlign="center" margin="none" id="username-txt">
-                                    {name}
-                                </Heading>
+                                <Description
+                                    header
+                                    textAlign="center"
+                                    id="username-txt"
+                                    text={name}
+                                />
                                 {props.user.profileImages[0] ? (
                                     <Avatar
                                         id="avatar-profile-image"
