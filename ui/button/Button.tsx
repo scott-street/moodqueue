@@ -8,13 +8,15 @@ interface ButtonProps {
     text?: string
     icon?: any
     disabled?: any
-    color?: string
+    fill?: boolean
     onClick?: () => void
     small?: boolean
     secondary?: boolean
+    hover?: any
+    title?: any
 }
 export const Button: React.FunctionComponent<ButtonProps> = (props) => {
-    const { id, text, icon, onClick, disabled, small, secondary } = props
+    const { id, text, icon, onClick, disabled, small, secondary, hover, title, fill } = props
 
     if (small && secondary) {
         return (
@@ -32,6 +34,10 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     margin={"small"}
                     alignSelf="center"
                     size="small"
+                    hoverIndicator={hover}
+                    title={title}
+                    color="accent-3"
+                    primary={fill === undefined ? true : fill}
                 />
             </motion.div>
         )
@@ -47,6 +53,10 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     margin={"small"}
                     alignSelf="center"
                     size="small"
+                    hoverIndicator={hover}
+                    title={title}
+                    color="accent-1"
+                    primary={fill === undefined ? true : fill}
                 />
             </motion.div>
         )
@@ -62,6 +72,10 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     disabled={disabled}
                     margin={"small"}
                     size="large"
+                    hoverIndicator={hover}
+                    title={title}
+                    color="accent-3"
+                    primary={fill === undefined ? true : fill}
                 />
             </motion.div>
         )
@@ -76,6 +90,10 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                 disabled={disabled}
                 margin={"small"}
                 size="large"
+                hoverIndicator={hover}
+                title={title}
+                color="accent-1"
+                primary={fill === undefined ? true : fill}
             />
         </motion.div>
     )

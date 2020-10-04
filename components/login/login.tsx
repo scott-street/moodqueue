@@ -74,6 +74,8 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                     </Box>
                     <Button
                         id="login-btn"
+                        primary
+                        color="accent-1"
                         text="Login"
                         icon={<Spotify color={"#666666"} />}
                         onClick={() => openSpotifyAccountLogin(redirect, size)}
