@@ -1,6 +1,7 @@
 import { Grommet, grommet } from "grommet"
 import { render } from "enzyme"
 import { MoodButton } from "./MoodButton"
+import { Mood } from "../../types/Mood"
 
 describe("<Button />", () => {
     let testComponent
@@ -14,7 +15,7 @@ describe("<Button />", () => {
     it("renders mood button with text", () => {
         render(
             testComponent({
-                mood: "Happy",
+                mood: Mood.HAPPY.toString(),
                 key: 0,
                 selected: true,
                 onClick: jest.fn,
@@ -26,7 +27,7 @@ describe("<Button />", () => {
     it("renders mood button without text", () => {
         render(
             testComponent({
-                mood: "Happy",
+                mood: Mood.HAPPY.toString(),
                 key: 0,
                 selected: true,
                 onClick: jest.fn,
