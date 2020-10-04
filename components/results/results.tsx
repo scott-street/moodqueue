@@ -20,6 +20,7 @@ import { Track } from "../../types/Track"
 import { motion } from "framer-motion"
 import { baseItemTop } from "../animations/motion"
 import { Button } from "../../ui/button/Button"
+import { Description } from "../../ui/description/Description"
 
 interface ResultsProps {
     size: string
@@ -54,29 +55,26 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 vertical: "small",
             }}
         >
-            <Heading
+            <Description
+                header
                 id="desc-title"
                 textAlign="center"
-                margin="none"
                 size={size !== "small" ? "medium" : "small"}
-            >
-                here's your {mood >= 0 ? Mood[mood].toLowerCase() + " queue:" : " queue:"}
-            </Heading>
+                text={`here's your ${mood >= 0 ? Mood[mood].toLowerCase() + " queue:" : " queue:"}`}
+            />
             <Box direction="row" border="between" gap="small" align="center">
-                <Text
+                <Description
                     id="desc-num-songs"
                     textAlign="center"
                     size={size !== "small" ? "medium" : "small"}
-                >
-                    {state.tracks ? state.tracks.length + " songs" : "loading..."}
-                </Text>
-                <Text
+                    text={state.tracks ? state.tracks.length + " songs" : "loading..."}
+                />
+                <Description
                     id="desc-sources"
                     textAlign="center"
                     size={size !== "small" ? "medium" : "small"}
-                >
-                    based off your {getSourcesString(source)}
-                </Text>
+                    text={"based off your " + getSourcesString(source)}
+                />
             </Box>
             <Box
                 overflow="hidden"
@@ -96,13 +94,18 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 >
                     {state.tracks && state.tracks.length === 0 ? (
                         <Box align="center" gap="small">
-                            <Text textAlign="center" size={size} weight="bold">
-                                oops! no more songs
-                            </Text>
+                            <Description
+                                textAlign="center"
+                                size={size}
+                                weight="bold"
+                                text="oops! no more songs"
+                            />
                             <Sad width="48px" height="48px" />
-                            <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
-                                click the start over button below to make a new moodqueue!
-                            </Text>
+                            <Description
+                                textAlign="center"
+                                size={size !== "small" ? "medium" : "small"}
+                                text="click the start over button below to make a new moodqueue!"
+                            />
                         </Box>
                     ) : (
                         <ResultList
