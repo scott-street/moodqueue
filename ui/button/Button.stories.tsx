@@ -1,18 +1,11 @@
 // src/stories/Button.stories.tsx
 
 import * as React from "react"
-import { Grommet, grommet } from "grommet"
+import { withGrommet } from "../wrapper"
 import { Spotify, CirclePlay } from "grommet-icons"
 import { Button } from "./Button"
 
 export default { title: "Button" }
-const withGrommet = (child: React.ReactChild) => {
-    return (
-        <Grommet theme={grommet}>
-            <div>{child}</div>
-        </Grommet>
-    )
-}
 
 export const largePrimary = () => withGrommet(<Button text="Hello, World!" />)
 
