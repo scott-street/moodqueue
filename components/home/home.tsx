@@ -1,4 +1,4 @@
-import { Avatar, Box, Header, Heading, Text } from "grommet"
+import { Avatar, Box, Header, Heading } from "grommet"
 import { User } from "grommet-icons"
 import React, { FunctionComponent, useState } from "react"
 import { BounceLoader } from "react-spinners"
@@ -15,6 +15,8 @@ import { baseContainer, baseItemBottom } from "../animations/motion"
 import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
 import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
 import { HomeBackground } from "../../ui/backgrounds/home/HomeBackground"
+import { Content } from "../../ui/content/Content"
+import { Description } from "../../ui/description/Description"
 
 interface HomeProps {
     user: UserInfo
@@ -57,13 +59,12 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         />
                         dqueue
                     </Heading>
-                    <Text
-                        weight={size !== "small" ? "bold" : "normal"}
-                        textAlign={size !== "small" ? "start" : "center"}
-                        size={size}
-                    >
-                        let your mood inspire you
-                    </Text>
+                    <Description
+                            weight={size !== "small" ? "bold" : "normal"}
+                            textAlign={size !== "small" ? "start" : "center"}
+                            size={size}
+                            text="let your mood inspire you"
+                        />
                 </Box>
                 {size !== "small" && (
                     <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
@@ -122,11 +123,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         horizontal: size !== "small" ? "medium" : "small",
                     }}
                 >
-                    <motion.div
-                        className="item"
-                        variants={baseItemBottom}
-                        style={{ width: "100%", height: "100%" }}
-                    >
+                    <Content size={size}>
                         {loading ? (
                             <Box align="center" justify="center" fill>
                                 <BounceLoader
@@ -141,6 +138,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                                 mood={mood}
                                 source={source}
                                 resetForm={() => setShowResults(false)}
+
                             />
                         ) : (
                             <Form
@@ -158,7 +156,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                                 }}
                             />
                         )}
-                    </motion.div>
+                   </Content>
                 </Box>
             </Box>
             {size === "small" && (

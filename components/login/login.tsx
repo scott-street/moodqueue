@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Heading, Text } from "grommet"
+import { Box, Heading } from "grommet"
 import { Spotify } from "grommet-icons"
 import { useAuth } from "../../common/hooks/useAuth"
 import { motion } from "framer-motion"
@@ -8,6 +8,7 @@ import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
 import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
 import { Button } from "../../ui/button/Button"
 import { LoginBackground } from "../../ui/backgrounds/login/LoginBackground"
+import { Description } from "../../ui/description/Description"
 
 interface LoginProps {
     size: string
@@ -38,13 +39,12 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                         />
                         dqueue
                     </Heading>
-                    <Text
-                        textAlign="center"
-                        size={size !== "small" ? "large" : "medium"}
-                        id="login-desc-txt"
-                    >
-                        update your queue and get inspired
-                    </Text>
+                    <Description
+                                id="login-desc-txt"
+                                textAlign="center"
+                                text="update your queue and get inspired"
+                                size={size !== "small" ? "large" : "medium"}
+                            />
                 </motion.div>
             </Box>
             <Button

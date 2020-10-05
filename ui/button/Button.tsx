@@ -32,6 +32,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     margin={"small"}
                     alignSelf="center"
                     size="small"
+                    label={text}
                 />
             </motion.div>
         )
@@ -47,6 +48,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     margin={"small"}
                     alignSelf="center"
                     size="small"
+                    label={text}
                 />
             </motion.div>
         )
