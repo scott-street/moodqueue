@@ -1,4 +1,4 @@
-import { Avatar, Box, Header, Heading, Text } from "grommet"
+import { Avatar, Box, Header, Heading } from "grommet"
 import { User } from "grommet-icons"
 import React, { FunctionComponent, useState } from "react"
 import { BounceLoader } from "react-spinners"
@@ -14,6 +14,8 @@ import { motion } from "framer-motion"
 import { baseContainer, baseItemBottom } from "../animations/motion"
 import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
 import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
+import { Content } from "../../ui/content/Content"
+import { Description } from "../../ui/description/Description"
 
 interface HomeProps {
     user: UserInfo
@@ -63,20 +65,22 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                             />
                             dqueue
                         </Heading>
-                        <Text
+                        <Description
                             weight={size !== "small" ? "bold" : "normal"}
                             textAlign={size !== "small" ? "start" : "center"}
                             size={size}
-                        >
-                            let your mood inspire you
-                        </Text>
+                            text="let your mood inspire you"
+                        />
                     </Box>
                     {size !== "small" && (
                         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                             <Box direction="row" align="center" gap="small">
-                                <Heading textAlign="center" margin="none" id="username-txt">
-                                    {name}
-                                </Heading>
+                                <Description
+                                    header
+                                    textAlign="center"
+                                    id="username-txt"
+                                    text={name}
+                                />
                                 {props.user.profileImages[0] ? (
                                     <Avatar
                                         id="avatar-profile-image"
@@ -102,73 +106,40 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         </motion.div>
                     )}
                 </Header>
-                <Box
-                    align="center"
-                    margin="small"
-                    fill="vertical"
-                    flex
-                    justify="center"
-                    overflow="auto"
-                >
-                    <Box
-                        fill
-                        flex
-                        justify={size !== "large" ? "between" : "evenly"}
-                        align="center"
-                        border={{
-                            side: "all",
-                            size: "xlarge",
-                            style: "outset",
-                            color: "accent-1",
-                        }}
-                        background={{ color: "#2F3E4D", opacity: 0.7 }}
-                        round="large"
-                        margin={size === "small" ? "small" : undefined}
-                        pad={{
-                            horizontal: size !== "small" ? "medium" : "small",
-                        }}
-                    >
-                        <motion.div
-                            className="item"
-                            variants={baseItemBottom}
-                            style={{ width: "100%", height: "100%" }}
-                        >
-                            {loading ? (
-                                <Box align="center" justify="center" fill>
-                                    <BounceLoader
-                                        size={
-                                            size === "large" ? 300 : size === "medium" ? 200 : 100
-                                        }
-                                        color="#6FFFB0"
-                                    />
-                                </Box>
-                            ) : showResults ? (
-                                <Results
-                                    tracks={tracks}
-                                    size={size}
-                                    mood={mood}
-                                    source={source}
-                                    resetForm={() => setShowResults(false)}
-                                />
-                            ) : (
-                                <Form
-                                    size={size}
-                                    handleSubmit={(mood, numSongs, source) => {
-                                        setLoading(true)
-                                        const trackSources = getTrackSourceFromFormSelection(source)
-                                        getQueue(trackSources, numSongs, mood).then((data) => {
-                                            setTracks(data)
-                                            setMood(mood)
-                                            setSource(source)
-                                            setLoading(false)
-                                            setShowResults(true)
-                                        })
-                                    }}
-                                />
-                            )}
-                        </motion.div>
-                    </Box>
-                </Box>
+                <Content size={size}>
+                    {loading ? (
+                        <Box align="center" justify="center" fill>
+                            <BounceLoader
+                                size={size === "large" ? 300 : size === "medium" ? 200 : 100}
+                                color="#6FFFB0"
+                            />
+                        </Box>
+                    ) : showResults ? (
+                        <Results
+                            tracks={tracks}
+                            size={size}
+                            mood={mood}
+                            source={source}
+                            resetForm={() => setShowResults(false)}
+                        />
+                    ) : (
+                        <Form
+                            size={size}
+                            handleSubmit={(mood, numSongs, source) => {
+                                setLoading(true)
+                                const trackSources = getTrackSourceFromFormSelection(source)
+                                getQueue(trackSources, numSongs, mood).then((data) => {
+                                    setTracks(data)
+                                    setMood(mood)
+                                    setSource(source)
+                                    setLoading(false)
+                                    setShowResults(true)
+                                })
+                            }}
+                        />
+                    )}
+                </Content>
+
                 {size === "small" && (
                     <Box align="center">
                         {props.user.profileImages[0] ? (

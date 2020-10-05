@@ -1,13 +1,13 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
-import { Box, Heading } from "grommet"
+import { Box } from "grommet"
 import { formReducer, initialFormState, FormState, FormAction, resetFormState } from "./reducer"
 import { MoodSelection } from "./mood-selection"
 import { SizePicker } from "./size-picker"
 import { SourceSelection } from "./souce"
 import { FormSelection } from "../../types/FormSelection"
 import { Mood } from "../../types/Mood"
-import { motion } from "framer-motion"
 import { Button } from "../../ui/button/Button"
+import { Description } from "../../ui/description/Description"
 
 interface FormProps {
     size: string
@@ -28,14 +28,13 @@ export const Form: FunctionComponent<FormProps> = (props) => {
 
     return (
         <Box justify="between" align="center" flex fill>
-            <Heading
+            <Description
+                header
                 id="queue-title"
                 textAlign="center"
-                margin="none"
                 size={size !== "small" ? "medium" : "small"}
-            >
-                new queue
-            </Heading>
+                text="new queue"
+            />
             <Box fill justify="evenly" align="center">
                 <MoodSelection
                     size={size}

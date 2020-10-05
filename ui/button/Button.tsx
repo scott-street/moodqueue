@@ -38,6 +38,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     title={title}
                     color="accent-3"
                     primary={fill === undefined ? true : fill}
+                    label={text}
                 />
             </motion.div>
         )
@@ -57,6 +58,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     title={title}
                     color="accent-1"
                     primary={fill === undefined ? true : fill}
+                    label={text}
                 />
             </motion.div>
         )
@@ -70,6 +72,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     label={text}
                     onClick={onClick}
                     disabled={disabled}
+                    alignSelf="center"
                     margin={"small"}
                     size="large"
                     hoverIndicator={hover}
@@ -88,6 +91,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                 label={text}
                 onClick={onClick}
                 disabled={disabled}
+                alignSelf="center"
                 margin={"small"}
                 size="large"
                 hoverIndicator={hover}
