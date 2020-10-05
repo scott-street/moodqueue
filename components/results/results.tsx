@@ -1,5 +1,5 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
-import { Box, Heading, Button, Text } from "grommet"
+import { Box } from "grommet"
 import { Previous, CirclePlay } from "grommet-icons"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
@@ -19,6 +19,8 @@ import { ResultList } from "./result-list"
 import { Track } from "../../types/Track"
 import { motion } from "framer-motion"
 import { baseItemTop } from "../animations/motion"
+import { Description } from "../../ui/description/Description"
+import { Button } from "../../ui/button/Button"
 
 interface ResultsProps {
     size: string
@@ -45,24 +47,25 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
 
     return (
         <Box align="center" justify="between" gap="small" fill>
-            <Heading id="desc-title" textAlign="center" margin="none" size="small">
-                here's your {mood >= 0 ? Mood[mood].toLowerCase() + " queue:" : " queue:"}
-            </Heading>
+            <Description
+                id="desc-title"
+                textAlign="center"
+                size="small"
+                text={`here's your ${mood >= 0 ? Mood[mood].toLowerCase() + " queue:" : " queue:"}`}
+            />
             <Box direction="row" border="between" gap="small" align="center">
-                <Text
+                <Description
                     id="desc-num-songs"
                     textAlign="center"
                     size={size !== "small" ? "medium" : "small"}
-                >
-                    {state.tracks ? state.tracks.length + " songs" : "loading..."}
-                </Text>
-                <Text
+                    text={state.tracks ? state.tracks.length + " songs" : "loading..."}
+                />
+                <Description
                     id="desc-sources"
                     textAlign="center"
                     size={size !== "small" ? "medium" : "small"}
-                >
-                    based off your {getSourcesString(source)}
-                </Text>
+                    text={"based off your " + getSourcesString(source)}
+                />
             </Box>
             <Box
                 overflow="hidden"
@@ -77,13 +80,18 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             >
                 {state.tracks && state.tracks.length === 0 ? (
                     <Box align="center" gap="small" justify="center">
-                        <Text textAlign="center" size={size} weight="bold">
-                            oops! no more songs
-                        </Text>
+                        <Description
+                            textAlign="center"
+                            size={size}
+                            weight="bold"
+                            text="oops! no more songs"
+                        />
                         <Sad width="48px" height="48px" />
-                        <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
-                            click the start over button below to make a new moodqueue!
-                        </Text>
+                        <Description
+                            textAlign="center"
+                            size={size !== "small" ? "medium" : "small"}
+                            text="click the start over button below to make a new moodqueue!"
+                        />
                     </Box>
                 ) : (
                     <motion.div
@@ -109,37 +117,31 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 gap={size !== "small" ? "small" : "xsmall"}
                 margin={size === "small" ? { bottom: "small", top: "xsmall" } : "small"}
             >
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button
-                        id="play-queue-btn"
-                        title="play your moodqueue"
-                        primary
-                        label={size === "small" ? undefined : "start queue"}
-                        icon={<CirclePlay />}
-                        onClick={() => {
-                            addToQueue(state.tracks)
-                        }}
-                        hoverIndicator="accent-1"
-                    />
-                </motion.div>
+                <Button
+                    id="play-queue-btn"
+                    title="play your moodqueue"
+                    text={size === "small" ? undefined : "start queue"}
+                    icon={<CirclePlay />}
+                    onClick={() => {
+                        addToQueue(state.tracks)
+                    }}
+                    hover="accent-1"
+                />
                 <Options
                     size={size}
                     track={state.trackToShow}
                     close={() => dispatch(updateTrackToShow("trackToShow", undefined))}
                     dispatch={(value) => dispatch(value)}
                 />
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button
-                        id="reset-btn"
-                        title="start over to begin a new moodqueue"
-                        primary
-                        icon={<Previous />}
-                        label={size === "small" ? undefined : "start over"}
-                        onClick={resetForm}
-                        hoverIndicator="accent-3"
-                        color="accent-3"
-                    />
-                </motion.div>
+                <Button
+                    id="reset-btn"
+                    title="start over to begin a new moodqueue"
+                    icon={<Previous />}
+                    text={size === "small" ? undefined : "start over"}
+                    onClick={resetForm}
+                    hover="accent-3"
+                    //color="accent-3"
+                />
             </Box>
         </Box>
     )

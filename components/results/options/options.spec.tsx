@@ -28,19 +28,19 @@ describe("<Options />", () => {
     })
 
     it("renders the album artwork that matches the src", () => {
-        const wrapper = shallow(
+        const wrapper = mount(
             <Options track={mockTrack} size={"large"} dispatch={jest.fn()} close={jest.fn()} />
         )
 
-        expect(wrapper.find("#album-artwork-img").props().src).equal(mockTrack.imageLink)
+        expect(wrapper.find("#album-artwork-img").at(0).props().src).equal(mockTrack.imageLink)
     })
 
     it("renders the audio element if track has preview url", () => {
-        const wrapper = shallow(
+        const wrapper = mount(
             <Options track={mockTrack} size={"large"} dispatch={jest.fn()} close={jest.fn()} />
         )
 
-        expect(wrapper.find("#previewPlayer")).to.have.length(1)
+        expect(wrapper.find("#previewPlayer").at(0)).to.have.length(1)
     })
 
     it("does not render the audio element if track does not have a url", () => {
@@ -66,19 +66,19 @@ describe("<Options />", () => {
     })
 
     it("renders an anchor for user to open up track in spotify", () => {
-        const wrapper = shallow(
+        const wrapper = mount(
             <Options track={mockTrack} size={"large"} dispatch={jest.fn()} close={jest.fn()} />
         )
 
-        expect(wrapper.find("#spotify-anchor").props().href).contains(mockTrack.id)
+        expect(wrapper.find("#spotify-anchor").at(0).props().href).contains(mockTrack.id)
     })
 
     it("renders remove button if mobile device", () => {
-        const wrapper = shallow(
+        const wrapper = mount(
             <Options track={mockTrack} size={"small"} dispatch={jest.fn()} close={jest.fn()} />
         )
 
-        expect(wrapper.find("#remove-btn")).to.have.length(1)
+        expect(wrapper.find("#remove-btn").at(0)).to.have.length(1)
     })
 
     it("does not render remove button if large device", () => {

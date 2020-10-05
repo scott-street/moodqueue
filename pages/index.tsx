@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useEffect } from "react"
-import { Box, Grommet, grommet, ResponsiveContext } from "grommet"
+import { Grommet, ResponsiveContext } from "grommet"
 import { Home } from "../components/home"
 import Redirect from "../components/redirect"
 import { BounceLoader } from "react-spinners"
-import Head from "next/head"
 import { Login } from "../components/login"
 import { AuthProvider, useAuth } from "../common/hooks/useAuth"
 import { NotificationProvider, useNotification } from "../common/hooks/useNotification"
 import { SpotifyProvider } from "../common/hooks/useSpotify"
 import { theme } from "../components/app.styles"
+import { Index } from "../ui/backgrounds/index/IndexBackground"
 
 const BaseApp: FunctionComponent = () => {
     const {
@@ -22,6 +22,7 @@ const BaseApp: FunctionComponent = () => {
     const { notifySuccess } = useNotification()
 
     useEffect(() => {
+        document.title = "login | moodqueue"
         if (!user) {
             setAuthRedirect(new URL(window.location.href).hostname)
             const params = new URLSearchParams(window.location.search)
@@ -43,28 +44,7 @@ const BaseApp: FunctionComponent = () => {
         <Grommet theme={theme} full>
             <ResponsiveContext.Consumer>
                 {(size) => (
-                    <Box
-                        align="center"
-                        justify="center"
-                        fill
-                        style={{
-                            background:
-                                "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
-                        }}
-                        background="#1F2730" // this is to force the dark theme
-                    >
-                        <Head>
-                            <meta
-                                name="viewport"
-                                content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-                            />
-                            <meta name="theme-color" content="#3f5efb" />
-                            <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-                            <link rel="shortcut icon" href="/favicon.ico" key={0} />
-                            <link rel="manifest" href="/manifest.json" />
-                            <title key={1}>{user ? "home | moodqueue" : "login | moodqueue"}</title>
-                            <style>{"body { background: #1F2730;}"}</style>
-                        </Head>
+                    <Index>
                         {accessToken ? (
                             user ? (
                                 <Home user={user} size={size} />
@@ -77,7 +57,7 @@ const BaseApp: FunctionComponent = () => {
                         ) : (
                             <Login size={size} />
                         )}
-                    </Box>
+                    </Index>
                 )}
             </ResponsiveContext.Consumer>
         </Grommet>

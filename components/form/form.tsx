@@ -1,12 +1,13 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
-import { Box, Heading, Button } from "grommet"
+import { Box } from "grommet"
 import { formReducer, initialFormState, FormState, FormAction, resetFormState } from "./reducer"
 import { MoodSelection } from "./mood-selection"
 import { SizePicker } from "./size-picker"
 import { SourceSelection } from "./souce"
 import { FormSelection } from "../../types/FormSelection"
 import { Mood } from "../../types/Mood"
-import { motion } from "framer-motion"
+import { Button } from "../../ui/button/Button"
+import { Description } from "../../ui/description/Description"
 
 interface FormProps {
     size: string
@@ -27,9 +28,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
 
     return (
         <Box justify="between" align="center" flex fill>
-            <Heading id="queue-title" textAlign="center" margin="none" size="small">
-                new queue
-            </Heading>
+            <Description header id="queue-title" textAlign="center" size="small" text="new queue" />
             <Box fill justify="evenly" align="center">
                 <MoodSelection
                     size={size}
@@ -50,22 +49,12 @@ export const Form: FunctionComponent<FormProps> = (props) => {
                     dispatch={(value) => dispatch(value)}
                 />
             </Box>
-            <motion.div
-                whileHover={{ scale: state.progress === 3 ? 1.1 : undefined }}
-                whileTap={{ scale: state.progress === 3 ? 0.9 : undefined }}
-            >
-                <Button
-                    margin={{ bottom: "small" }}
-                    id="submit-form-btn"
-                    hoverIndicator={size !== "small" ? "accent-1" : false}
-                    alignSelf="center"
-                    primary={state.progress === 3}
-                    disabled={state.progress !== 3}
-                    label="continue"
-                    onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
-                    size={size === "large" ? "large" : size === "medium" ? "medium" : "small"}
-                />
-            </motion.div>
+            <Button
+                id="submit-form-btn"
+                text="continue"
+                onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
+                disabled={state.progress !== 3}
+            />
         </Box>
     )
 }
