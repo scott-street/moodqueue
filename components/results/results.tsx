@@ -142,9 +142,8 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     text="start over"
                     icon={<Previous color={"#666666"} />}
                     onClick={resetForm}
-                    color="accent-3"
-                    small={size === "small"}
                     secondary
+                    small={size === "small"}
                 />
             </Box>
         </Box>
