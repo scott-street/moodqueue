@@ -4,6 +4,7 @@ import { Spotify } from "grommet-icons"
 import { HappyHeartEyes } from "@styled-icons/boxicons-solid/HappyHeartEyes"
 import { Sad } from "@styled-icons/boxicons-solid/Sad"
 import React, { FunctionComponent } from "react"
+import { Description } from "../../../ui/description/Description"
 
 interface SettingsProps {
     profileUrl: string
@@ -47,9 +48,7 @@ export const Settings: FunctionComponent<SettingsProps> = (props) => {
                 }}
                 gap="large"
             >
-                <Heading textAlign="center" id="header-txt">
-                    settings
-                </Heading>
+                <Description header text="settings" textAlign="center" id="header-txt" />
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                     <Anchor
                         id="spotify-profile-anchor"
