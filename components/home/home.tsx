@@ -11,11 +11,10 @@ import { defaultUser, UserInfo } from "../../types/UserInfo"
 import { Form } from "../form"
 import { Results } from "../results"
 import { motion } from "framer-motion"
-import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
-import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
 import { HomeBackground } from "../../ui/backgrounds/home/HomeBackground"
 import { Content } from "../../ui/content/Content"
 import { Description } from "../../ui/description/Description"
+import { Logo } from "../../ui/logo/Logo"
 
 interface HomeProps {
     user: UserInfo
@@ -39,25 +38,12 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                 direction={size !== "small" ? "row" : "column"}
             >
                 <Box border="between" gap="small">
-                    <Heading
+                    <Logo
                         id="app-name-txt"
                         textAlign={size !== "small" ? "start" : "center"}
                         size={size !== "small" ? "large" : "medium"}
                         margin="none"
-                    >
-                        m
-                        <Happy
-                            width={size !== "small" ? "48px" : "24px"}
-                            height={size !== "small" ? "48px" : "24px"}
-                            id="happy-emoji-hdr"
-                        />
-                        <Sad
-                            width={size !== "small" ? "48px" : "24px"}
-                            height={size !== "small" ? "48px" : "24px"}
-                            id="sad-emoji-hdr"
-                        />
-                        dqueue
-                    </Heading>
+                    />
                     <Description
                         weight={size !== "small" ? "bold" : "normal"}
                         textAlign={size !== "small" ? "start" : "center"}

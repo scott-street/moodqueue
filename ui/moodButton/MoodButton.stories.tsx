@@ -1,18 +1,11 @@
 // src/stories/Button.stories.tsx
 
 import * as React from "react"
-import { Grommet, grommet } from "grommet"
+import { withGrommet } from "../wrapper"
 import { MoodButton } from "./MoodButton"
 import { Mood } from "../../types/Mood"
 
 export default { title: "MoodButton" }
-const withGrommet = (child: React.ReactChild) => {
-    return (
-        <Grommet theme={grommet}>
-            <div>{child}</div>
-        </Grommet>
-    )
-}
 
 export const normal = () =>
     withGrommet(

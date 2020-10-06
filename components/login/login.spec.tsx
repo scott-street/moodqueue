@@ -1,6 +1,6 @@
 import React from "react"
 import { expect } from "chai"
-import { render, shallow } from "enzyme"
+import { mount, render, shallow } from "enzyme"
 import { Login } from "./"
 
 describe("<Login />", () => {
@@ -9,9 +9,9 @@ describe("<Login />", () => {
     })
 
     it("renders the name of the app", () => {
-        const wrapper = render(<Login size={"large"} />)
+        const wrapper = mount(<Login size={"large"} />)
 
-        expect(wrapper.find("#login-title-txt").text()).to.be.equal("mdqueue")
+        expect(wrapper.find("#login-title-txt").at(0).text()).to.be.equal("mdqueue")
     })
 
     it("renders a desc of the app", () => {
