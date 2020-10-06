@@ -1,5 +1,5 @@
 import React from "react"
-import { render, shallow } from "enzyme"
+import { mount, render, shallow } from "enzyme"
 import { Settings } from "./"
 import { expect } from "chai"
 
@@ -17,7 +17,7 @@ describe("<Settings/>", () => {
     })
 
     it("renders title", () => {
-        const wrapper = shallow(
+        const wrapper = mount(
             <Settings
                 size={"large"}
                 profileUrl={""}
@@ -27,7 +27,7 @@ describe("<Settings/>", () => {
             />
         )
 
-        expect(wrapper.find("#header-txt").text()).to.contain("settings")
+        expect(wrapper.find("#header-txt").at(0).text()).to.contain("settings")
     })
 
     it("renders an anchor for user to open up profile in spotify", () => {
@@ -100,5 +100,33 @@ describe("<Settings/>", () => {
         )
 
         expect(wrapper.find("#results-layout").prop("checked")).to.equal(false)
+    })
+
+    it("renders a happy face when results layout is equal to fun", () => {
+        const wrapper = mount(
+            <Settings
+                size={"large"}
+                profileUrl={""}
+                resultsLayout={"fun"}
+                handleResultsLayoutChange={jest.fn}
+                close={jest.fn}
+            />
+        )
+
+        expect(wrapper.find("#fun-results-emoji").at(0)).to.be.length(1)
+    })
+
+    it("renders a sad face when results layout is not equal to fun", () => {
+        const wrapper = mount(
+            <Settings
+                size={"large"}
+                profileUrl={""}
+                resultsLayout={"normal"}
+                handleResultsLayoutChange={jest.fn}
+                close={jest.fn}
+            />
+        )
+
+        expect(wrapper.find("#normal-results-emoji").at(0)).to.be.length(1)
     })
 })

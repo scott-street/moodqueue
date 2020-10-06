@@ -87,11 +87,13 @@ export const Settings: FunctionComponent<SettingsProps> = (props) => {
                         />
                         {resultsLayout === "fun" ? (
                             <HappyHeartEyes
+                                id="fun-results-emoji"
                                 width={size !== "small" ? "48px" : "24px"}
                                 height={size !== "small" ? "48px" : "24px"}
                             />
                         ) : (
                             <Sad
+                                id="normal-results-emoji"
                                 width={size !== "small" ? "48px" : "24px"}
                                 height={size !== "small" ? "48px" : "24px"}
                             />
