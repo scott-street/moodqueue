@@ -4,7 +4,7 @@ import { IndexBackgroundOuter } from "../Background.styles"
 
 export const Index: React.FunctionComponent = (props) => {
     return (
-        <IndexBackgroundOuter id="index-outer-box" pad="medium" background="#1F2730">
+        <IndexBackgroundOuter id="index-outer-box" background="#1F2730">
             {
                 <Head>
                     <meta

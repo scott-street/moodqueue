@@ -18,7 +18,7 @@ export const LoginBackground: React.FunctionComponent = (props) => {
                     background={{ color: "#2F3E4D", opacity: 0.7 }}
                     border={{
                         side: "all",
-                        size: "xlarge",
+                        size: "large",
                         style: "outset",
                         color: "accent-1",
                     }}

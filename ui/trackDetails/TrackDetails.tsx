@@ -82,7 +82,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                             small
                             icon={<SubtractCircle />}
                             text="remove from queue"
-                            secondary
+                            color="neutral-4"
                             onClick={onClickRemove}
                         />
                     )}

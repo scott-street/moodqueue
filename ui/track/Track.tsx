@@ -88,8 +88,7 @@ export const Track: React.FunctionComponent<TrackProps> = (props) => {
                 <Button
                     id="more-details-btn"
                     title="more"
-                    //focusIndicator={false}
-                    //color="#24C0FF"
+                    fill={false}
                     icon={<More size={size === "large" ? "large" : "medium"} />}
                     small={size === "small"}
                     hover="#24C0FF"
@@ -99,8 +98,7 @@ export const Track: React.FunctionComponent<TrackProps> = (props) => {
             {size !== "small" && (
                 <Button
                     id="remove-track-btn"
-                    hover="dark-1"
-                    //color="dark-1"
+                    color="dark-1"
                     title="remove from moodqueue"
                     icon={<SubtractCircle color="status-error" size={size} />}
                     onClick={onClickRemove}

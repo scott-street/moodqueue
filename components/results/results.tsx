@@ -51,6 +51,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 id="desc-title"
                 textAlign="center"
                 size="small"
+                header
                 text={`here's your ${mood >= 0 ? Mood[mood].toLowerCase() + " queue:" : " queue:"}`}
             />
             <Box direction="row" border="between" gap="small" align="center">
@@ -90,7 +91,9 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         <Description
                             textAlign="center"
                             size={size !== "small" ? "medium" : "small"}
-                            text="click the start over button below to make a new moodqueue!"
+                            text={`click the ${
+                                size === "small" ? "back" : "start over"
+                            } button below to make a new moodqueue!`}
                         />
                     </Box>
                 ) : (
@@ -120,12 +123,11 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 <Button
                     id="play-queue-btn"
                     title="play your moodqueue"
-                    text={size === "small" ? undefined : "start queue"}
-                    icon={<CirclePlay />}
+                    text={size === "small" ? "play" : "play queue"}
+                    icon={<CirclePlay color="dark-2" />}
                     onClick={() => {
                         addToQueue(state.tracks)
                     }}
-                    hover="accent-1"
                 />
                 <Options
                     size={size}
@@ -136,10 +138,10 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 <Button
                     id="reset-btn"
                     title="start over to begin a new moodqueue"
-                    icon={<Previous />}
-                    text={size === "small" ? undefined : "start over"}
+                    icon={<Previous color="dark-2" />}
+                    text={size === "small" ? "back" : "start over"}
                     onClick={resetForm}
-                    hover="accent-3"
+                    secondary
                     //color="accent-3"
                 />
             </Box>

@@ -34,7 +34,6 @@ export const UserAvatar: FunctionComponent<UserAvatarProps> = (props) => {
                         src={user.profileImages[0].url}
                         size={size !== "small" ? "large" : "medium"}
                         border={{ size: "small", side: "all", color: "accent-1" }}
-                        title="click to open your spotify profile"
                     />
                 ) : (
                     <Avatar
@@ -42,7 +41,6 @@ export const UserAvatar: FunctionComponent<UserAvatarProps> = (props) => {
                         background="accent-2"
                         border={{ size: "small", side: "all", color: "accent-1" }}
                         size={size !== "small" ? "large" : "medium"}
-                        title="click to open your spotify profile"
                     >
                         <User color="accent-1" size={size !== "small" ? "large" : "medium"} />
                     </Avatar>

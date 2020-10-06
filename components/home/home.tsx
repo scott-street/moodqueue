@@ -70,7 +70,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         dqueue
                     </Heading>
                     <Description
-                        textAlign={size !== "small" ? "start" : "center"}
+                        textAlign="start"
                         size={size !== "small" ? "medium" : "small"}
                         text="let your mood inspire you"
                     />
