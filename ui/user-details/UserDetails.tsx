@@ -15,7 +15,7 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Box direction="row" align="center" gap="small">
                 {!small && (
-                    <Heading textAlign="center" margin="none" id="username-txt">
+                    <Heading textAlign="center" margin="none" id="username-txt" size="small">
                         {user.name}
                     </Heading>
                 )}
