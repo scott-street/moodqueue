@@ -1,5 +1,5 @@
 import React from "react"
-import { render, shallow } from "enzyme"
+import { mount, render, shallow } from "enzyme"
 import { Home } from "./"
 import { UserInfo } from "../../types/UserInfo"
 import { expect } from "chai"
@@ -42,10 +42,10 @@ describe("<Home/>", () => {
     })
 
     it("renders icons in header", () => {
-        const wrapper = render(<Home user={testUser} size={"large"} />)
+        const wrapper = mount(<Home user={testUser} size={"large"} />)
 
-        expect(wrapper.find("#happy-emoji-hdr")).to.be.length(1)
-        expect(wrapper.find("#sad-emoji-hdr")).to.be.length(1)
+        expect(wrapper.find("#happy-emoji").at(0)).to.be.length(1)
+        expect(wrapper.find("#sad-emoji").at(0)).to.be.length(1)
     })
 
     it("renders avatar with profile image", () => {
