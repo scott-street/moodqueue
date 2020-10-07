@@ -15,6 +15,7 @@ import { HomeBackground } from "../../ui/backgrounds/home/HomeBackground"
 import { Content } from "../../ui/content/Content"
 import { Description } from "../../ui/description/Description"
 import { Logo } from "../../ui/logo/Logo"
+import { UserDetails } from "../../ui/user-details/UserDetails"
 
 interface HomeProps {
     user: UserInfo
@@ -51,36 +52,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         text="let your mood inspire you"
                     />
                 </Box>
-                {size !== "small" && (
-                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                        <Box direction="row" align="center" gap="small">
-                            <Heading textAlign="center" margin="none" id="username-txt">
-                                {name}
-                            </Heading>
-                            {props.user.profileImages[0] ? (
-                                <Avatar
-                                    id="avatar-profile-image"
-                                    src={props.user.profileImages[0].url}
-                                    size="xlarge"
-                                    border={{ size: "small", side: "all", color: "accent-1" }}
-                                    onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                    title="click to open your spotify profile"
-                                />
-                            ) : (
-                                <Avatar
-                                    id="avatar-default"
-                                    background="accent-2"
-                                    border={{ size: "small", side: "all", color: "accent-1" }}
-                                    size="large"
-                                    onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                    title="click to open your spotify profile"
-                                >
-                                    <User color="accent-1" size="large" />
-                                </Avatar>
-                            )}
-                        </Box>
-                    </motion.div>
-                )}
+                {size !== "small" && <UserDetails user={user} />}
             </Header>
             <Content size={size}>
                 {loading ? (
@@ -115,31 +87,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                     />
                 )}
             </Content>
-            {size === "small" && (
-                <Box align="center">
-                    {props.user.profileImages[0] ? (
-                        <Avatar
-                            id="avatar-profile-image-small"
-                            src={props.user.profileImages[0].url}
-                            size={size !== "small" ? "xlarge" : "large"}
-                            border={{ size: "small", side: "all", color: "accent-1" }}
-                            onClick={() => window.open(props.user.profileUrl, "_blank")}
-                            title="click to open your spotify profile"
-                        />
-                    ) : (
-                        <Avatar
-                            id="avatar-default-small"
-                            background="accent-2"
-                            border={{ size: "small", side: "all", color: "accent-1" }}
-                            size={size !== "small" ? "large" : "medium"}
-                            onClick={() => window.open(props.user.profileUrl, "_blank")}
-                            title="click to open your spotify profile"
-                        >
-                            <User color="accent-1" size={size !== "small" ? "large" : "medium"} />
-                        </Avatar>
-                    )}
-                </Box>
-            )}
+            {size === "small" && <UserDetails user={user} small />}
         </HomeBackground>
     )
 }
