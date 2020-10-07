@@ -1,7 +1,7 @@
 // src/stories/TrackDetails.stories.tsx
 
 import * as React from "react"
-import { Grommet, grommet } from "grommet"
+import { withGrommet } from "../wrapper"
 import { TrackDetails } from "./TrackDetails"
 import { Track } from "../../types/Track"
 
@@ -16,13 +16,6 @@ const mockTrack: Track = {
 }
 
 export default { title: "TrackDetails" }
-const withGrommet = (child: React.ReactChild) => {
-    return (
-        <Grommet theme={grommet}>
-            <div>{child}</div>
-        </Grommet>
-    )
-}
 
 export const largeTrackDetails = () => withGrommet(<TrackDetails size="large" track={mockTrack} />)
 

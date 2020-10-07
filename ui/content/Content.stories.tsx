@@ -1,17 +1,11 @@
 // src/stories/Content.stories.tsx
 
 import * as React from "react"
-import { Grommet, grommet, Box, Text } from "grommet"
+import { Box, Text } from "grommet"
+import { withGrommet } from "../wrapper"
 import { Content } from "./Content"
 
 export default { title: "Content" }
-const withGrommet = (child: React.ReactChild) => {
-    return (
-        <Grommet theme={grommet}>
-            <div>{child}</div>
-        </Grommet>
-    )
-}
 
 export const contentLarge = () =>
     withGrommet(
