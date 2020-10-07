@@ -1,7 +1,6 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { PrimaryButton, SecondaryButton } from "./Button.styles"
-import { baseItemTop } from "../../components/animations/motion"
 
 interface ButtonProps {
     id?: string
@@ -9,36 +8,46 @@ interface ButtonProps {
     icon?: any
     disabled?: any
     fill?: boolean
+    margin?: any
     onClick?: () => void
     small?: boolean
     secondary?: boolean
     hover?: any
     title?: any
+    color?: any
 }
 export const Button: React.FunctionComponent<ButtonProps> = (props) => {
-    const { id, text, icon, onClick, disabled, small, secondary, hover, title, fill } = props
+    const {
+        id,
+        text,
+        icon,
+        onClick,
+        disabled,
+        margin,
+        small,
+        secondary,
+        hover,
+        title,
+        fill,
+        color,
+    } = props
 
     if (small && secondary) {
         return (
-            <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="item"
-                variants={baseItemTop}
-            >
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <SecondaryButton
                     id={id}
                     icon={icon}
                     onClick={onClick}
                     disabled={disabled}
-                    margin={"small"}
                     alignSelf="center"
-                    size="small"
                     hoverIndicator={hover}
                     title={title}
-                    color="accent-3"
                     primary={fill === undefined ? true : fill}
                     label={text}
+                    margin={margin}
+                    color={color === undefined ? "accent-3" : color}
+                    focusIndicator={false}
                 />
             </motion.div>
         )
@@ -51,14 +60,14 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     icon={icon}
                     onClick={onClick}
                     disabled={disabled}
-                    margin={"small"}
                     alignSelf="center"
-                    size="small"
                     hoverIndicator={hover}
                     title={title}
-                    color="accent-1"
+                    color={color === undefined ? "accent-1" : color}
                     primary={fill === undefined ? true : fill}
                     label={text}
+                    margin={margin}
+                    focusIndicator={false}
                 />
             </motion.div>
         )
@@ -73,12 +82,13 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     onClick={onClick}
                     disabled={disabled}
                     alignSelf="center"
-                    margin={"small"}
                     size="large"
                     hoverIndicator={hover}
                     title={title}
-                    color="accent-3"
+                    color={color === undefined ? "accent-3" : color}
                     primary={fill === undefined ? true : fill}
+                    margin={margin}
+                    focusIndicator={false}
                 />
             </motion.div>
         )
@@ -92,12 +102,13 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                 onClick={onClick}
                 disabled={disabled}
                 alignSelf="center"
-                margin={"small"}
                 size="large"
                 hoverIndicator={hover}
                 title={title}
-                color="accent-1"
+                color={color === undefined ? "accent-1" : color}
                 primary={fill === undefined ? true : fill}
+                margin={margin}
+                focusIndicator={false}
             />
         </motion.div>
     )

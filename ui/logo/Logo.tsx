@@ -19,15 +19,15 @@ export const Logo: React.FunctionComponent<LogoProps> = (props) => {
             <Happy
                 onClick={() => window.open("https://www.youtube.com/watch?v=cI0wUoCLnLk")}
                 style={{ cursor: "pointer" }}
-                width={size !== "small" ? "36px" : "24px"}
-                height={size !== "small" ? "36px" : "24px"}
+                width={size !== "small" ? (header ? "36px" : "48px") : "24px"}
+                height={size !== "small" ? (header ? "36px" : "48px") : "24px"}
                 id="happy-emoji"
             />
             <Sad
                 onClick={() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")}
                 style={{ cursor: "pointer" }}
-                width={size !== "small" ? "36px" : "24px"}
-                height={size !== "small" ? "36px" : "24px"}
+                width={size !== "small" ? (header ? "36px" : "48px") : "24px"}
+                height={size !== "small" ? (header ? "36px" : "48px") : "24px"}
                 id="sad-emoji"
             />
             dqueue

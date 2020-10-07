@@ -19,6 +19,7 @@ export const NumberSelector: React.FunctionComponent<NumberSelectorProps> = (pro
             {size !== "small" && (
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                     <Button
+                        margin="small"
                         id="subtract-btn"
                         icon={<Subtract size={size !== "small" ? "medium" : "small"} />}
                         onClick={onClickSubtract}
@@ -39,6 +40,7 @@ export const NumberSelector: React.FunctionComponent<NumberSelectorProps> = (pro
             {size !== "small" && (
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                     <Button
+                        margin="small"
                         id="add-btn"
                         icon={<Add size={size !== "small" ? "medium" : "small"} />}
                         onClick={onClickAdd}

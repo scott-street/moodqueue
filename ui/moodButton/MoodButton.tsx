@@ -22,7 +22,7 @@ export const MoodButton: React.FunctionComponent<MoodButtonProps> = (props) => {
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <MoodBox
                 id={id}
-                hoverIndicator={selected ? "accent-3" : "accent-1"}
+                hoverIndicator="accent-3"
                 background={selected ? "accent-1" : "light-2"}
                 focusIndicator={false}
                 onClick={onClick}
@@ -33,18 +33,24 @@ export const MoodButton: React.FunctionComponent<MoodButtonProps> = (props) => {
                 }}
             >
                 {size !== "small" && (
-                    <Text size="xsmall" weight="bold" textAlign="center" id="mood-txt">
+                    <Text
+                        size="xsmall"
+                        weight="bold"
+                        textAlign="center"
+                        id="mood-txt"
+                        color="#555555"
+                    >
                         {Mood[mood].toLowerCase()}
                     </Text>
                 )}
                 {mood === Mood.HAPPY.toString() ? (
-                    <Happy width="32px" height="32px" id="happy-emoji" />
+                    <Happy width="32px" height="32px" id="happy-emoji" color="#555555" />
                 ) : mood === Mood.SLEEPY.toString() ? (
-                    <Sleepy width="32px" height="32px" id="sleepy-emoji" />
+                    <Sleepy width="32px" height="32px" id="sleepy-emoji" color="#555555" />
                 ) : mood === Mood.PARTY.toString() ? (
-                    <Party width="32px" height="32px" id="party-emoji" />
+                    <Party width="32px" height="32px" id="party-emoji" color="#555555" />
                 ) : (
-                    <Sad width="32px" height="32px" id="sad-emoji" />
+                    <Sad width="32px" height="32px" id="sad-emoji" color="#555555" />
                 )}
             </MoodBox>
         </motion.div>

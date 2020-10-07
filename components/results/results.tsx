@@ -119,13 +119,14 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 margin={size === "small" ? { bottom: "small", top: "xsmall" } : "small"}
             >
                 <Button
+                    small={size === "small"}
                     id="play-queue-btn"
-                    text="play queue"
-                    icon={<CirclePlay color={"#666666"} />}
+                    title="play your moodqueue"
+                    text={size === "small" ? "play" : "play queue"}
+                    icon={<CirclePlay color="dark-2" />}
                     onClick={() => {
                         addToQueue(state.tracks)
                     }}
-                    small={size === "small"}
                 />
                 <Options
                     size={size}
@@ -134,12 +135,13 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     dispatch={(value) => dispatch(value)}
                 />
                 <Button
+                    small={size === "small"}
                     id="reset-btn"
-                    text="start over"
-                    icon={<Previous color={"#666666"} />}
+                    title="start over to begin a new moodqueue"
+                    icon={<Previous color="dark-2" />}
+                    text={size === "small" ? "back" : "start over"}
                     onClick={resetForm}
                     secondary
-                    small={size === "small"}
                 />
             </Box>
         </Box>

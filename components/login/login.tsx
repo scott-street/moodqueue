@@ -34,15 +34,13 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                     />
                 </motion.div>
             </Box>
-            <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                variants={baseItemTop}
-            >
+            <motion.div variants={baseItemTop}>
                 <Button
                     id="login-btn"
-                    text="Login"
-                    icon={<Spotify color={"#666666"} />}
+                    text={size !== "small" ? "Login to Spotify" : "login"}
+                    icon={
+                        <Spotify color={"#555555"} size={size !== "small" ? "large" : "medium"} />
+                    }
                     onClick={() => openSpotifyAccountLogin(redirect, size)}
                 />
             </motion.div>
