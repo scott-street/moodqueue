@@ -76,35 +76,41 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     vertical: size === "small" ? "small" : "none",
                 }}
                 fill
+                flex
             >
-                <motion.div
-                    className="item"
-                    variants={baseItemTop}
-                    style={{ width: "100%", height: "100%" }}
-                >
-                    {state.tracks && state.tracks.length === 0 ? (
-                        <Box align="center" gap="small">
-                            <Description
-                                textAlign="center"
-                                size={size}
-                                weight="bold"
-                                text="oops! no more songs"
-                            />
-                            <Sad width="48px" height="48px" />
-                            <Description
-                                textAlign="center"
-                                size={size !== "small" ? "medium" : "small"}
-                                text="click the start over button below to make a new moodqueue!"
-                            />
-                        </Box>
-                    ) : (
+                {state.tracks && state.tracks.length === 0 ? (
+                    <Box align="center" gap="small" justify="center">
+                        <Description
+                            textAlign="center"
+                            size={size}
+                            weight="bold"
+                            text="oops! no more songs"
+                        />
+                        <Sad width="48px" height="48px" />
+                        <Description
+                            textAlign="center"
+                            size={size !== "small" ? "medium" : "small"}
+                            text={`click the ${
+                                size === "small" ? "back" : "start over"
+                            } button below to make a new moodqueue!`}
+                        />
+                    </Box>
+                ) : (
+                    <motion.div
+                        className="item"
+                        variants={baseItemTop}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                    >
                         <ResultList
                             tracks={state.tracks || props.tracks}
                             dispatch={(value) => dispatch(value)}
                             size={size}
                         />
-                    )}
-                </motion.div>
+                    </motion.div>
+                )}
             </Box>
             <Box
                 direction="row"

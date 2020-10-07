@@ -38,6 +38,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                     <Logo
                         id="app-name-txt"
                         textAlign={size !== "small" ? "start" : "center"}
+                        header
                         size={size}
                         margin="none"
                     />
@@ -49,14 +50,21 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                 </Box>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                     <Box direction="row" align="center" gap="small">
-                        <Heading textAlign="center" margin="none" id="username-txt" size="small">
-                            {name}
-                        </Heading>
+                        {size !== "small" && (
+                            <Heading
+                                textAlign="center"
+                                margin="none"
+                                id="username-txt"
+                                size="small"
+                            >
+                                {name}
+                            </Heading>
+                        )}
                         {props.user.profileImages[0] ? (
                             <Avatar
                                 id="avatar-profile-image"
                                 src={props.user.profileImages[0].url}
-                                size="xlarge"
+                                size={size !== "small" ? "large" : "medium"}
                                 border={{ size: "small", side: "all", color: "accent-1" }}
                                 onClick={() => window.open(props.user.profileUrl, "_blank")}
                                 title="click to open your spotify profile"
@@ -66,7 +74,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                                 id="avatar-default"
                                 background="accent-2"
                                 border={{ size: "small", side: "all", color: "accent-1" }}
-                                size="large"
+                                size={size !== "small" ? "large" : "medium"}
                                 onClick={() => window.open(props.user.profileUrl, "_blank")}
                                 title="click to open your spotify profile"
                             >
