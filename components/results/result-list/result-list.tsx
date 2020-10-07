@@ -13,7 +13,7 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
     const { tracks, dispatch, size } = props
     return (
         <Box
-            overflow={{ vertical: "auto" }}
+            overflow={{ vertical: "auto", horizontal: "hidden" }}
             gap="medium"
             alignContent="center"
             justify={tracks ? (tracks.length > 1 ? "start" : "center") : "center"}

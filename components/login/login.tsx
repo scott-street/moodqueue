@@ -21,7 +21,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                 <motion.div className="item" variants={baseItemTop} style={{ textAlign: "center" }}>
                     <Logo
                         header={false}
-                        size={size !== "small" ? "large" : "medium"}
+                        size={size}
                         textAlign="center"
                         margin={{ top: "none" }}
                         id="login-title-txt"

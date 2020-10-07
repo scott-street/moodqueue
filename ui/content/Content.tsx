@@ -1,7 +1,5 @@
 import React from "react"
-import { motion } from "framer-motion"
 import { ContentOuter, ContentInner } from "./Content.styles"
-import { baseItemBottom } from "../../components/animations/motion"
 
 interface ContentProps {
     size: any
@@ -32,9 +30,7 @@ export const Content: React.FunctionComponent<ContentProps> = (props) => {
                     vertical: "small",
                 }}
             >
-                <motion.div variants={baseItemBottom} style={{ width: "100%", height: "100%" }}>
-                    {props.children}
-                </motion.div>
+                {props.children}
             </ContentInner>
         </ContentOuter>
     )
