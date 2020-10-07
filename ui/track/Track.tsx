@@ -24,12 +24,11 @@ export const Track: React.FunctionComponent<TrackProps> = (props) => {
         <AnimatePresence>
             <motion.div
                 drag="x"
+                dragDirectionLock
                 key={track.id}
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={1}
-                exit={{ opacity: 0 }}
-                initial={{ opacity: 1 }}
-                animate={{ opacity: 1, y: 0, x: 0 }}
+                exit={{ opacity: 0, transition: { duration: 0.2 } }}
                 onDragEnd={(e, { offset, velocity }) => {
                     const swipe = swipePower(offset.x, velocity.x)
                     if (swipe < -getSwipeThreshold()) {
