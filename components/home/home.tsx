@@ -46,7 +46,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         text="let your mood inspire you"
                     />
                 </Box>
-                <UserDetails user={user} />
+                <UserDetails user={user} small={size === "small"} />
             </Header>
             <Content size={size}>
                 {loading ? (
