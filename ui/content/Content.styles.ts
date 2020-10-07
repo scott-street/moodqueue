@@ -7,11 +7,13 @@ export const ContentOuter = styled(GrommetBox)`
     height: 100%;
     justify-content: center;
     overflow: auto;
+    flex: 1;
 `
 
 export const ContentInner = styled(GrommetBox)`
     display: flex;
     align-items: center;
+    flex: 1;
     height: 100%;
     width: 100%;
 `

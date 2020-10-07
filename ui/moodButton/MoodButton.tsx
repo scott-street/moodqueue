@@ -10,20 +10,18 @@ import { Mood } from "../../types/Mood"
 
 interface MoodButtonProps {
     id?: string
-    key?: any
     mood?: string
     onClick?: () => void
     size?: any
     selected?: boolean
 }
 export const MoodButton: React.FunctionComponent<MoodButtonProps> = (props) => {
-    const { id, mood, onClick, size, key, selected } = props
+    const { id, mood, onClick, size, selected } = props
 
     return (
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <MoodBox
                 id={id}
-                key={key}
                 hoverIndicator={selected ? "accent-3" : "accent-1"}
                 background={selected ? "accent-1" : "light-2"}
                 focusIndicator={false}

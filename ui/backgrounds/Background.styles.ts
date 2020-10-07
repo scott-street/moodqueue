@@ -3,6 +3,7 @@ import { Box as GrommetBox } from "grommet"
 
 export const IndexBackgroundOuter = styled(GrommetBox)`
     display: flex;
+    flex: 1;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -12,6 +13,7 @@ export const IndexBackgroundOuter = styled(GrommetBox)`
 
 export const LoginBackgroundOuter = styled(GrommetBox)`
     display: flex;
+    flex: 1;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -20,6 +22,7 @@ export const LoginBackgroundOuter = styled(GrommetBox)`
 
 export const LoginBackgroundInner = styled(GrommetBox)`
     display: flex;
+    flex: 1;
     align-items: center;
     justify-content: space-evenly;
     width: 100%;

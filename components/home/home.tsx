@@ -41,7 +41,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                     <Logo
                         id="app-name-txt"
                         textAlign={size !== "small" ? "start" : "center"}
-                        size={size !== "small" ? "large" : "medium"}
+                        size={size}
                         margin="none"
                     />
                     <Description
