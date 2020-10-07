@@ -1,13 +1,16 @@
 import React, { useState } from "react"
 import { OuterBox, InnerBoxStart } from "./Track.styles"
 import { Box, Image, Text } from "grommet"
-import { More, SubtractCircle } from "grommet-icons"
+import { More, SubtractCircle, Trash } from "grommet-icons"
 import { getShortenedName, getSwipeThreshold, swipePower } from "../../common/Helpers"
 import { Track as TrackType } from "../../types/Track"
 import { Button } from "../button/Button"
 import { MoonLoader } from "react-spinners"
-import { AnimatePresence, motion } from "framer-motion"
 import { useNotification } from "../../common/hooks/useNotification"
+import { useSpring, animated, interpolate } from "react-spring"
+import { useGesture, useDrag } from "react-use-gesture"
+
+const calc = (x, y) => [-(y - window.innerHeight / 2) / 20, (x - window.innerWidth / 2) / 20, 1.1]
 
 interface TrackProps {
     size?: any
@@ -15,39 +18,46 @@ interface TrackProps {
     onClickMore?: () => void
     onClickRemove?: () => void
 }
-export const Track: React.FunctionComponent<TrackProps> = (props) => {
-    const { size, track, onClickMore, onClickRemove } = props
+export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
+    const { track, onClickMore, onClickRemove } = trackProps
     const [loading, setLoading] = useState(true)
+    const [isDrag, setIsDrag] = useState(false)
     const { notifySuccess } = useNotification()
+    const [{ x, y }, set] = useSpring(() => ({ x: 0, y: 0 }))
+
+    // Set the drag hook and define component movement based on gesture data
+    const bind = useDrag(({ down, movement: [mx, my] }) => {
+        set({ x: down ? mx : 0, y: down ? my : 0 })
+    })
 
     return (
-        <AnimatePresence>
-            <motion.div
-                drag="x"
-                dragDirectionLock
-                key={track.id}
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={1}
-                exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                onDragEnd={(e, { offset, velocity }) => {
-                    const swipe = swipePower(offset.x, velocity.x)
-                    if (swipe < -getSwipeThreshold()) {
-                        onClickRemove()
-                        notifySuccess(
-                            `${track.name} has been removed from your queue`,
-                            size !== "small" ? "right" : undefined
-                        )
-                    }
+        <animated.div
+            style={{
+                //background: bg,
+                borderRadius: 30,
+                borderBottomRightRadius: 0,
+                display: "flex",
+                flexDirection: "row-reverse",
+                alignItems: "center",
+            }}
+        >
+            <Trash
+                size="large"
+                style={{
+                    paddingRight: 25,
+                    paddingLeft: 25,
+                    display: isDrag ? undefined : "none",
                 }}
-            >
+            />
+            <animated.div {...bind()} style={{ x, y }}>
                 <OuterBox
                     pad={{
-                        vertical: size === "small" ? "small" : "none",
-                        horizontal: size === "small" ? "large" : "medium",
+                        vertical: trackProps.size === "small" ? "small" : "none",
+                        horizontal: trackProps.size === "small" ? "large" : "medium",
                     }}
                     border={{
                         side: "all",
-                        size: size !== "small" ? "medium" : "small",
+                        size: trackProps.size !== "small" ? "medium" : "small",
                         color: "accent-3",
                     }}
                     background={{ dark: true }}
@@ -61,23 +71,23 @@ export const Track: React.FunctionComponent<TrackProps> = (props) => {
                         <Box direction="row" align="center" gap="small" round="small">
                             <Box
                                 background={{
-                                    color: size !== "small" ? "#1F2730" : undefined,
+                                    color: trackProps.size !== "small" ? "#1F2730" : undefined,
                                     opacity: 0.6,
                                 }}
-                                pad={size !== "small" ? "xsmall" : "none"}
+                                pad={trackProps.size !== "small" ? "xsmall" : "none"}
                                 round="small"
                                 align="center"
                                 width={
-                                    size === "large"
+                                    trackProps.size === "large"
                                         ? "144px"
-                                        : size === "medium"
+                                        : trackProps.size === "medium"
                                         ? "120px"
                                         : "72px"
                                 }
                                 height={
-                                    size === "large"
+                                    trackProps.size === "large"
                                         ? "144px"
-                                        : size === "medium"
+                                        : trackProps.size === "medium"
                                         ? "120px"
                                         : "72px"
                                 }
@@ -106,28 +116,28 @@ export const Track: React.FunctionComponent<TrackProps> = (props) => {
                                     textAlign="start"
                                     weight="bold"
                                     size={
-                                        size === "large"
+                                        trackProps.size === "large"
                                             ? "xxlarge"
-                                            : size === "medium"
+                                            : trackProps.size === "medium"
                                             ? "xlarge"
-                                            : size
+                                            : trackProps.size
                                     }
                                 >
-                                    {size === "small"
+                                    {trackProps.size === "small"
                                         ? getShortenedName(track.name, true)
                                         : track.name}
                                 </Text>
                                 <Text
                                     textAlign="start"
                                     size={
-                                        size === "large"
+                                        trackProps.size === "large"
                                             ? "medium"
-                                            : size === "medium"
+                                            : trackProps.size === "medium"
                                             ? "small"
                                             : "xsmall"
                                     }
                                 >
-                                    {size === "small"
+                                    {trackProps.size === "small"
                                         ? getShortenedName(track.artist, false)
                                         : track.artist}
                                 </Text>
@@ -137,29 +147,30 @@ export const Track: React.FunctionComponent<TrackProps> = (props) => {
                             id="more-details-btn"
                             title="more"
                             fill={false}
-                            icon={<More size={size === "large" ? "large" : "medium"} />}
-                            small={size === "small"}
+                            icon={<More size={trackProps.size === "large" ? "large" : "medium"} />}
+                            small={trackProps.size === "small"}
                             hover="#24C0FF"
                             onClick={onClickMore}
                         />
                     </InnerBoxStart>
-                    {size !== "small" && (
+                    {trackProps.size !== "small" && (
                         <Button
                             id="remove-track-btn"
                             color="dark-1"
                             title="remove from moodqueue"
-                            icon={<SubtractCircle color="status-error" size={size} />}
+                            icon={<SubtractCircle color="status-error" size={trackProps.size} />}
                             onClick={() => {
+                                setIsDrag(false)
                                 onClickRemove()
                                 notifySuccess(
                                     `${track.name} has been removed from your queue`,
-                                    size !== "small" ? "right" : undefined
+                                    trackProps.size !== "small" ? "right" : undefined
                                 )
                             }}
                         />
                     )}
                 </OuterBox>
-            </motion.div>
-        </AnimatePresence>
+            </animated.div>
+        </animated.div>
     )
 }
