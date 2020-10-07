@@ -1,5 +1,5 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
-import { Box, Heading, Text } from "grommet"
+import { Box } from "grommet"
 import { Previous, CirclePlay } from "grommet-icons"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
@@ -97,7 +97,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     </Box>
                 ) : (
                     <motion.div
-                        className="item"
                         variants={baseItemTop}
                         style={{
                             width: "100%",
