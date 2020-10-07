@@ -1,5 +1,4 @@
-import { Avatar, Box, Header, Heading } from "grommet"
-import { User } from "grommet-icons"
+import { Box, Header, Heading } from "grommet"
 import React, { FunctionComponent, useState } from "react"
 import { BounceLoader } from "react-spinners"
 import { getTrackSourceFromFormSelection } from "../../common/Helpers"
@@ -10,11 +9,11 @@ import { Track } from "../../types/Track"
 import { defaultUser, UserInfo } from "../../types/UserInfo"
 import { Form } from "../form"
 import { Results } from "../results"
-import { motion } from "framer-motion"
 import { HomeBackground } from "../../ui/backgrounds/home/HomeBackground"
 import { Content } from "../../ui/content/Content"
 import { Description } from "../../ui/description/Description"
 import { Logo } from "../../ui/logo/Logo"
+import { UserDetails } from "../../ui/user-details/UserDetails"
 
 interface HomeProps {
     user: UserInfo
@@ -23,7 +22,6 @@ interface HomeProps {
 
 export const Home: FunctionComponent<HomeProps> = (props) => {
     const { user, size } = props
-    const name = user.name ? user.name.toLowerCase() : "stranger"
     const [showResults, setShowResults] = useState(false)
     const [mood, setMood] = useState<Mood>(-1)
     const [source, setSource] = useState<FormSelection>(defaultFormSelection)
@@ -48,41 +46,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         text="let your mood inspire you"
                     />
                 </Box>
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Box direction="row" align="center" gap="small">
-                        {size !== "small" && (
-                            <Heading
-                                textAlign="center"
-                                margin="none"
-                                id="username-txt"
-                                size="small"
-                            >
-                                {name}
-                            </Heading>
-                        )}
-                        {props.user.profileImages[0] ? (
-                            <Avatar
-                                id="avatar-profile-image"
-                                src={props.user.profileImages[0].url}
-                                size={size !== "small" ? "large" : "medium"}
-                                border={{ size: "small", side: "all", color: "accent-1" }}
-                                onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                title="click to open your spotify profile"
-                            />
-                        ) : (
-                            <Avatar
-                                id="avatar-default"
-                                background="accent-2"
-                                border={{ size: "small", side: "all", color: "accent-1" }}
-                                size={size !== "small" ? "large" : "medium"}
-                                onClick={() => window.open(props.user.profileUrl, "_blank")}
-                                title="click to open your spotify profile"
-                            >
-                                <User color="accent-1" size="large" />
-                            </Avatar>
-                        )}
-                    </Box>
-                </motion.div>
+                <UserDetails user={user} />
             </Header>
             <Content size={size}>
                 {loading ? (
