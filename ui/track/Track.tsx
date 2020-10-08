@@ -19,17 +19,20 @@ interface TrackProps {
 export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
     const { track, onClickMore, onClickRemove } = trackProps
     const [loading, setLoading] = useState(true)
-    //const [isDrag, setIsDrag] = useState(false)
+    const [isDrag, setIsDrag] = useState(false)
     const { notifySuccess } = useNotification()
     const x = useMotionValue(0)
-    const xInput = [-100, 0]
+    const xInput = [-100, 0, 100]
     const bg = useTransform(x, xInput, [
         "linear-gradient(45deg, rgba(244,67,255,1) 0%, rgba(255,64,64,1) 100%)",
+        "linear-gradient(215deg, rgba(63, 94, 251, 1) 30%, rgba(252, 70, 107, 1) 100%)",
         "linear-gradient(45deg, #00C9FF 0%, #92FE9D 100%)",
     ])
     const bind = useDrag(
         (state) => {
             x.set(state.down ? state.movement[0] : 0)
+            if (state.movement[0] < 0) setIsDrag(true)
+            if (!state.active) setIsDrag(false)
             if (state.swipe[0] === -1) {
                 onClickRemove()
                 notifySuccess(
@@ -80,7 +83,13 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                 x: 0,
             }}
             exit={{ opacity: 0 }}
-            style={{ x, width: "100%" }}
+            style={{
+                x,
+                width: "100%",
+                background: bg,
+                borderRadius: 30,
+                borderBottomRightRadius: 0,
+            }}
             {...bind()}
             key={track.id}
         >
@@ -147,6 +156,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                         </Box>
                         <Box align="start">
                             <Text
+                                style={{ userSelect: "none" }}
                                 textAlign="start"
                                 weight="bold"
                                 size={
@@ -162,6 +172,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                                     : track.name}
                             </Text>
                             <Text
+                                style={{ userSelect: "none" }}
                                 textAlign="start"
                                 size={
                                     trackProps.size === "large"
@@ -177,17 +188,20 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                             </Text>
                         </Box>
                     </Box>
-                    <Button
-                        id="more-details-btn"
-                        title="more"
-                        fill={false}
-                        icon={<More size={trackProps.size === "large" ? "large" : "medium"} />}
-                        small={trackProps.size === "small"}
-                        hover="#24C0FF"
-                        onClick={onClickMore}
-                    />
+                    {!isDrag && (
+                        <Button
+                            id="more-details-btn"
+                            title="more"
+                            fill={false}
+                            icon={<More size={trackProps.size === "large" ? "large" : "medium"} />}
+                            small={trackProps.size === "small"}
+                            hover="#24C0FF"
+                            onClick={onClickMore}
+                        />
+                    )}
                 </InnerBoxStart>
-                {trackProps.size !== "small" && (
+                {isDrag && <Trash size={trackProps.size === "small" ? "medium" : "large"} />}
+                {trackProps.size !== "small" && !isDrag && (
                     <Button
                         id="remove-track-btn"
                         color="dark-1"
