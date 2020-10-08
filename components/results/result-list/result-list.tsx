@@ -13,17 +13,6 @@ interface ResultListProps {
 export const ResultList: FunctionComponent<ResultListProps> = (props) => {
     const { tracks, dispatch, size } = props
     return (
-        // <Box
-        //     overflow={{ vertical: "auto", horizontal: "hidden" }}
-        //     //gap="medium"
-        //     alignContent="center"
-        //     justify={tracks ? (tracks.length > 1 ? "start" : "center") : "center"}
-        //     pad={{
-        //         //vertical: 'small',
-        //         horizontal: size !== "small" ? "xlarge" : "none",
-        //     }}
-        //     fill
-        // >
         <AnimatePresence>
             <Box
                 overflow={{ vertical: "auto", horizontal: "hidden" }}
@@ -36,6 +25,5 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
                 ))}
             </Box>
         </AnimatePresence>
-        //</Box>
     )
 }

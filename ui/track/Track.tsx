@@ -53,6 +53,11 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                 display: "flex",
                 //flexDirection: 'row-reverse',
                 alignItems: "center",
+                //overflowY: 'auto',
+                justifyContent: "space-between",
+                flex: 1,
+                width: "100%",
+                height: "100%",
             }}
         >
             {/* <Trash
@@ -63,7 +68,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
           display: isDrag ? undefined : 'none'
         }}
       /> */}
-            <Box pad={{ vertical: "small", horizontal: "small" }} align="center" fill>
+            <Box pad={{ vertical: "small", horizontal: "small" }} align="center" fill flex>
                 <motion.div
                     initial={{ opacity: 0, y: 100 }}
                     animate={{
