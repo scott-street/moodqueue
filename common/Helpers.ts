@@ -57,3 +57,11 @@ export const getShortenedName = (name: string, track: boolean) => {
         return temp
     }
 }
+
+export const getSwipeThreshold = () => {
+    return 10000
+}
+
+export const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity
+}
