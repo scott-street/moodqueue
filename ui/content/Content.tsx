@@ -1,7 +1,5 @@
 import React from "react"
-import { motion } from "framer-motion"
 import { ContentOuter, ContentInner } from "./Content.styles"
-import { baseItemBottom } from "../../components/animations/motion"
 
 interface ContentProps {
     size: any
@@ -10,11 +8,16 @@ interface ContentProps {
 export const Content: React.FunctionComponent<ContentProps> = (props) => {
     const { size } = props
     return (
-        <ContentOuter margin="small">
+        <ContentOuter
+            margin={{
+                horizontal: "small",
+                vertical: size !== "small" ? "xsmall" : "none",
+            }}
+        >
             <ContentInner
                 border={{
                     side: "all",
-                    size: "xlarge",
+                    size: "large",
                     style: "outset",
                     color: "accent-1",
                 }}
@@ -24,11 +27,10 @@ export const Content: React.FunctionComponent<ContentProps> = (props) => {
                 margin={size === "small" ? "small" : undefined}
                 pad={{
                     horizontal: size !== "small" ? "medium" : "small",
+                    vertical: "small",
                 }}
             >
-                <motion.div variants={baseItemBottom} style={{ width: "100%", height: "100%" }}>
-                    {props.children}
-                </motion.div>
+                {props.children}
             </ContentInner>
         </ContentOuter>
     )

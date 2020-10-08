@@ -42,7 +42,13 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
     }
 
     return (
-        <Box direction="row" align="start" fill="horizontal" justify="evenly">
+        <Box
+            direction="row"
+            align="start"
+            fill="horizontal"
+            justify={size !== "small" ? "center" : "evenly"}
+            gap={size !== "small" ? "xlarge" : undefined}
+        >
             <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
                 choose from your:
             </Text>

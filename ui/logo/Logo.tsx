@@ -8,21 +8,31 @@ interface LogoProps {
     size?: any
     textAlign?: any
     margin?: any
+    header?: boolean
 }
 export const Logo: React.FunctionComponent<LogoProps> = (props) => {
-    const { id, size, textAlign, margin } = props
+    const { id, size, textAlign, margin, header } = props
 
     return (
-        <LogoHeader id={id} size={size} textAlign={textAlign} margin={margin}>
+        <LogoHeader
+            id={id}
+            size={header ? "medium" : "large"}
+            textAlign={textAlign}
+            margin={margin}
+        >
             m
             <Happy
-                width={size !== "small" ? "48px" : "24px"}
-                height={size !== "small" ? "48px" : "24px"}
+                onClick={() => window.open("https://www.youtube.com/watch?v=cI0wUoCLnLk")}
+                style={{ cursor: "pointer" }}
+                width={size === "small" ? (header ? "24px" : "36px") : header ? "36px" : "48px"}
+                height={size === "small" ? (header ? "24px" : "36px") : header ? "36px" : "48px"}
                 id="happy-emoji"
             />
             <Sad
-                width={size !== "small" ? "48px" : "24px"}
-                height={size !== "small" ? "48px" : "24px"}
+                onClick={() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")}
+                style={{ cursor: "pointer" }}
+                width={size === "small" ? (header ? "24px" : "36px") : header ? "36px" : "48px"}
+                height={size === "small" ? (header ? "24px" : "36px") : header ? "36px" : "48px"}
                 id="sad-emoji"
             />
             dqueue

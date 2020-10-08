@@ -45,21 +45,12 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
     }, [])
 
     return (
-        <Box
-            align="center"
-            justify="between"
-            gap="small"
-            fill
-            pad={{
-                horizontal: "medium",
-                vertical: "small",
-            }}
-        >
+        <Box align="center" justify="between" gap="small" fill>
             <Description
                 header
                 id="desc-title"
                 textAlign="center"
-                size={size !== "small" ? "medium" : "small"}
+                size="small"
                 text={`here's your ${mood >= 0 ? Mood[mood].toLowerCase() + " queue:" : " queue:"}`}
             />
             <Box direction="row" border="between" gap="small" align="center">
@@ -83,38 +74,43 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 justify={state.tracks ? (state.tracks.length > 1 ? "start" : "center") : "center"}
                 pad={{
                     vertical: size === "small" ? "small" : "none",
-                    horizontal: size !== "small" ? "xlarge" : "none",
                 }}
                 fill
+                flex
             >
-                <motion.div
-                    className="item"
-                    variants={baseItemTop}
-                    style={{ width: "100%", height: "100%" }}
-                >
-                    {state.tracks && state.tracks.length === 0 ? (
-                        <Box align="center" gap="small">
-                            <Description
-                                textAlign="center"
-                                size={size}
-                                weight="bold"
-                                text="oops! no more songs"
-                            />
-                            <Sad width="48px" height="48px" />
-                            <Description
-                                textAlign="center"
-                                size={size !== "small" ? "medium" : "small"}
-                                text="click the start over button below to make a new moodqueue!"
-                            />
-                        </Box>
-                    ) : (
+                {state.tracks && state.tracks.length === 0 ? (
+                    <Box align="center" gap="small" justify="center">
+                        <Description
+                            textAlign="center"
+                            size={size}
+                            weight="bold"
+                            text="oops! no more songs"
+                        />
+                        <Sad width="48px" height="48px" />
+                        <Description
+                            textAlign="center"
+                            size={size !== "small" ? "medium" : "small"}
+                            text={`click the ${
+                                size === "small" ? "back" : "start over"
+                            } button below to make a new moodqueue!`}
+                        />
+                    </Box>
+                ) : (
+                    <motion.div
+                        className="item"
+                        variants={baseItemTop}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                    >
                         <ResultList
                             tracks={state.tracks || props.tracks}
                             dispatch={(value) => dispatch(value)}
                             size={size}
                         />
-                    )}
-                </motion.div>
+                    </motion.div>
+                )}
             </Box>
             <Box
                 direction="row"
@@ -123,13 +119,14 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 margin={size === "small" ? { bottom: "small", top: "xsmall" } : "small"}
             >
                 <Button
+                    small={size === "small"}
                     id="play-queue-btn"
-                    text="play queue"
-                    icon={<CirclePlay color={"#666666"} />}
+                    title="play your moodqueue"
+                    text={size === "small" ? "play" : "play queue"}
+                    icon={<CirclePlay color="dark-2" />}
                     onClick={() => {
                         addToQueue(state.tracks)
                     }}
-                    small={size === "small"}
                 />
                 <Options
                     size={size}
@@ -138,12 +135,13 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     dispatch={(value) => dispatch(value)}
                 />
                 <Button
+                    small={size === "small"}
                     id="reset-btn"
-                    text="start over"
-                    icon={<Previous color={"#666666"} />}
+                    title="start over to begin a new moodqueue"
+                    icon={<Previous color="dark-2" />}
+                    text={size === "small" ? "back" : "start over"}
                     onClick={resetForm}
                     secondary
-                    small={size === "small"}
                 />
             </Box>
         </Box>

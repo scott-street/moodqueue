@@ -20,6 +20,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
             <Box align="center" margin={size === "small" ? "small" : undefined}>
                 <motion.div className="item" variants={baseItemTop} style={{ textAlign: "center" }}>
                     <Logo
+                        header={false}
                         size={size}
                         textAlign="center"
                         margin={{ top: "none" }}
@@ -33,12 +34,16 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                     />
                 </motion.div>
             </Box>
-            <Button
-                id="login-btn"
-                text="Login"
-                icon={<Spotify color={"#666666"} />}
-                onClick={() => openSpotifyAccountLogin(redirect, size)}
-            />
+            <motion.div variants={baseItemTop}>
+                <Button
+                    id="login-btn"
+                    text={size !== "small" ? "Login to Spotify" : "login"}
+                    icon={
+                        <Spotify color={"#555555"} size={size !== "small" ? "large" : "medium"} />
+                    }
+                    onClick={() => openSpotifyAccountLogin(redirect, size)}
+                />
+            </motion.div>
         </LoginBackground>
     )
 }

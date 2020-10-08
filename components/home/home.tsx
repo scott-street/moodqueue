@@ -1,5 +1,4 @@
-import { Avatar, Box, Header, Heading } from "grommet"
-import { User } from "grommet-icons"
+import { Box, Header, Heading } from "grommet"
 import React, { FunctionComponent, useState } from "react"
 import { BounceLoader } from "react-spinners"
 import { getTrackSourceFromFormSelection } from "../../common/Helpers"
@@ -10,7 +9,6 @@ import { Track } from "../../types/Track"
 import { defaultUser, UserInfo } from "../../types/UserInfo"
 import { Form } from "../form"
 import { Results } from "../results"
-import { motion } from "framer-motion"
 import { HomeBackground } from "../../ui/backgrounds/home/HomeBackground"
 import { Content } from "../../ui/content/Content"
 import { Description } from "../../ui/description/Description"
@@ -24,7 +22,6 @@ interface HomeProps {
 
 export const Home: FunctionComponent<HomeProps> = (props) => {
     const { user, size } = props
-    const name = user.name ? user.name.toLowerCase() : "stranger"
     const [showResults, setShowResults] = useState(false)
     const [mood, setMood] = useState<Mood>(-1)
     const [source, setSource] = useState<FormSelection>(defaultFormSelection)
@@ -34,25 +31,22 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
 
     return (
         <HomeBackground>
-            <Header
-                justify={size !== "small" ? "evenly" : "center"}
-                direction={size !== "small" ? "row" : "column"}
-            >
+            <Header justify="evenly" direction="row">
                 <Box border="between" gap="small">
                     <Logo
                         id="app-name-txt"
                         textAlign={size !== "small" ? "start" : "center"}
+                        header
                         size={size}
                         margin="none"
                     />
                     <Description
-                        weight={size !== "small" ? "bold" : "normal"}
-                        textAlign={size !== "small" ? "start" : "center"}
-                        size={size}
+                        textAlign="start"
+                        size={size !== "small" ? "medium" : "small"}
                         text="let your mood inspire you"
                     />
                 </Box>
-                {size !== "small" && <UserDetails user={user} />}
+                <UserDetails user={user} small={size === "small"} />
             </Header>
             <Content size={size}>
                 {loading ? (
@@ -87,7 +81,6 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                     />
                 )}
             </Content>
-            {size === "small" && <UserDetails user={user} small />}
         </HomeBackground>
     )
 }

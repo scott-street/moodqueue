@@ -2,7 +2,7 @@ import React from "react"
 import { SnackbarProvider, useSnackbar } from "notistack"
 
 export interface NotificationContextValue {
-    notifySuccess: (param: string) => void
+    notifySuccess: (param: string, position?: any) => void
     notifyError: (param: string) => void
 }
 
@@ -19,8 +19,14 @@ interface NotificationProviderProps {
 const BaseNotificationProvider: React.FunctionComponent<NotificationProviderProps> = (props) => {
     const { enqueueSnackbar } = useSnackbar()
 
-    const notifySuccess = (message: string) => {
-        enqueueSnackbar(message, { variant: "success" })
+    const notifySuccess = (message: string, position?: any) => {
+        enqueueSnackbar(message, {
+            variant: "success",
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: position === undefined ? "center" : position,
+            },
+        })
     }
 
     const notifyError = (message: string) => {

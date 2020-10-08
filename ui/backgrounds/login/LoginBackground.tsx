@@ -5,7 +5,7 @@ import { LoginBackgroundOuter, LoginBackgroundInner } from "../Background.styles
 
 export const LoginBackground: React.FunctionComponent = (props) => {
     return (
-        <LoginBackgroundOuter id="login-outer-box">
+        <LoginBackgroundOuter id="login-outer-box" pad="medium">
             <motion.div
                 style={{ width: "100%", height: "100%" }}
                 className="container"
@@ -19,7 +19,7 @@ export const LoginBackground: React.FunctionComponent = (props) => {
                     background={{ color: "#2F3E4D", opacity: 0.7 }}
                     border={{
                         side: "all",
-                        size: "xlarge",
+                        size: "large",
                         style: "outset",
                         color: "accent-1",
                     }}

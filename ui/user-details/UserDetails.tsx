@@ -11,44 +11,19 @@ interface UserDetailsProps {
 export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) => {
     const { user, small } = props
 
-    if (small) {
-        return (
-            <Box align="center">
-                {user.profileImages[0] ? (
-                    <Avatar
-                        id="avatar-profile-image-small"
-                        src={user.profileImages[0].url}
-                        size={"medium"}
-                        border={{ size: "small", side: "all", color: "accent-1" }}
-                        onClick={() => window.open(user.profileUrl, "_blank")}
-                        title="click to open your spotify profile"
-                    />
-                ) : (
-                    <Avatar
-                        id="avatar-default-small"
-                        background="accent-2"
-                        border={{ size: "small", side: "all", color: "accent-1" }}
-                        size={"medium"}
-                        onClick={() => window.open(user.profileUrl, "_blank")}
-                        title="click to open your spotify profile"
-                    >
-                        <User color="accent-1" size={"medium"} />
-                    </Avatar>
-                )}
-            </Box>
-        )
-    }
     return (
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Box direction="row" align="center" gap="small">
-                <Heading textAlign="center" margin="none" id="username-txt">
-                    {user.name}
-                </Heading>
+                {!small && (
+                    <Heading textAlign="center" margin="none" id="username-txt" size="small">
+                        {user.name}
+                    </Heading>
+                )}
                 {user.profileImages[0] ? (
                     <Avatar
                         id="avatar-profile-image"
                         src={user.profileImages[0].url}
-                        size="xlarge"
+                        size={small ? "medium" : "large"}
                         border={{ size: "small", side: "all", color: "accent-1" }}
                         onClick={() => window.open(user.profileUrl, "_blank")}
                         title="click to open your spotify profile"
@@ -58,11 +33,11 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
                         id="avatar-default"
                         background="accent-2"
                         border={{ size: "small", side: "all", color: "accent-1" }}
-                        size="large"
+                        size={small ? "medium" : "large"}
                         onClick={() => window.open(user.profileUrl, "_blank")}
                         title="click to open your spotify profile"
                     >
-                        <User color="accent-1" size="large" />
+                        <User color="accent-1" size={small ? "medium" : "large"} />
                     </Avatar>
                 )}
             </Box>

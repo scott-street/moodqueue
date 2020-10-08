@@ -25,17 +25,17 @@ describe("<UserDetails />", () => {
         })
     })
     describe("smallWithProfilePicture", () => {
-        it("renders small user picture", () => {
+        it("renders small user picture with no username", () => {
             const container = render(smallWithProfilePicture())
 
-            expect(container.find("#avatar-profile-image-small").length).to.eq(1)
+            expect(container.find("#username-txt").length).to.eql(0)
         })
     })
     describe("smallWithoutProfilePicture", () => {
-        it("renders small default avatar", () => {
+        it("renders small default avatar with no username", () => {
             const container = render(smallWithoutProfilePicture())
 
-            expect(container.find("#avatar-default-small").length).to.eq(1)
+            expect(container.find("#username-txt").length).to.eql(0)
         })
     })
 })

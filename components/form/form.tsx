@@ -8,6 +8,8 @@ import { FormSelection } from "../../types/FormSelection"
 import { Mood } from "../../types/Mood"
 import { Button } from "../../ui/button/Button"
 import { Description } from "../../ui/description/Description"
+import { motion } from "framer-motion"
+import { baseItemBottom } from "../animations/motion"
 
 interface FormProps {
     size: string
@@ -27,41 +29,43 @@ export const Form: FunctionComponent<FormProps> = (props) => {
     }, [])
 
     return (
-        <Box justify="between" align="center" flex fill>
-            <Description
-                header
-                id="queue-title"
-                textAlign="center"
-                size={size !== "small" ? "medium" : "small"}
-                text="new queue"
-            />
-            <Box fill justify="evenly" align="center">
-                <MoodSelection
-                    size={size}
-                    moodIndex={state.mood}
-                    progress={state.progress}
-                    dispatch={(value) => dispatch(value)}
+        <motion.div variants={baseItemBottom} style={{ width: "100%", height: "100%" }}>
+            <Box justify="between" align="center" flex fill>
+                <Description
+                    header
+                    id="queue-title"
+                    textAlign="center"
+                    size="small"
+                    text="new queue"
                 />
-                <SizePicker
-                    size={size}
-                    numSongs={state.numSongs}
-                    progress={state.progress}
-                    dispatch={(value) => dispatch(value)}
-                />
-                <SourceSelection
-                    size={size}
-                    source={state.source}
-                    progress={state.progress}
-                    dispatch={(value) => dispatch(value)}
+                <Box fill justify="evenly" align="center">
+                    <MoodSelection
+                        size={size}
+                        moodIndex={state.mood}
+                        progress={state.progress}
+                        dispatch={(value) => dispatch(value)}
+                    />
+                    <SizePicker
+                        size={size}
+                        numSongs={state.numSongs}
+                        progress={state.progress}
+                        dispatch={(value) => dispatch(value)}
+                    />
+                    <SourceSelection
+                        size={size}
+                        source={state.source}
+                        progress={state.progress}
+                        dispatch={(value) => dispatch(value)}
+                    />
+                </Box>
+                <Button
+                    id="submit-form-btn"
+                    text="continue"
+                    onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
+                    disabled={state.progress !== 3}
                 />
             </Box>
-            <Button
-                id="submit-form-btn"
-                text="continue"
-                onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
-                disabled={state.progress !== 3}
-            />
-        </Box>
+        </motion.div>
     )
 }
 

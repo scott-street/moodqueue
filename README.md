@@ -10,11 +10,12 @@ moodqueue is a Next.js React web app that uses the Spotify Web API to generate q
 > example use cases
 
 moodqueue is great for all sorts of occasions and activities, like...
-* falling asleep to a great set of sleepy tunes
-* coming up with a great, boppin' queue for your party on short notice
-* finding the motivation to redo your homework after your dog ate it with an inspirational queue full of happy, energetic ragers
-* crying tears of joy after realizing that the days of spending hours and hours building playlists to fit all kinds of different moods are gone
-* literally everything else... maybe? absolutely.
+
+-   falling asleep to a great set of sleepy tunes
+-   coming up with a great, boppin' queue for your party on short notice
+-   finding the motivation to redo your homework after your dog ate it with an inspirational queue full of happy, energetic ragers
+-   crying tears of joy after realizing that the days of spending hours and hours building playlists to fit all kinds of different moods are gone
+-   literally everything else... maybe? absolutely.
 
 ## Install
 
