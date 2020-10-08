@@ -99,11 +99,15 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                 text="remove from queue"
                                 color="neutral-4"
                                 onClick={() => {
-                                    onClickRemove()
-                                    notifySuccess(
-                                        `${track.name} has been removed from your queue`,
-                                        size !== "small" ? "right" : undefined
-                                    )
+                                    setIsOpen(false)
+                                    setTimeout(() => {
+                                        onClickRemove()
+                                        notifySuccess(
+                                            `${track.name} has been removed from your queue`,
+                                            size !== "small" ? "right" : undefined
+                                        )
+                                        close()
+                                    }, 500)
                                 }}
                             />
                         )}
