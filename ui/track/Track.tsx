@@ -19,7 +19,7 @@ interface TrackProps {
 export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
     const { track, onClickMore, onClickRemove } = trackProps
     const [loading, setLoading] = useState(true)
-    const [isDrag, setIsDrag] = useState(false)
+    //const [isDrag, setIsDrag] = useState(false)
     const { notifySuccess } = useNotification()
     const x = useMotionValue(0)
     const xInput = [-100, 0]
