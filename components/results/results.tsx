@@ -47,10 +47,10 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
     return (
         <Box align="center" justify="between" gap="small" fill>
             <Description
-                header
                 id="desc-title"
                 textAlign="center"
-                size="small"
+                size={size !== "small" ? "xlarge" : "medium"}
+                weight="bold"
                 text={`here's your ${mood >= 0 ? Mood[mood].toLowerCase() + " queue:" : " queue:"}`}
             />
             <Box direction="row" border="between" gap="small" align="center">

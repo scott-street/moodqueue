@@ -48,20 +48,12 @@ export const getTrackSourceFromFormSelection = (formSelection: FormSelection): T
 }
 
 export const getShortenedName = (name: string, track: boolean) => {
-    if (name.length <= (track ? 10 : 14)) {
+    if (name.length <= (track ? 10 : 15)) {
         return name
     } else {
         let temp: string = ""
-        temp = name.substring(0, track ? 6 : 10)
+        temp = name.substring(0, track ? 9 : 14)
         temp += "..."
         return temp
     }
-}
-
-export const getSwipeThreshold = () => {
-    return 10000
-}
-
-export const swipePower = (offset: number, velocity: number) => {
-    return Math.abs(offset) * velocity
 }

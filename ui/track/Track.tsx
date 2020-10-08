@@ -47,33 +47,6 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
     )
 
     return (
-        // <motion.div
-        //   whileHover={{ scale: trackProps.size !== 'small' ? 1.1 : 1 }}
-        //   style={{
-        //     background: bg,
-        //     borderRadius: 30,
-        //     borderBottomRightRadius: 0,
-        //     display: 'flex',
-        //     //flexDirection: 'row-reverse',
-        //     alignItems: 'center',
-        //     //overflowY: 'auto',
-        //     justifyContent: 'space-between'
-        //   }}
-        // >
-        //   {/* <Trash
-        //     size={trackProps.size === 'small' ? 'medium' : 'large'}
-        //     style={{
-        //       paddingRight: 25,
-        //       paddingLeft: 25,
-        //       display: isDrag ? undefined : 'none'
-        //     }}
-        //   /> */}
-        //   <Box
-        //     pad={{ vertical: 'small', horizontal: 'small' }}
-        //     align="center"
-        //     fill
-        //     flex
-        //   >
         <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{
@@ -218,7 +191,5 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                 )}
             </OuterBox>
         </motion.div>
-        //   </Box>
-        // </motion.div>
     )
 }
