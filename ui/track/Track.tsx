@@ -7,6 +7,7 @@ import { Track as TrackType } from "../../types/Track"
 import { Button } from "../button/Button"
 import { motion } from "framer-motion"
 import { MoonLoader } from "react-spinners"
+import { useNotification } from "../../common/hooks/useNotification"
 
 interface TrackProps {
     size?: any
@@ -17,6 +18,7 @@ interface TrackProps {
 export const Track: React.FunctionComponent<TrackProps> = (props) => {
     const { size, track, onClickMore, onClickRemove } = props
     const [loading, setLoading] = useState(true)
+    const { notifySuccess } = useNotification()
 
     return (
         <motion.div
