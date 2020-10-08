@@ -17,7 +17,10 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
             <Box
                 overflow={{ vertical: "auto", horizontal: "hidden" }}
                 fill
-                pad={{ horizontal: size !== "small" ? "xlarge" : "none" }}
+                pad={{
+                    horizontal: size !== "small" ? "xlarge" : "none",
+                    vertical: "small",
+                }}
                 gap="medium"
             >
                 {tracks.map((track, i) => (
