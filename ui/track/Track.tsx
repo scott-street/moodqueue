@@ -128,7 +128,13 @@ export const Track: React.FunctionComponent<TrackProps> = (props) => {
                         color="dark-1"
                         title="remove from moodqueue"
                         icon={<SubtractCircle color="status-error" size={size} />}
-                        onClick={onClickRemove}
+                        onClick={() => {
+                            onClickRemove()
+                            notifySuccess(
+                                `${track.name} has been removed from your queue`,
+                                size !== "small" ? "right" : undefined
+                            )
+                        }}
                     />
                 )}
             </OuterBox>
