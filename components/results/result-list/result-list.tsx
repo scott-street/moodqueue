@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react"
 import { Box } from "grommet"
 import { Track } from "../../../types/Track"
 import { ResultListItem } from "../result-list-item/result-list-item"
+import { AnimatePresence } from "framer-motion"
 
 interface ResultListProps {
     tracks: Track[]
@@ -14,18 +15,20 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
     return (
         <Box
             overflow={{ vertical: "auto", horizontal: "hidden" }}
-            gap="medium"
+            //gap="medium"
             alignContent="center"
             justify={tracks ? (tracks.length > 1 ? "start" : "center") : "center"}
             pad={{
-                vertical: "small",
+                //vertical: 'small',
                 horizontal: size !== "small" ? "xlarge" : "none",
             }}
             fill
         >
-            {tracks.map((track, i) => (
-                <ResultListItem key={i} track={track} size={size} dispatch={dispatch} />
-            ))}
+            <AnimatePresence>
+                {tracks.map((track, i) => (
+                    <ResultListItem key={i} track={track} size={size} dispatch={dispatch} />
+                ))}
+            </AnimatePresence>
         </Box>
     )
 }
