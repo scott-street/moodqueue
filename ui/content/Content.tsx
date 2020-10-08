@@ -1,7 +1,5 @@
 import React from "react"
-import { motion } from "framer-motion"
 import { ContentOuter, ContentInner } from "./Content.styles"
-import { baseItemBottom } from "../../components/animations/motion"
 
 interface ContentProps {
     size: any
