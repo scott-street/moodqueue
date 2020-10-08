@@ -80,20 +80,30 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             >
                 {state.tracks && state.tracks.length === 0 ? (
                     <Box align="center" gap="small" justify="center">
-                        <Description
-                            textAlign="center"
-                            size={size}
-                            weight="bold"
-                            text="oops! no more songs"
-                        />
-                        <Sad width="48px" height="48px" />
-                        <Description
-                            textAlign="center"
-                            size={size !== "small" ? "medium" : "small"}
-                            text={`click the ${
-                                size === "small" ? "back" : "start over"
-                            } button below to make a new moodqueue!`}
-                        />
+                        <motion.div
+                            variants={baseItemTop}
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                flexDirection: "column",
+                                textAlign: "center",
+                            }}
+                        >
+                            <Description
+                                textAlign="center"
+                                size={size}
+                                weight="bold"
+                                text="oops! no more songs"
+                            />
+                            <Sad width="48px" height="48px" />
+                            <Description
+                                textAlign="center"
+                                size={size !== "small" ? "medium" : "small"}
+                                text={`click the ${
+                                    size === "small" ? "back" : "start over"
+                                } button below to make a new moodqueue!`}
+                            />
+                        </motion.div>
                     </Box>
                 ) : (
                     <motion.div

@@ -53,7 +53,6 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                 display: "flex",
                 //flexDirection: 'row-reverse',
                 alignItems: "center",
-                margin: 10,
             }}
         >
             {/* <Trash
