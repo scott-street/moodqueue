@@ -2,15 +2,13 @@ import React, { useState } from "react"
 import { OuterBox, InnerBoxStart } from "./Track.styles"
 import { Box, Image, Text } from "grommet"
 import { More, SubtractCircle, Trash } from "grommet-icons"
-import { getShortenedName, getSwipeThreshold, swipePower } from "../../common/Helpers"
+import { getShortenedName } from "../../common/Helpers"
 import { Track as TrackType } from "../../types/Track"
 import { Button } from "../button/Button"
 import { MoonLoader } from "react-spinners"
 import { useNotification } from "../../common/hooks/useNotification"
 import { useSpring, animated, interpolate } from "react-spring"
 import { useGesture, useDrag } from "react-use-gesture"
-
-const calc = (x, y) => [-(y - window.innerHeight / 2) / 20, (x - window.innerWidth / 2) / 20, 1.1]
 
 interface TrackProps {
     size?: any
@@ -23,17 +21,11 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
     const [loading, setLoading] = useState(true)
     const [isDrag, setIsDrag] = useState(false)
     const { notifySuccess } = useNotification()
-    const [{ x, y }, set] = useSpring(() => ({ x: 0, y: 0 }))
-
-    // Set the drag hook and define component movement based on gesture data
-    const bind = useDrag(({ down, movement: [mx, my] }) => {
-        set({ x: down ? mx : 0, y: down ? my : 0 })
-    })
+    //const [bind, { delta, down }] = useGesture()
 
     return (
         <animated.div
             style={{
-                //background: bg,
                 borderRadius: 30,
                 borderBottomRightRadius: 0,
                 display: "flex",
@@ -49,7 +41,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                     display: isDrag ? undefined : "none",
                 }}
             />
-            <animated.div {...bind()} style={{ x, y }}>
+            <animated.div>
                 <OuterBox
                     pad={{
                         vertical: trackProps.size === "small" ? "small" : "none",
