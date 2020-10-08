@@ -64,146 +64,157 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
           display: isDrag ? undefined : 'none'
         }}
       /> */}
-                <AnimatePresence>
-                    <motion.div
-                        initial={{ opacity: 0, y: 100 }}
-                        animate={{ opacity: 1, transition: { duration: 0.5 }, y: 0, x: 0 }}
-                        exit={{ opacity: 0 }}
-                        style={{ x, height: "100%", width: "100%" }}
-                        {...bind()}
-                        key={track.id}
-                    >
-                        <OuterBox
-                            pad={{
-                                vertical: trackProps.size === "small" ? "small" : "none",
-                                horizontal: trackProps.size === "small" ? "large" : "medium",
+                <Box pad={{ vertical: "medium", horizontal: "small" }} align="center" fill>
+                    <AnimatePresence>
+                        <motion.div
+                            initial={{ opacity: 0, y: 100 }}
+                            animate={{
+                                opacity: 1,
+                                transition: { duration: 0.5 },
+                                y: 0,
+                                x: 0,
                             }}
-                            border={{
-                                side: "all",
-                                size: trackProps.size !== "small" ? "medium" : "small",
-                                color: "accent-3",
-                            }}
-                            background={{ dark: true }}
+                            exit={{ opacity: 0 }}
+                            style={{ x, height: "100%", width: "100%" }}
+                            {...bind()}
+                            key={track.id}
                         >
-                            <InnerBoxStart
-                                gap="small"
-                                pad={{ vertical: "small", right: "small" }}
-                                round="small"
+                            <OuterBox
+                                pad={{
+                                    vertical: trackProps.size === "small" ? "small" : "none",
+                                    horizontal: trackProps.size === "small" ? "large" : "medium",
+                                }}
+                                border={{
+                                    side: "all",
+                                    size: trackProps.size !== "small" ? "medium" : "small",
+                                    color: "accent-3",
+                                }}
                                 background={{ dark: true }}
                             >
-                                <Box direction="row" align="center" gap="small" round="small">
-                                    <Box
-                                        background={{
-                                            color:
-                                                trackProps.size !== "small" ? "#1F2730" : undefined,
-                                            opacity: 0.6,
-                                        }}
-                                        pad={trackProps.size !== "small" ? "xsmall" : "none"}
-                                        round="small"
-                                        align="center"
-                                        width={
-                                            trackProps.size === "large"
-                                                ? "144px"
-                                                : trackProps.size === "medium"
-                                                ? "120px"
-                                                : "72px"
-                                        }
-                                        height={
-                                            trackProps.size === "large"
-                                                ? "144px"
-                                                : trackProps.size === "medium"
-                                                ? "120px"
-                                                : "72px"
-                                        }
-                                    >
-                                        {loading ? (
-                                            <Box align="center" justify="center" flex>
-                                                <MoonLoader size={60} color="#6FFFB0" />
+                                <InnerBoxStart
+                                    gap="small"
+                                    pad={{ vertical: "small", right: "small" }}
+                                    round="small"
+                                    background={{ dark: true }}
+                                >
+                                    <Box direction="row" align="center" gap="small" round="small">
+                                        <Box
+                                            background={{
+                                                color:
+                                                    trackProps.size !== "small"
+                                                        ? "#1F2730"
+                                                        : undefined,
+                                                opacity: 0.6,
+                                            }}
+                                            pad={trackProps.size !== "small" ? "xsmall" : "none"}
+                                            round="small"
+                                            align="center"
+                                            width={
+                                                trackProps.size === "large"
+                                                    ? "144px"
+                                                    : trackProps.size === "medium"
+                                                    ? "120px"
+                                                    : "72px"
+                                            }
+                                            height={
+                                                trackProps.size === "large"
+                                                    ? "144px"
+                                                    : trackProps.size === "medium"
+                                                    ? "120px"
+                                                    : "72px"
+                                            }
+                                        >
+                                            {loading ? (
+                                                <Box align="center" justify="center" flex>
+                                                    <MoonLoader size={60} color="#6FFFB0" />
+                                                    <Image
+                                                        src={track.imageLink}
+                                                        onLoad={() => setLoading(false)}
+                                                        style={{ display: "none" }}
+                                                    />
+                                                </Box>
+                                            ) : (
                                                 <Image
+                                                    id="list-item-album-artwork"
+                                                    fill
+                                                    alignSelf="center"
                                                     src={track.imageLink}
-                                                    onLoad={() => setLoading(false)}
-                                                    style={{ display: "none" }}
+                                                    fit="contain"
                                                 />
-                                            </Box>
-                                        ) : (
-                                            <Image
-                                                id="list-item-album-artwork"
-                                                fill
-                                                alignSelf="center"
-                                                src={track.imageLink}
-                                                fit="contain"
+                                            )}
+                                        </Box>
+                                        <Box align="start">
+                                            <Text
+                                                textAlign="start"
+                                                weight="bold"
+                                                size={
+                                                    trackProps.size === "large"
+                                                        ? "xxlarge"
+                                                        : trackProps.size === "medium"
+                                                        ? "xlarge"
+                                                        : trackProps.size
+                                                }
+                                            >
+                                                {trackProps.size === "small"
+                                                    ? getShortenedName(track.name, true)
+                                                    : track.name}
+                                            </Text>
+                                            <Text
+                                                textAlign="start"
+                                                size={
+                                                    trackProps.size === "large"
+                                                        ? "medium"
+                                                        : trackProps.size === "medium"
+                                                        ? "small"
+                                                        : "xsmall"
+                                                }
+                                            >
+                                                {trackProps.size === "small"
+                                                    ? getShortenedName(track.artist, false)
+                                                    : track.artist}
+                                            </Text>
+                                        </Box>
+                                    </Box>
+                                    <Button
+                                        id="more-details-btn"
+                                        title="more"
+                                        fill={false}
+                                        icon={
+                                            <More
+                                                size={
+                                                    trackProps.size === "large" ? "large" : "medium"
+                                                }
                                             />
-                                        )}
-                                    </Box>
-                                    <Box align="start">
-                                        <Text
-                                            textAlign="start"
-                                            weight="bold"
-                                            size={
-                                                trackProps.size === "large"
-                                                    ? "xxlarge"
-                                                    : trackProps.size === "medium"
-                                                    ? "xlarge"
-                                                    : trackProps.size
-                                            }
-                                        >
-                                            {trackProps.size === "small"
-                                                ? getShortenedName(track.name, true)
-                                                : track.name}
-                                        </Text>
-                                        <Text
-                                            textAlign="start"
-                                            size={
-                                                trackProps.size === "large"
-                                                    ? "medium"
-                                                    : trackProps.size === "medium"
-                                                    ? "small"
-                                                    : "xsmall"
-                                            }
-                                        >
-                                            {trackProps.size === "small"
-                                                ? getShortenedName(track.artist, false)
-                                                : track.artist}
-                                        </Text>
-                                    </Box>
-                                </Box>
-                                <Button
-                                    id="more-details-btn"
-                                    title="more"
-                                    fill={false}
-                                    icon={
-                                        <More
-                                            size={trackProps.size === "large" ? "large" : "medium"}
-                                        />
-                                    }
-                                    small={trackProps.size === "small"}
-                                    hover="#24C0FF"
-                                    onClick={onClickMore}
-                                />
-                            </InnerBoxStart>
-                            {trackProps.size !== "small" && (
-                                <Button
-                                    id="remove-track-btn"
-                                    color="dark-1"
-                                    title="remove from moodqueue"
-                                    icon={
-                                        <SubtractCircle
-                                            color="status-error"
-                                            size={trackProps.size}
-                                        />
-                                    }
-                                    onClick={() => {
-                                        onClickRemove()
-                                        notifySuccess(
-                                            `${track.name} has been removed from your queue`,
-                                            trackProps.size !== "small" ? "right" : undefined
-                                        )
-                                    }}
-                                />
-                            )}
-                        </OuterBox>
-                    </motion.div>
-                </AnimatePresence>
+                                        }
+                                        small={trackProps.size === "small"}
+                                        hover="#24C0FF"
+                                        onClick={onClickMore}
+                                    />
+                                </InnerBoxStart>
+                                {trackProps.size !== "small" && (
+                                    <Button
+                                        id="remove-track-btn"
+                                        color="dark-1"
+                                        title="remove from moodqueue"
+                                        icon={
+                                            <SubtractCircle
+                                                color="status-error"
+                                                size={trackProps.size}
+                                            />
+                                        }
+                                        onClick={() => {
+                                            onClickRemove()
+                                            notifySuccess(
+                                                `${track.name} has been removed from your queue`,
+                                                trackProps.size !== "small" ? "right" : undefined
+                                            )
+                                        }}
+                                    />
+                                )}
+                            </OuterBox>
+                        </motion.div>
+                    </AnimatePresence>
+                </Box>
             </motion.div>
         </AnimatePresence>
     )
