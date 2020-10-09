@@ -17,6 +17,19 @@ interface TrackDetailsProps {
     close?: () => void
 }
 
+const backgrounds = [
+    [
+        "linear-gradient(115deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 75%)",
+        "linear-gradient(215deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 75%)",
+        "linear-gradient(215deg, rgba(255,53,53,1) 25%, rgba(57,73,94,1) 75%)",
+    ],
+    [
+        "linear-gradient(115deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
+        "linear-gradient(215deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
+        "linear-gradient(270deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
+    ],
+]
+
 export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) => {
     const { size, track, setVolume, onClickRemove, close } = props
     const [isOpen, setIsOpen] = useState(true)
@@ -27,9 +40,9 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
         y,
         [-50, 0, 50],
         [
-            "linear-gradient(45deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
-            "linear-gradient(0deg, rgba(52,73,94,1) 0%, rgba(31,39,48,1) 100%)",
-            "linear-gradient(180deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 75%)",
+            "linear-gradient(115deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 75%)",
+            "linear-gradient(180deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 100%)",
+            "linear-gradient(215deg, rgba(255,53,53,1) 25%, rgba(57,73,94,1) 75%)",
         ]
     )
 
@@ -49,7 +62,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
         },
         {
             axis: "y",
-            lockDirection: true
+            lockDirection: true,
         }
     )
 
@@ -84,6 +97,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                             color: "accent-1",
                             size: "small",
                         }}
+                        background="#34495E"
                     >
                         <Image
                             src={track.imageLink}
@@ -163,6 +177,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                     <OuterBox
                         pad={{ top: "xsmall", bottom: "small", horizontal: "xsmall" }}
                         gap="medium"
+                        overflow="scroll"
                     >
                         <Image src={track.imageLink} fit="contain" fill id="album-artwork-img" />
                         <InnerBox
