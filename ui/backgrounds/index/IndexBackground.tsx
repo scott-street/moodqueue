@@ -9,19 +9,16 @@ export const Index: React.FunctionComponent = (props) => {
                 <Head>
                     <meta
                         name="viewport"
-                        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover"
+                        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
                     />
                     <meta name="theme-color" content="#3f5efb" />
-                    <meta
-                        name="apple-mobile-web-app-status-bar-style"
-                        content="black-translucent"
-                    />
+                    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
                     <meta name="mobile-web-app-capable" content="yes" />
                     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                     <link rel="shortcut icon" href="/favicon.ico" key={0} />
                     <link rel="manifest" href="/manifest.json" />
 
-                    <style>{"body { background: #1F2730; overflow: hidden;}"}</style>
+                    <style>{"body { background: #1F2730; }"}</style>
                 </Head>
             }
             {props.children}
