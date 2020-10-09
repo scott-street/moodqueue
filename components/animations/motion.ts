@@ -37,7 +37,7 @@ export const baseItemTop = {
     },
 }
 
-export const trackDetailsVariants = (size: string, top?: boolean) => {
+export const trackDetailsVariants = (size: string) => {
     if (size === "small") {
         return {
             open: {
@@ -46,7 +46,7 @@ export const trackDetailsVariants = (size: string, top?: boolean) => {
             },
             closed: {
                 opacity: 0,
-                y: top ? 1000 : -1000,
+                y: 1000,
                 transition: {
                     y: { type: "spring", bounce: 0.1, damping: 50 },
                     opacity: { duration: 0.5 },
