@@ -49,6 +49,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
         },
         {
             axis: "y",
+            lockDirection: true
         }
     )
 
