@@ -16,7 +16,11 @@ export const Index: React.FunctionComponent = (props) => {
                     <link rel="shortcut icon" href="/favicon.ico" key={0} />
                     <link rel="manifest" href="/manifest.json" />
 
-                    <style>{"body { background: #1F2730; overflow: hidden;}"}</style>
+                    <style>
+                        {
+                            "body { background: #1F2730; overflow: hidden; -webkit-overflow-scrolling: touch;}"
+                        }
+                    </style>
                 </Head>
             }
             {props.children}
