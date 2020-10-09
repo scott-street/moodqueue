@@ -6,6 +6,7 @@ import { EmotionHappy as Happy } from "@styled-icons/remix-fill/EmotionHappy"
 import { EmotionSad as Sad } from "@styled-icons/remix-fill/EmotionSad"
 import { Bed as Sleepy } from "@styled-icons/boxicons-regular/Bed"
 import { GlassCheers as Party } from "@styled-icons/fa-solid/GlassCheers"
+import { Car as Driving } from "@styled-icons/boxicons-regular/Car"
 import { Mood } from "../../types/Mood"
 
 interface MoodButtonProps {
@@ -49,8 +50,10 @@ export const MoodButton: React.FunctionComponent<MoodButtonProps> = (props) => {
                     <Sleepy width="32px" height="32px" id="sleepy-emoji" color="#555555" />
                 ) : mood === Mood.PARTY.toString() ? (
                     <Party width="32px" height="32px" id="party-emoji" color="#555555" />
-                ) : (
+                ) : mood === Mood.SAD.toString() ? (
                     <Sad width="32px" height="32px" id="sad-emoji" color="#555555" />
+                ) : (
+                    <Driving width="32px" height="32px" id="driving-emoji" color="#555555" />
                 )}
             </MoodBox>
         </motion.div>

@@ -8,6 +8,7 @@ import {
     partyComparator,
     sadComparator,
     sleepyComparator,
+    drivingComparator,
 } from "../MoodComparators"
 import { useNotification } from "./useNotification"
 import { processQueue } from "../QueueProcessor"
@@ -64,7 +65,11 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         }
     }
 
-    const getTopArtists = async (count: number): Promise<string[]> => {
+    interface ArtistGenre {
+        id: string
+        genres: string[]
+    }
+    const getTopArtists = async (count: number): Promise<ArtistGenre[]> => {
         try {
             return await fetch(`https://api.spotify.com/v1/me/top/artists?limit=${count}`, {
                 headers: {
@@ -78,40 +83,74 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                     return data.json()
                 })
                 .then((data) => {
-                    return data.items.map((artist) => artist.id)
+                    return data.items.map(
+                        (artist) => ({ id: artist.id, genres: artist.genres } as ArtistGenre)
+                    )
                 })
         } catch (e) {
             notifyError("Error retrieving top artists")
         }
     }
 
+    const getTopGenres = async (count: number): Promise<string[]> => {
+        const topArtistsAndGenres: ArtistGenre[] = await getTopArtists(15)
+        const genreArrays = topArtistsAndGenres.map((o) => o.genres)
+        const allGenres: string[] = [].concat.apply([], genreArrays)
+        const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
+        const comparator = (g1, g2) => {
+            return countOccurrences(allGenres, g2) - countOccurrences(allGenres, g1)
+        }
+        const ordered = allGenres.sort(comparator)
+        const unique = Array.from(new Set(ordered))
+        return unique.slice(0, count)
+    }
+
+    const getRecommendedFromSeed = async (
+        type: string,
+        seed: string,
+        count: number
+    ): Promise<Track[]> => {
+        let url
+        if (type === "tracks") {
+            url = `https://api.spotify.com/v1/recommendations?limit=${count}&seed_tracks=${seed}`
+        } else if (type === "artists") {
+            url = `https://api.spotify.com/v1/recommendations?limit=${count}&seed_artists=${seed}`
+        } else if (type === "genres") {
+            url = `https://api.spotify.com/v1/recommendations?limit=${count}&seed_genres=${seed}`
+        } else {
+            return
+        }
+
+        return await fetch(url, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + accessToken,
+            },
+            method: "GET",
+        })
+            .then((data) => {
+                return data.json()
+            })
+            .then((data) => {
+                return data.tracks.map((track) => ({
+                    previewUrl: track.preview_url,
+                    name: track.name,
+                    artist: track.album.artists[0].name,
+                    imageLink: track.album.images[0].url,
+                    id: track.id,
+                    uri: track.uri,
+                }))
+            })
+    }
+
     const getRecommendedSongs = async (count: number): Promise<Track[]> => {
         try {
-            const topArtists: string = (await getTopArtists(5)).join(",")
-            return await fetch(
-                `https://api.spotify.com/v1/recommendations?limit=${count}&seed_artists=${topArtists}`,
-                {
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                        Authorization: "Bearer " + accessToken,
-                    },
-                    method: "GET",
-                }
-            )
-                .then((data) => {
-                    return data.json()
-                })
-                .then((data) => {
-                    return data.tracks.map((track) => ({
-                        previewUrl: track.preview_url,
-                        name: track.name,
-                        artist: track.album.artists[0].name,
-                        imageLink: track.album.images[0].url,
-                        id: track.id,
-                        uri: track.uri,
-                    }))
-                })
+            const topGenres = (await getTopGenres(5)).join(",")
+            const topArtists = (await getTopArtists(5)).map((o) => o.id).join(",")
+            const recommendedGenre = await getRecommendedFromSeed("genres", topGenres, 50)
+            const recommendedArtists = await getRecommendedFromSeed("artists", topArtists, 50)
+            return recommendedGenre.concat(recommendedArtists)
         } catch (e) {
             notifyError("Error retrieving recommended songs")
         }
@@ -122,9 +161,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             const topArtists = await getTopArtists(count)
 
             return await Promise.all(
-                topArtists.map(async (artistId) => {
+                topArtists.map(async (artist) => {
                     return await fetch(
-                        `https://api.spotify.com/v1/artists/${artistId}/top-tracks?country=ES`,
+                        `https://api.spotify.com/v1/artists/${artist.id}/top-tracks?country=ES`,
                         {
                             headers: {
                                 Accept: "application/json",
@@ -246,7 +285,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             })
         }
         if (trackSource.includes(TrackSource.RECOMMENDED_SONGS)) {
-            await getRecommendedSongs(50).then(async (songs) => {
+            await getRecommendedSongs(100).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((recommendedTracks) => {
                     tracks = tracks.concat(recommendedTracks)
                 })
@@ -275,6 +314,8 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             comparator = sleepyComparator
         } else if (mood === Mood.PARTY) {
             comparator = partyComparator
+        } else if (mood === Mood.DRIVING) {
+            comparator = drivingComparator
         } else {
             comparator = sadComparator
         }

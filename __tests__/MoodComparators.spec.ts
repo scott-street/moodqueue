@@ -3,6 +3,7 @@ import {
     partyComparator,
     sadComparator,
     sleepyComparator,
+    drivingComparator,
 } from "../common/MoodComparators"
 import { mockPropertyTracks } from "../common/mocks/PropertyTracks"
 
@@ -11,6 +12,8 @@ describe("MoodComparators", () => {
     const sadderTrack = mockPropertyTracks.find((o) => o.name === "Garden Song")
     const lowEnergyTrack = mockPropertyTracks.find((o) => o.name === "Unforgivable")
     const highEnergyTrack = mockPropertyTracks.find((o) => o.name === "Without You")
+    const tempo133Track = mockPropertyTracks.find((o) => o.name === "Without You")
+    const tempo77Track = mockPropertyTracks.find((o) => o.name === "Like That Bitch")
 
     describe("happyComparator", () => {
         it("returns negative if the first song has a higher valence", () => {
@@ -56,6 +59,18 @@ describe("MoodComparators", () => {
         })
         it("returns 0 if the songs have the same energy", () => {
             expect(partyComparator(highEnergyTrack, highEnergyTrack)).toEqual(0)
+        })
+    })
+
+    describe("drivingComparator", () => {
+        it("returns negative if the first song is closer to 127 bpm", () => {
+            expect(drivingComparator(tempo133Track, tempo77Track)).toBeLessThan(0)
+        })
+        it("returns positive if the first song is farther to 127 bpm", () => {
+            expect(drivingComparator(tempo77Track, tempo133Track)).toBeGreaterThan(0)
+        })
+        it("returns 0 if they are equally away from 127 bpm", () => {
+            expect(drivingComparator(tempo133Track, tempo133Track)).toEqual(0)
         })
     })
 })

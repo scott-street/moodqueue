@@ -45,7 +45,7 @@ describe("<MoodSelection />", () => {
             <MoodSelection size={"large"} moodIndex={-1} progress={0} dispatch={jest.fn()} />
         )
 
-        expect(wrapper.find("#mood-txt")).to.have.length(4)
+        expect(wrapper.find("#mood-txt")).to.have.length(5)
     })
 
     it("doesn't render mood name for small screens", () => {
