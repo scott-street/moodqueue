@@ -3,4 +3,5 @@ export enum Mood {
     SAD,
     SLEEPY,
     PARTY,
+    DRIVING,
 }
