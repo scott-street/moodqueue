@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { AnimatePresence, motion, useMotionValue } from "framer-motion"
+import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion"
 import { OuterBox, InnerBox } from "./TrackDetails.styles"
 import { Layer, Image, Text, Anchor } from "grommet"
 import { Track } from "../../types/Track"
@@ -23,6 +23,15 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
     const [isDragUp, setIsDragUp] = useState(false)
     const { notifySuccess } = useNotification()
     const y = useMotionValue(0)
+    const bg = useTransform(
+        y,
+        [-50, 0, 50],
+        [
+            "linear-gradient(45deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
+            "linear-gradient(0deg, rgba(52,73,94,1) 0%, rgba(31,39,48,1) 100%)",
+            "linear-gradient(180deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 75%)",
+        ]
+    )
 
     const bind = useDrag(
         ({ down, movement: [, my], active, vxvy: [, vy] }) => {
@@ -130,8 +139,11 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                 position="bottom"
                 responsive={false}
                 onClickOutside={() => {
+                    setIsDragUp(true)
                     setIsOpen(false)
-                    setTimeout(() => close(), 500)
+                    setTimeout(() => {
+                        close()
+                    }, 500)
                 }}
                 style={{
                     background: "transparent",
@@ -141,7 +153,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
             >
                 <motion.div
                     {...bind()}
-                    style={{ y }}
+                    style={{ y, background: bg }}
                     variants={trackDetailsVariants(size, isDragUp)}
                     animate={isOpen ? "open" : "closed"}
                     initial={{ y: 500, opacity: 0 }}
@@ -196,6 +208,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                     text="remove from queue"
                                     color="neutral-4"
                                     onClick={() => {
+                                        setIsDragUp(true)
                                         setIsOpen(false)
                                         setTimeout(() => {
                                             onClickRemove()
