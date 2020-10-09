@@ -125,6 +125,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 direction="row"
                 align="center"
                 gap="small"
+                overflow='hidden'
                 margin={size === "small" ? { bottom: "small", top: "xsmall" } : "small"}
             >
                 <Button
