@@ -5,6 +5,7 @@ export const OuterBox = styled(GrommetBox)`
     display: flex;
     flex: 1;
     align-items: center;
+    overflow-y: scroll;
     justify-content: center;
 `
 

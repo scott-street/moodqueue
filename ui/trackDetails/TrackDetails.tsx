@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion"
+import { motion, useMotionValue, useTransform } from "framer-motion"
 import { OuterBox, InnerBox } from "./TrackDetails.styles"
 import { Layer, Image, Text, Anchor } from "grommet"
 import { Track } from "../../types/Track"
-import { Spotify, SubtractCircle } from "grommet-icons"
+import { Down, Spotify, SubtractCircle } from "grommet-icons"
 import { Button } from "../button/Button"
 import { useNotification } from "../../common/hooks/useNotification"
 import { trackDetailsVariants } from "../../components/animations/motion"
@@ -123,7 +123,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                         borderRadius: 30,
                                     }}
                                     onCanPlay={setVolume}
-                                    controlsList="nodownload"
+                                    controlsList="noDownload"
                                 >
                                     <source src={track.previewUrl} type="audio/mp3" />
                                     <Text textAlign="center">
@@ -162,7 +162,6 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                 }}
                 style={{
                     background: "transparent",
-                    borderRadius: 0,
                     width: "100%",
                 }}
             >
@@ -174,16 +173,11 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                     initial={{ y: 500, opacity: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <OuterBox
-                        pad={{ top: "xsmall", bottom: "small", horizontal: "xsmall" }}
-                        gap="medium"
-                        overflow="scroll"
-                    >
+                    <OuterBox pad={{ top: "xsmall", horizontal: "xsmall" }} gap="medium">
                         <Image src={track.imageLink} fit="contain" fill id="album-artwork-img" />
                         <InnerBox
                             gap="medium"
-                            pad={{ vertical: "xsmall", horizontal: "medium" }}
-                            round
+                            pad={{ horizontal: "medium" }}
                             fill="horizontal"
                             background={{ dark: true }}
                         >
@@ -198,7 +192,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                         borderRadius: 30,
                                     }}
                                     onCanPlay={setVolume}
-                                    controlsList="nodownload"
+                                    controlsList="noDownload"
                                 >
                                     <source src={track.previewUrl} type="audio/mp3" />
                                     <Text textAlign="center">
@@ -206,7 +200,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                     </Text>
                                 </audio>
                             )}
-                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }}>
+                            <motion.div whileTap={{ scale: 0.9 }}>
                                 <Anchor
                                     id="spotify-anchor"
                                     alignSelf="center"
@@ -231,6 +225,21 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                             notifySuccess(
                                                 `${track.name} has been removed from your queue`
                                             )
+                                            close()
+                                        }, 500)
+                                    }}
+                                />
+                            </motion.div>
+                            <motion.div whileTap={{ scale: 0.9 }}>
+                                <Button
+                                    small
+                                    color="transparent"
+                                    id="back-btn"
+                                    icon={<Down color="accent-1" />}
+                                    onClick={() => {
+                                        setIsDragUp(true)
+                                        setIsOpen(false)
+                                        setTimeout(() => {
                                             close()
                                         }, 500)
                                     }}
