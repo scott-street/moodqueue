@@ -1,21 +1,11 @@
 import React from "react"
-import { render, shallow } from "enzyme"
-import { Form } from "./"
+import { render, mount, shallow } from "enzyme"
 import { expect } from "chai"
+import { SpotifyContext, SpotifyContextValue } from "../../common/hooks/useSpotify"
+import { Form } from "./"
 
 describe("<Form/>", () => {
     it("renders without crashing", () => {
         shallow(<Form size={"large"} handleSubmit={jest.fn} />)
-    })
-
-    it("renders new queue in title", () => {
-        const wrapper = render(<Form size={"large"} handleSubmit={jest.fn} />)
-
-        expect(wrapper.find("#queue-title").text()).to.contain("new queue")
-    })
-
-    it("renders continue button", () => {
-        const wrapper = render(<Form size={"large"} handleSubmit={jest.fn} />)
-        expect(wrapper.find("#submit-form-btn").length).to.be.eql(1)
     })
 })

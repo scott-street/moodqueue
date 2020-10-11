@@ -1,5 +1,6 @@
 import React from "react"
 import { mount, render, shallow } from "enzyme"
+import { SpotifyContext, SpotifyContextValue } from "../../common/hooks/useSpotify"
 import { Home } from "./"
 import { UserInfo } from "../../types/UserInfo"
 import { expect } from "chai"
@@ -18,38 +19,62 @@ const testUser: UserInfo = {
     ],
 }
 
+interface MockSpotifyProviderProps {
+    mockContextValue: SpotifyContextValue
+}
+const MockSpotifyProvider: React.FunctionComponent<MockSpotifyProviderProps> = (props) => (
+    <SpotifyContext.Provider value={props.mockContextValue}>
+        {props.children}
+    </SpotifyContext.Provider>
+)
+
 describe("<Home/>", () => {
+    const mockContextValues: SpotifyContextValue = {
+        getQueue: jest.fn(() => new Promise((resolve) => resolve())),
+        addToQueue: jest.fn(),
+        getAvailableSeedGenres: jest.fn(() => new Promise((resolve) => resolve(["mock-genre"]))),
+    }
     it("renders without crashing", () => {
         shallow(<Home user={testUser} size={"large"} />)
     })
 
-    it("renders new queue in title", () => {
-        const wrapper = render(<Home user={testUser} size={"large"} />)
-
-        expect(wrapper.find("#queue-title").text()).to.contain("new queue")
-    })
-
     it("renders user name in header", () => {
-        const wrapper = render(<Home user={testUser} size={"large"} />)
+        const wrapper = render(
+            <MockSpotifyProvider mockContextValue={mockContextValues}>
+                <Home user={testUser} size={"large"} />
+            </MockSpotifyProvider>
+        )
 
         expect(wrapper.find("#username-txt").text()).to.contain(testUser.name)
     })
 
     it("renders app name in header", () => {
-        const wrapper = render(<Home user={testUser} size={"large"} />)
+        const wrapper = render(
+            <MockSpotifyProvider mockContextValue={mockContextValues}>
+                <Home user={testUser} size={"large"} />
+            </MockSpotifyProvider>
+        )
 
         expect(wrapper.find("#app-name-txt").text()).to.contain("mdqueue")
     })
 
     it("renders icons in header", () => {
-        const wrapper = mount(<Home user={testUser} size={"large"} />)
+        const wrapper = mount(
+            <MockSpotifyProvider mockContextValue={mockContextValues}>
+                <Home user={testUser} size={"large"} />
+            </MockSpotifyProvider>
+        )
 
         expect(wrapper.find("#happy-emoji").at(0)).to.be.length(1)
         expect(wrapper.find("#sad-emoji").at(0)).to.be.length(1)
     })
 
     it("renders avatar with profile image", () => {
-        const wrapper = render(<Home user={testUser} size={"large"} />)
+        const wrapper = render(
+            <MockSpotifyProvider mockContextValue={mockContextValues}>
+                <Home user={testUser} size={"large"} />
+            </MockSpotifyProvider>
+        )
         expect(wrapper.find("#avatar-profile-image").length).to.be.eql(1)
     })
 
@@ -62,7 +87,11 @@ describe("<Home/>", () => {
             profileImages: [],
         }
 
-        const wrapper = render(<Home user={userWithNoImage} size={"large"} />)
+        const wrapper = render(
+            <MockSpotifyProvider mockContextValue={mockContextValues}>
+                <Home user={userWithNoImage} size={"large"} />
+            </MockSpotifyProvider>
+        )
         expect(wrapper.find("#avatar-default").length).to.be.eql(1)
     })
 })

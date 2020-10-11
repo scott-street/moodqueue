@@ -1,9 +1,8 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { CheckBox } from "./Sources.styles"
-import { Box, Text } from "grommet"
+import { Box, Text, Select } from "grommet"
 import { FormSelection } from "../../types/FormSelection"
-import { TagContainer } from "../tag-container/TagContainer"
 
 interface SourcesProps {
     size?: any
@@ -81,7 +80,18 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                 />
             </motion.div>
             <div style={{ paddingLeft: 20 }}>
-                {recommended && <TagContainer values={topGenres} getSelected={setSelectedGenres} />}
+                {recommended && (
+                    <Select
+                        options={topGenres}
+                        onChange={({ option }) => {
+                            setSelectedGenres([option])
+                        }}
+                        dropHeight="small"
+                        closeOnChange={true}
+                        placeholder="select a genre"
+                        size="small"
+                    />
+                )}
             </div>
         </Box>
     )

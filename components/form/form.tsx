@@ -26,12 +26,12 @@ export const Form: FunctionComponent<FormProps> = (props) => {
     )
     const [topGenres, setTopGenres] = React.useState<string[] | undefined>(undefined)
     const [selectedTopGenres, setSelectedTopGenres] = React.useState([])
-    const { getTopGenres } = useSpotify()
+    const { getAvailableSeedGenres } = useSpotify()
 
     useEffect(() => {
         document.title = "home | moodqueue"
         dispatch(resetFormState())
-        getTopGenres(5).then((genres) => setTopGenres(genres))
+        getAvailableSeedGenres().then((genres) => setTopGenres(genres))
     }, [])
 
     if (topGenres === undefined) {

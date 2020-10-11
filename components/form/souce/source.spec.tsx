@@ -19,6 +19,8 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
+                getSelectedGenres={jest.fn()}
+                topGenres={[]}
             />
         )
     })
@@ -30,6 +32,8 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
+                getSelectedGenres={jest.fn()}
+                topGenres={[]}
             />
         )
 
@@ -44,6 +48,8 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
+                getSelectedGenres={jest.fn()}
+                topGenres={[]}
             />
         )
 
@@ -57,6 +63,8 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
+                getSelectedGenres={jest.fn()}
+                topGenres={[]}
             />
         )
 
@@ -70,6 +78,8 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
+                getSelectedGenres={jest.fn()}
+                topGenres={[]}
             />
         )
 
@@ -84,6 +94,8 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={dispatchMock}
+                getSelectedGenres={jest.fn()}
+                topGenres={[]}
             />
         )
 
