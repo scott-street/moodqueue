@@ -43,6 +43,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
         },
         {
             axis: "x",
+            lockDirection: true,
         }
     )
 
@@ -161,19 +162,21 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                             </Text>
                         </Box>
                     </Box>
-                    {!isDrag && (
+                    {!isDrag ? (
                         <Button
                             id="more-details-btn"
                             title="more"
                             fill={false}
                             icon={<More size={trackProps.size === "large" ? "large" : "medium"} />}
                             small={trackProps.size === "small"}
-                            hover="#24C0FF"
+                            hover={trackProps.size !== "small" ? "#24C0FF" : "dark-1"}
                             onClick={onClickMore}
                         />
+                    ) : (
+                        <Trash size={trackProps.size === "small" ? "medium" : "large"} />
                     )}
                 </InnerBoxStart>
-                {isDrag && <Trash size={trackProps.size === "small" ? "medium" : "large"} />}
+                {/* {isDrag && <Trash size={trackProps.size === "small" ? "medium" : "large"} />} */}
                 {trackProps.size !== "small" && !isDrag && (
                     <Button
                         id="remove-track-btn"

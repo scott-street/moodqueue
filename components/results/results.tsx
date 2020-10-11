@@ -124,7 +124,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             <Box
                 direction="row"
                 align="center"
-                gap={size !== "small" ? "small" : "xsmall"}
+                gap="small"
                 margin={size === "small" ? { bottom: "small", top: "xsmall" } : "small"}
             >
                 <Button

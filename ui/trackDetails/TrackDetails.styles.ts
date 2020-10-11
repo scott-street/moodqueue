@@ -7,7 +7,6 @@ export const OuterBox = styled(GrommetBox)`
     align-items: center;
     overflow-y: auto;
     justify-content: center;
-    background-color: #34495e;
 `
 
 export const InnerBox = styled(GrommetBox)`
@@ -15,5 +14,6 @@ export const InnerBox = styled(GrommetBox)`
     flex: 1;
     align-items: center;
     justify-content: center;
-    background-color: #34495e;
+    height: 100%;
+    width: 100%;
 `

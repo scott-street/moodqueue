@@ -34,5 +34,5 @@ export const HomeBackground = styled(GrommetBox)`
     justify-content: space-between;
     height: 100%;
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
 `
