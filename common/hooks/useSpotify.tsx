@@ -12,16 +12,23 @@ import {
 } from "../MoodComparators"
 import { useNotification } from "./useNotification"
 import { processQueue } from "../QueueProcessor"
-import { getTrackIdList, combineTwoArraysOnId } from "../Helpers"
+import { getTrackIdList, combineTwoArraysOnId, filterByAvailableSeedGenres } from "../Helpers"
 
 export interface SpotifyContextValue {
-    getQueue: (trackSource: TrackSource[], count: number, mood: Mood) => Promise<Track[]>
+    getQueue: (
+        trackSource: TrackSource[],
+        count: number,
+        mood: Mood,
+        topGenres?: string[]
+    ) => Promise<Track[]>
     addToQueue: (tracks: Track[]) => Promise<void | void[]>
+    getTopGenres: (count: number) => Promise<string[]>
 }
 
 export const SpotifyContext = React.createContext<SpotifyContextValue>({
     getQueue: () => undefined,
     addToQueue: () => undefined,
+    getTopGenres: () => undefined,
 })
 
 interface SpotifyProviderProps {
@@ -101,8 +108,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             return countOccurrences(allGenres, g2) - countOccurrences(allGenres, g1)
         }
         const ordered = allGenres.sort(comparator)
-        const unique = Array.from(new Set(ordered))
-        return unique.slice(0, count)
+        const available = filterByAvailableSeedGenres(ordered)
+        const unique = Array.from(new Set(available))
+        return unique
     }
 
     const getRecommendedFromSeed = async (
@@ -144,13 +152,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             })
     }
 
-    const getRecommendedSongs = async (count: number): Promise<Track[]> => {
+    const getRecommendedSongs = async (topGenres: string[]): Promise<Track[]> => {
         try {
-            const topGenres = (await getTopGenres(5)).join(",")
-            const topArtists = (await getTopArtists(5)).map((o) => o.id).join(",")
-            const recommendedGenre = await getRecommendedFromSeed("genres", topGenres, 50)
-            const recommendedArtists = await getRecommendedFromSeed("artists", topArtists, 50)
-            return recommendedGenre.concat(recommendedArtists)
+            return await getRecommendedFromSeed("genres", topGenres.join(","), 50)
         } catch (e) {
             notifyError("Error retrieving recommended songs")
         }
@@ -273,9 +277,11 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
     const getQueue = async (
         trackSource: TrackSource[],
         count: number,
-        mood: Mood
+        mood: Mood,
+        topGenres?: string[]
     ): Promise<Track[]> => {
         let tracks = []
+        console.log("TOP GENRES", topGenres)
 
         if (trackSource.includes(TrackSource.TOP_SONGS)) {
             await getTopSongs(50).then(async (songs) => {
@@ -285,7 +291,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             })
         }
         if (trackSource.includes(TrackSource.RECOMMENDED_SONGS)) {
-            await getRecommendedSongs(100).then(async (songs) => {
+            await getRecommendedSongs(topGenres).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((recommendedTracks) => {
                     tracks = tracks.concat(recommendedTracks)
                 })
@@ -338,6 +344,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
     const spotifyContextValue = {
         getQueue,
         addToQueue,
+        getTopGenres,
     }
 
     return <SpotifyContext.Provider value={props.value ?? spotifyContextValue} {...props} />

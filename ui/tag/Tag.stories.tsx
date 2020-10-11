@@ -4,4 +4,4 @@ import { Tag } from "./Tag"
 
 export default { title: "Tag" }
 
-export const genreTag = () => withGrommet(<Tag text="indie folk" />)
+export const genreTag = () => <Tag text="indie folk" getValue={() => {}} />

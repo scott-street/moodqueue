@@ -10,10 +10,12 @@ import { Button } from "../../ui/button/Button"
 import { Description } from "../../ui/description/Description"
 import { motion } from "framer-motion"
 import { baseItemBottom } from "../animations/motion"
+import { useSpotify } from "../../common/hooks/useSpotify"
+import { CircularProgress } from "@material-ui/core"
 
 interface FormProps {
     size: string
-    handleSubmit(mood: Mood, numSongs: number, source: FormSelection): void
+    handleSubmit(mood: Mood, numSongs: number, source: FormSelection, topGenres?: string[]): void
 }
 
 export const Form: FunctionComponent<FormProps> = (props) => {
@@ -22,12 +24,19 @@ export const Form: FunctionComponent<FormProps> = (props) => {
         formReducer,
         initialFormState
     )
+    const [topGenres, setTopGenres] = React.useState<string[] | undefined>(undefined)
+    const [selectedTopGenres, setSelectedTopGenres] = React.useState([])
+    const { getTopGenres } = useSpotify()
 
     useEffect(() => {
         document.title = "home | moodqueue"
         dispatch(resetFormState())
+        getTopGenres(5).then((genres) => setTopGenres(genres))
     }, [])
 
+    if (topGenres === undefined) {
+        return <CircularProgress />
+    }
     return (
         <motion.div variants={baseItemBottom} style={{ width: "100%", height: "100%" }}>
             <Box justify="between" align="center" flex fill>
@@ -56,12 +65,16 @@ export const Form: FunctionComponent<FormProps> = (props) => {
                         source={state.source}
                         progress={state.progress}
                         dispatch={(value) => dispatch(value)}
+                        topGenres={topGenres}
+                        getSelectedGenres={setSelectedTopGenres}
                     />
                 </Box>
                 <Button
                     id="submit-form-btn"
                     text="continue"
-                    onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
+                    onClick={() =>
+                        handleSubmit(state.mood, state.numSongs, state.source, selectedTopGenres)
+                    }
                     disabled={state.progress !== 3}
                 />
             </Box>
