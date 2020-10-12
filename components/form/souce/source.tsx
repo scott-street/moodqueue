@@ -52,7 +52,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
             gap={size !== "small" ? "xlarge" : undefined}
         >
             <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
-                choose from your:
+                choose from:
             </Text>
             <Sources
                 size={size}
