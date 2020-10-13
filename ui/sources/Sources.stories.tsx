@@ -16,6 +16,8 @@ export const sourcesNotChecked = () =>
                 tracks: false,
                 recommended: false,
             }}
+            topGenres={[]}
+            getSelectedGenres={() => {}}
         />
     )
 export const sourcesChecked = () =>
@@ -28,5 +30,7 @@ export const sourcesChecked = () =>
                 tracks: true,
                 recommended: false,
             }}
+            topGenres={[]}
+            getSelectedGenres={() => {}}
         />
     )

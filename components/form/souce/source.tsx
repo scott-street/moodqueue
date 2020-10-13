@@ -9,10 +9,12 @@ interface SourceSelectionProps {
     source: FormSelection
     size: string
     dispatch(value: FormAction): void
+    topGenres: string[]
+    getSelectedGenres: (genres: string[]) => void
 }
 
 export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) => {
-    const { size, source, progress, dispatch } = props
+    const { size, source, progress, dispatch, topGenres, getSelectedGenres } = props
 
     const updateProgressAfterCheckboxChange = (index: number, checked: boolean) => {
         const current = source
@@ -50,11 +52,13 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
             gap={size !== "small" ? "xlarge" : undefined}
         >
             <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
-                choose from your:
+                choose from:
             </Text>
             <Sources
                 size={size}
                 sources={source}
+                topGenres={topGenres}
+                getSelectedGenres={getSelectedGenres}
                 onChange={(value, index) => {
                     updateProgressAfterCheckboxChange(index, value)
                     switch (index) {

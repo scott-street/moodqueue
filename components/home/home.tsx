@@ -67,10 +67,10 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                 ) : (
                     <Form
                         size={size}
-                        handleSubmit={(mood, numSongs, source) => {
+                        handleSubmit={(mood, numSongs, source, topGenres?: string[]) => {
                             setLoading(true)
                             const trackSources = getTrackSourceFromFormSelection(source)
-                            getQueue(trackSources, numSongs, mood).then((data) => {
+                            getQueue(trackSources, numSongs, mood, topGenres).then((data) => {
                                 setTracks(data)
                                 setMood(mood)
                                 setSource(source)

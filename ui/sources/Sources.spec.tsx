@@ -21,6 +21,8 @@ describe("<Button />", () => {
                     tracks: false,
                     recommended: true,
                 },
+                topGenres: ["indie folk", "indie"],
+                getSelectedTopGenres: jest.fn(),
             })
         )
     })
