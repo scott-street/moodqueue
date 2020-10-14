@@ -1,6 +1,6 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
 import { Box } from "grommet"
-import { Previous, CirclePlay } from "grommet-icons"
+import { Previous, CirclePlay, AddCircle } from "grommet-icons"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
 import { useSpotify } from "../../common/hooks/useSpotify"
@@ -129,9 +129,18 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             >
                 <Button
                     small={size === "small"}
+                    id="reset-btn"
+                    title="start over to begin a new moodqueue"
+                    icon={<Previous color="dark-2" />}
+                    text={size === "small" ? "back" : "start over"}
+                    onClick={resetForm}
+                    secondary
+                />
+                <Button
+                    small={size === "small"}
                     id="play-queue-btn"
                     title="play your moodqueue"
-                    text={size === "small" ? "play" : "play queue"}
+                    text={size === "small" ? "queue" : "add to queue"}
                     icon={<CirclePlay color="dark-2" />}
                     onClick={() => {
                         addToQueue(state.tracks)
@@ -142,15 +151,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     track={state.trackToShow}
                     close={() => dispatch(updateTrackToShow("trackToShow", undefined))}
                     dispatch={(value) => dispatch(value)}
-                />
-                <Button
-                    small={size === "small"}
-                    id="reset-btn"
-                    title="start over to begin a new moodqueue"
-                    icon={<Previous color="dark-2" />}
-                    text={size === "small" ? "back" : "start over"}
-                    onClick={resetForm}
-                    secondary
                 />
             </Box>
         </Box>
