@@ -6,7 +6,7 @@ import { HomeBackground as HomeBackgroundOuter } from "../Background.styles"
 export const HomeBackground: React.FunctionComponent = (props) => {
     return (
         <motion.div
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%", overflow: "hidden" }}
             className="container"
             variants={baseContainer}
             initial="hidden"

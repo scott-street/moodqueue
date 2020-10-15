@@ -8,6 +8,7 @@ export const IndexBackgroundOuter = styled(GrommetBox)`
     justify-content: center;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     background: linear-gradient(215deg, rgba(63, 94, 251, 1) 30%, rgba(252, 70, 107, 1) 100%);
 `
 
@@ -18,6 +19,7 @@ export const LoginBackgroundOuter = styled(GrommetBox)`
     justify-content: center;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 `
 
 export const LoginBackgroundInner = styled(GrommetBox)`
@@ -27,7 +29,7 @@ export const LoginBackgroundInner = styled(GrommetBox)`
     justify-content: space-evenly;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
 `
 
 export const HomeBackground = styled(GrommetBox)`
