@@ -1,5 +1,7 @@
+import { motion } from "framer-motion"
 import Head from "next/head"
 import React from "react"
+import { colorMovementIndex } from "../../../components/animations/motion"
 import { IndexBackgroundOuter } from "../Background.styles"
 
 export const Index: React.FunctionComponent = (props) => {
@@ -19,7 +21,18 @@ export const Index: React.FunctionComponent = (props) => {
                     <style>{"body { background: #1F2730; }"}</style>
                 </Head>
             }
-            {props.children}
+            <motion.div
+                animate={colorMovementIndex}
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                {props.children}
+            </motion.div>
         </IndexBackgroundOuter>
     )
 }
