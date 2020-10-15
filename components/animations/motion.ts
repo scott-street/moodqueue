@@ -39,10 +39,11 @@ export const baseItemTop = {
 
 export const colorMovementIndex = {
     transition: {
-        duration: 20,
+        duration: 30,
         yoyo: Infinity,
     },
     background: [
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
         "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
         "linear-gradient(45deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
         "linear-gradient(170deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
@@ -50,6 +51,8 @@ export const colorMovementIndex = {
         "linear-gradient(215deg, rgba(63,94,251,1) 50%, rgba(252,70,107,1) 100%)",
         "linear-gradient(215deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)",
         "linear-gradient(45deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
     ],
 }
 
