@@ -14,20 +14,10 @@ export const IndexBackgroundOuter = styled(GrommetBox)`
 export const LoginBackgroundOuter = styled(GrommetBox)`
     display: flex;
     flex: 1;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
     height: 100%;
-`
-
-export const LoginBackgroundInner = styled(GrommetBox)`
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
+    overflow: hidden;
 `
 
 export const HomeBackground = styled(GrommetBox)`

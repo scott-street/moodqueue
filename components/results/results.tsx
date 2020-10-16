@@ -129,15 +129,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             >
                 <Button
                     small={size === "small"}
-                    id="reset-btn"
-                    title="start over to begin a new moodqueue"
-                    icon={<Previous color="dark-2" />}
-                    text={size === "small" ? "back" : "start over"}
-                    onClick={resetForm}
-                    secondary
-                />
-                <Button
-                    small={size === "small"}
                     id="play-queue-btn"
                     title="play your moodqueue"
                     text={size === "small" ? "queue" : "add to queue"}
@@ -151,6 +142,15 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     track={state.trackToShow}
                     close={() => dispatch(updateTrackToShow("trackToShow", undefined))}
                     dispatch={(value) => dispatch(value)}
+                />
+                <Button
+                    small={size === "small"}
+                    id="reset-btn"
+                    title="start over to begin a new moodqueue"
+                    icon={<Previous color="dark-2" />}
+                    text={size === "small" ? "back" : "start over"}
+                    onClick={resetForm}
+                    secondary
                 />
             </Box>
         </Box>

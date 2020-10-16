@@ -12,8 +12,8 @@ export const LoginDescription: React.FunctionComponent<LoginDescriptionProps> = 
             <motion.div id="top-mask-frame" style={{ overflow: "hidden" }}>
                 <motion.div
                     id="top-frame"
-                    initial={small ? { y: 60 * 1.2 } : { y: 100 * 1.2 }}
-                    animate={{ y: 0 }}
+                    initial={small ? { y: 60 * 1.2, opacity: 0 } : { y: 100 * 1.2, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
                     transition={{ ease: "easeIn", duration: 1 }}
                 >
                     {small ? (
@@ -26,8 +26,8 @@ export const LoginDescription: React.FunctionComponent<LoginDescriptionProps> = 
             <motion.div id="bottom-mask-frame" style={{ overflow: "hidden" }}>
                 <motion.div
                     id="bottom-frame"
-                    initial={small ? { y: -60 * 1.2 } : { y: -100 * 1.2 }}
-                    animate={{ y: 0 }}
+                    initial={small ? { y: -60 * 1.2, opacity: 0 } : { y: -100 * 1.2, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
                     transition={{ ease: "easeIn", duration: 1 }}
                 >
                     {small ? (
