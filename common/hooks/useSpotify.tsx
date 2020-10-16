@@ -22,12 +22,14 @@ export interface SpotifyContextValue {
         topGenres?: string[]
     ) => Promise<Track[]>
     addToQueue: (tracks: Track[]) => Promise<void | void[]>
+    addToPlaylist: (tracks: Track[]) => Promise<void>
     getAvailableSeedGenres: () => Promise<string[]>
 }
 
 export const SpotifyContext = React.createContext<SpotifyContextValue>({
     getQueue: () => undefined,
     addToQueue: () => undefined,
+    addToPlaylist: () => undefined,
     getAvailableSeedGenres: () => undefined,
 })
 
@@ -37,7 +39,7 @@ interface SpotifyProviderProps {
 }
 
 export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (props) => {
-    const { accessToken } = useAuth()
+    const { accessToken, user } = useAuth()
     const { notifyError, notifySuccess } = useNotification()
 
     const getTopSongs = async (count: number): Promise<Track[]> => {
@@ -294,6 +296,94 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         }
     }
 
+    const getUserPlaylists = async (): Promise<{ name: string; id: string }[]> => {
+        try {
+            return await fetch(`https://api.spotify.com/v1/users/${user.id}/playlists`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + accessToken,
+                },
+                method: "GET",
+            })
+                .then((data) => {
+                    return data.json()
+                })
+                .then((data) => {
+                    return data.items
+                })
+                .then((data) => {
+                    return data.map((o) => ({ name: o.name, id: o.id }))
+                })
+        } catch (e) {
+            notifyError("Error adding to playlist")
+        }
+    }
+
+    const moodqueuePlaylistId = (items: { name: string; id: string }[]): string => {
+        const exists = items.find((o) => o.name === "moodqueue")
+        if (exists) return exists.id
+        return ""
+    }
+
+    const createMoodqueuePlaylist = async (): Promise<void> => {
+        try {
+            return await fetch(`https://api.spotify.com/v1/users/${user.id}/playlists`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + accessToken,
+                },
+                body: JSON.stringify({ name: "moodqueue", public: "false" }),
+                method: "POST",
+            }).then((res) => {
+                if (!res.ok) {
+                    notifyError("Error creating moodqueue playlist.")
+                } else {
+                    notifySuccess("moodqueue playlist created")
+                }
+            })
+        } catch (e) {
+            throw e
+        }
+    }
+
+    const addSongsToPlaylist = async (uris: string, playlistId): Promise<void> => {
+        try {
+            return await fetch(
+                `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${uris}`,
+                {
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + accessToken,
+                    },
+                    method: "POST",
+                }
+            ).then((res) => {
+                if (!res.ok) {
+                    notifyError("Error adding songs to playlist.")
+                } else {
+                    notifySuccess("Songs added to playlist")
+                }
+            })
+        } catch (e) {
+            throw e
+        }
+    }
+    const addToPlaylist = async (tracks: Track[]): Promise<void> => {
+        const trackUris = tracks.map((o) => o.uri).join(",")
+        const userPlaylists = await getUserPlaylists()
+        const moodqueueId = moodqueuePlaylistId(userPlaylists)
+        if (moodqueueId) {
+            return addSongsToPlaylist(trackUris, moodqueueId)
+        } else {
+            return createMoodqueuePlaylist().then(() => {
+                addToPlaylist(tracks)
+            })
+        }
+    }
+
     const getQueue = async (
         trackSource: TrackSource[],
         count: number,
@@ -365,6 +455,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         getQueue,
         addToQueue,
         getAvailableSeedGenres,
+        addToPlaylist,
     }
 
     return <SpotifyContext.Provider value={props.value ?? spotifyContextValue} {...props} />
