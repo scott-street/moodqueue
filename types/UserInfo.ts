@@ -6,6 +6,7 @@ export type UserInfo = {
     email: string
     profileUrl: string
     profileImages: Image[]
+    product: string
 }
 
 export const defaultUser: UserInfo = {
@@ -14,4 +15,5 @@ export const defaultUser: UserInfo = {
     email: "",
     profileUrl: "",
     profileImages: [],
+    product: "",
 }
