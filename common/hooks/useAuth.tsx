@@ -48,7 +48,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
     const openSpotifyAccountLogin = (redirect: string, size: string) => {
         const rand = generateRandomString(16)
         const scopes =
-            "user-top-read user-library-read user-read-private user-read-email user-modify-playback-state"
+            "user-top-read user-library-read user-read-private user-read-email user-modify-playback-state playlist-read-private playlist-modify-private playlist-modify-private"
         const forceDialog = size === "small" ? false : true
         //make sure to change show_dialog to false if we don't want to show the spotify login redirect anymore
         const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=${scopes}&redirect_uri=${redirect}&state=${rand}&show_dialog=${forceDialog}`

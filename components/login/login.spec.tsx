@@ -17,7 +17,7 @@ describe("<Login />", () => {
     it("renders a desc of the app", () => {
         const wrapper = render(<Login size={"large"} />)
 
-        expect(wrapper.find("#login-desc-txt").text().length).to.be.eql(34)
+        expect(wrapper.find("#login-desc-txt").text().length).to.be.eql(19)
     })
 
     it("renders login button", () => {
