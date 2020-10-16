@@ -4,8 +4,8 @@ import {
     sadComparator,
     sleepyComparator,
     drivingComparator,
-} from "../common/MoodComparators"
-import { mockPropertyTracks } from "../common/mocks/PropertyTracks"
+} from "./MoodComparators"
+import { mockPropertyTracks } from "./mocks/PropertyTracks"
 
 describe("MoodComparators", () => {
     const happierTrack = mockPropertyTracks.find((o) => o.name === "I Want You To Love Me")

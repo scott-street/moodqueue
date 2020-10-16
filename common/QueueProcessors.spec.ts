@@ -1,6 +1,6 @@
-import { processQueue } from "../common/QueueProcessor"
-import { happyComparator } from "../common/MoodComparators"
-import { mockPropertyTracks } from "../common/mocks/PropertyTracks"
+import { processQueue } from "./QueueProcessor"
+import { happyComparator } from "./MoodComparators"
+import { mockPropertyTracks } from "./mocks/PropertyTracks"
 
 describe("QueueProcessors", () => {
     describe("processQueue", () => {
