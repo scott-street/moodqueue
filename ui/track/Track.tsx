@@ -167,7 +167,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                             id="more-details-btn"
                             title="more"
                             fill={false}
-                            icon={<More size="large" />}
+                            icon={<More size={trackProps.size === "small" ? "medium" : "large"} />}
                             small={trackProps.size === "small"}
                             hover={trackProps.size !== "small" ? "#24C0FF" : "dark-1"}
                             onClick={onClickMore}
