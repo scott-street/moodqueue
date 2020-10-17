@@ -1,4 +1,4 @@
-import { getTrackIdList, combineTwoArraysOnId } from "../common/Helpers"
+import { getTrackIdList, combineTwoArraysOnId } from "./Helpers"
 
 describe("Helpers", () => {
     describe("getTrackIdList", () => {
@@ -9,6 +9,7 @@ describe("Helpers", () => {
                 imageLink: "",
                 name: "",
                 previewUrl: "",
+                uri: "",
             },
             {
                 artist: "mock2",
@@ -16,6 +17,7 @@ describe("Helpers", () => {
                 imageLink: "",
                 name: "Figure 8",
                 previewUrl: "",
+                uri: "",
             },
             {
                 artist: "mock3",
@@ -23,6 +25,7 @@ describe("Helpers", () => {
                 imageLink: "",
                 name: "Figure 8",
                 previewUrl: "",
+                uri: "",
             },
         ]
 

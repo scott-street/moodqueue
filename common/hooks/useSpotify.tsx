@@ -13,6 +13,7 @@ import {
 import { useNotification } from "./useNotification"
 import { processQueue } from "../QueueProcessor"
 import { getTrackIdList, combineTwoArraysOnId } from "../Helpers"
+import { SpotifyHelper } from "../SpotifyHelper"
 
 export interface SpotifyContextValue {
     getQueue: (
@@ -41,210 +42,10 @@ interface SpotifyProviderProps {
 export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (props) => {
     const { accessToken, user } = useAuth()
     const { notifyError, notifySuccess } = useNotification()
-
-    const getTopSongs = async (count: number): Promise<Track[]> => {
-        try {
-            const response = await fetch(
-                `https://api.spotify.com/v1/me/top/tracks?limit=${count}`,
-                {
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                        Authorization: "Bearer " + accessToken,
-                    },
-                    method: "GET",
-                }
-            )
-            const data = await response.json()
-            const tracks: Track[] = data.items.map(
-                (track) =>
-                    ({
-                        previewUrl: track.preview_url,
-                        name: track.name,
-                        artist: track.album.artists[0].name,
-                        imageLink: track.album.images[0].url,
-                        id: track.id,
-                        uri: track.uri,
-                    } as Track)
-            )
-
-            return tracks
-        } catch (e) {
-            notifyError("Error retrieving top songs")
-        }
-    }
-
-    interface ArtistGenre {
-        id: string
-        genres: string[]
-    }
-    const getTopArtists = async (count: number): Promise<ArtistGenre[]> => {
-        try {
-            return await fetch(`https://api.spotify.com/v1/me/top/artists?limit=${count}`, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + accessToken,
-                },
-                method: "GET",
-            })
-                .then((data) => {
-                    return data.json()
-                })
-                .then((data) => {
-                    return data.items.map(
-                        (artist) => ({ id: artist.id, genres: artist.genres } as ArtistGenre)
-                    )
-                })
-        } catch (e) {
-            notifyError("Error retrieving top artists")
-        }
-    }
-
-    const getTopGenres = async (count: number): Promise<string[]> => {
-        const topArtistsAndGenres: ArtistGenre[] = await getTopArtists(15)
-        const genreArrays = topArtistsAndGenres.map((o) => o.genres)
-        const allGenres: string[] = [].concat.apply([], genreArrays)
-        const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
-        const comparator = (g1, g2) => {
-            return countOccurrences(allGenres, g2) - countOccurrences(allGenres, g1)
-        }
-        const ordered = allGenres.sort(comparator)
-        const unique = Array.from(new Set(ordered))
-        return unique.splice(0, count)
-    }
+    const spotifyHelper = new SpotifyHelper(accessToken)
 
     const getAvailableSeedGenres = async (): Promise<string[]> => {
-        try {
-            return await fetch(`https://api.spotify.com/v1/recommendations/available-genre-seeds`, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + accessToken,
-                },
-                method: "GET",
-            })
-                .then((data) => {
-                    return data.json()
-                })
-                .then((data) => {
-                    return data.genres
-                })
-        } catch (e) {
-            notifyError("Error retrieving top artists")
-        }
-    }
-
-    const getRecommendedFromSeed = async (
-        type: string,
-        seed: string,
-        count: number
-    ): Promise<Track[]> => {
-        let url
-        if (type === "tracks") {
-            url = `https://api.spotify.com/v1/recommendations?limit=${count}&seed_tracks=${seed}`
-        } else if (type === "artists") {
-            url = `https://api.spotify.com/v1/recommendations?limit=${count}&seed_artists=${seed}`
-        } else if (type === "genres") {
-            url = `https://api.spotify.com/v1/recommendations?limit=${count}&seed_genres=${seed}`
-        } else {
-            return
-        }
-
-        return await fetch(url, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + accessToken,
-            },
-            method: "GET",
-        })
-            .then((data) => {
-                return data.json()
-            })
-            .then((data) => {
-                return data.tracks.map((track) => ({
-                    previewUrl: track.preview_url,
-                    name: track.name,
-                    artist: track.album.artists[0].name,
-                    imageLink: track.album.images[0].url,
-                    id: track.id,
-                    uri: track.uri,
-                }))
-            })
-    }
-
-    const getRecommendedSongs = async (topGenres: string[]): Promise<Track[]> => {
-        try {
-            return await getRecommendedFromSeed("genres", topGenres.join(","), 50)
-        } catch (e) {
-            notifyError("Error retrieving recommended songs")
-        }
-    }
-
-    const getTopArtistsTopSongs = async (count: number) => {
-        try {
-            const topArtists = await getTopArtists(count)
-
-            return await Promise.all(
-                topArtists.map(async (artist) => {
-                    return await fetch(
-                        `https://api.spotify.com/v1/artists/${artist.id}/top-tracks?country=ES`,
-                        {
-                            headers: {
-                                Accept: "application/json",
-                                "Content-Type": "application/json",
-                                Authorization: "Bearer " + accessToken,
-                            },
-                            method: "GET",
-                        }
-                    )
-                        .then((data) => {
-                            return data.json()
-                        })
-                        .then((data) => {
-                            return {
-                                previewUrl: data.tracks[0].preview_url,
-                                name: data.tracks[0].name,
-                                artist: data.tracks[0].album.artists[0].name,
-                                imageLink: data.tracks[0].album.images[0].url,
-                                id: data.tracks[0].id,
-                                uri: data.tracks[0].uri,
-                            }
-                        })
-                })
-            )
-        } catch (e) {
-            notifyError("Error retrieving top artist's songs")
-        }
-    }
-
-    const getSavedTracks = async (count: number): Promise<Track[]> => {
-        try {
-            return await fetch(`https://api.spotify.com/v1/me/tracks?limit=${count}`, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + accessToken,
-                },
-                method: "GET",
-            })
-                .then((data) => {
-                    return data.json()
-                })
-                .then((data) => {
-                    return data.items.map((item) => ({
-                        previewUrl: item.track.preview_url,
-                        name: item.track.name,
-                        artist: item.track.album.artists[0].name,
-                        imageLink: item.track.album.images[0].url,
-                        id: item.track.id,
-                        uri: item.track.uri,
-                    }))
-                })
-        } catch (e) {
-            notifyError("Error retrieving saved tracks")
-        }
+        return spotifyHelper.getAvailableSeedGenres()
     }
 
     const getMultipleTracksAudioFeatures = async (
@@ -394,28 +195,28 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         console.log("TOP GENRES", topGenres)
 
         if (trackSource.includes(TrackSource.TOP_SONGS)) {
-            await getTopSongs(50).then(async (songs) => {
+            await spotifyHelper.getTopSongs(50).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((topTracks) => {
                     tracks = tracks.concat(topTracks)
                 })
             })
         }
         if (trackSource.includes(TrackSource.RECOMMENDED_SONGS)) {
-            await getRecommendedSongs(topGenres).then(async (songs) => {
+            await spotifyHelper.getRecommendedSongs(topGenres).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((recommendedTracks) => {
                     tracks = tracks.concat(recommendedTracks)
                 })
             })
         }
         if (trackSource.includes(TrackSource.TOP_ARTISTS_SONGS)) {
-            await getTopArtistsTopSongs(50).then(async (songs) => {
+            await spotifyHelper.getTopArtistsTopSongs(50).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((topArtistsTracks) => {
                     tracks = tracks.concat(topArtistsTracks)
                 })
             })
         }
         if (trackSource.includes(TrackSource.SAVED_SONGS)) {
-            await getSavedTracks(50).then(async (songs) => {
+            await spotifyHelper.getSavedTracks(50).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((savedTracks) => {
                     tracks = tracks.concat(savedTracks)
                 })
