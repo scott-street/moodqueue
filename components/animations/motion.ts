@@ -12,14 +12,12 @@ export const baseContainer = {
 }
 
 export const baseItemBottom = {
-    hidden: { y: 150, opacity: 0 },
+    hidden: { y: 15, opacity: 0 },
     visible: {
         y: 0,
         opacity: 1,
         transition: {
-            delay: 0.2,
-            when: "beforeChildren",
-            staggerChildren: 0.1,
+            delay: 0.4,
         },
     },
 }
@@ -30,9 +28,7 @@ export const baseItemTop = {
         y: 0,
         opacity: 1,
         transition: {
-            delay: 0.2,
-            when: "beforeChildren",
-            staggerChildren: 0.1,
+            delay: 0.4,
         },
     },
 }
