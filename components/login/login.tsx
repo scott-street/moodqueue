@@ -8,6 +8,7 @@ import { Logo } from "../../ui/logo/Logo"
 import { LoginDescription } from "../../ui/login-description/LoginDescription"
 import { LoginBackground } from "../../ui/backgrounds/login/LoginBackground"
 import { Description } from "../../ui/description/Description"
+import { baseItemTop } from "../animations/motion"
 
 interface LoginProps {
     size: string
@@ -17,33 +18,31 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
     const { openSpotifyAccountLogin, redirect } = useAuth()
     return (
         <LoginBackground>
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 1.5 }}
-            >
+            <motion.div variants={baseItemTop} animate="visible" initial="hidden">
                 <Logo
                     header={false}
                     size={size}
                     textAlign={size == "small" ? "center" : "start"}
-                    margin={{ top: "none" }}
+                    margin="none"
                     id="login-title-txt"
                 />
             </motion.div>
-            <LoginDescription small={size === "small"} />
+            <Box alignSelf="center" justify="center" fill>
+                <LoginDescription small={size === "small"} />
+            </Box>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5, delay: 2.5 }}
-                style={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
             >
-                <Box align="center" gap="small" id="spotify-login-box">
+                <Box
+                    align="center"
+                    gap="small"
+                    id="spotify-login-box"
+                    justify="end"
+                    flex
+                    alignSelf="end"
+                >
                     <Description size="small" text="Get Started" header />
                     <Button
                         id="login-btn"
