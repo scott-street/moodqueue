@@ -124,6 +124,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                     animation={false}
                     style={{
                         background: "transparent",
+                        width: size === "small" ? "100%" : undefined,
                     }}
                 >
                     <motion.div
@@ -141,8 +142,8 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                 borderTopRightRadius: 25,
                             }}
                             align="center"
-                            pad={{ horizontal: "medium", top: "medium", bottom: "xsmall" }}
-                            gap="small"
+                            pad={{ horizontal: "large", top: "large", bottom: "small" }}
+                            gap="medium"
                             fill
                             flex
                             background={{ color: "#34495E", opacity: 0.8 }}
@@ -161,9 +162,10 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                 }}
                                 value={genreSelectValue}
                             />
-                            <Box align="center" direction="row" gap="small">
+                            <Box align="center" direction="row" gap="medium">
                                 <Button
                                     small
+                                    disabled={!genreSelectValue}
                                     icon={<Checkmark />}
                                     color="neutral-3"
                                     onClick={() => {
