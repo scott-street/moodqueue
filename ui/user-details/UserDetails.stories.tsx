@@ -16,6 +16,7 @@ const user: UserInfo = {
                 "https://media.gq.com/photos/5d780edac517ca00085fee8a/16:9/w_2560%2Cc_limit/phoebe-bridgers-gq-october-2019-01-lede.jpg",
         },
     ],
+    product: "premium",
 }
 
 const user2: UserInfo = {
@@ -24,6 +25,7 @@ const user2: UserInfo = {
     email: "johndoe@aim.com",
     profileUrl: "yahoo.com",
     profileImages: [],
+    product: "free",
 }
 
 export const withProfilePicture = () => withGrommet(<UserDetails user={user} />)
