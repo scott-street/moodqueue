@@ -37,7 +37,23 @@ export const baseItemTop = {
     },
 }
 
-export const colorMovementIndex = {
+export const colorMovementHome = {
+    transition: {
+        duration: 20,
+        yoyo: Infinity,
+    },
+    background: [
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 15%, rgba(252,70,107,1) 75%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 45%, rgba(252,70,107,1) 75%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 15%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+    ],
+}
+
+export const colorMovementLogin = {
     transition: {
         duration: 20,
         yoyo: Infinity,
