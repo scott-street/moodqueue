@@ -154,7 +154,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                             gap="medium"
                             fill
                             flex
-                            background={{ color: "#34495E", opacity: 0.8 }}
+                            background={{ color: "#34495E", opacity: 0.9 }}
                         >
                             <Select
                                 options={topGenres}
