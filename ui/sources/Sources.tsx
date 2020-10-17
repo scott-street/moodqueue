@@ -27,11 +27,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
     return (
         <Box align="center">
             <Box gap="small">
-                <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    style={{ marginBottom: 5 }}
-                >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <CheckBox
                         id="saved-checkbox"
                         label={
@@ -47,11 +43,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                         }}
                     />
                 </motion.div>
-                <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    style={{ marginBottom: 5 }}
-                >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <CheckBox
                         id="tracks-checkbox"
                         label={
@@ -67,11 +59,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                         }}
                     />
                 </motion.div>
-                <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    style={{ marginBottom: 5 }}
-                >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <CheckBox
                         id="artists-checkbox"
                         label={
@@ -87,30 +75,50 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                         }}
                     />
                 </motion.div>
-                <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    style={{ marginBottom: 5 }}
-                >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <CheckBox
                         id="recommended-checkbox"
                         label={
-                            <Box>
-                                <Text size={size !== "small" ? "medium" : "xsmall"}>
-                                    {genreSelectValue || "a genre"}
-                                </Text>
-                            </Box>
+                            size !== "small" ? (
+                                <Box width="small">
+                                    <Select
+                                        size="small"
+                                        id="genre-select"
+                                        options={topGenres}
+                                        onChange={({ option }) => {
+                                            setGenreSelectValue(option)
+                                            onChange(true, 3)
+                                        }}
+                                        dropHeight="small"
+                                        closeOnChange={false}
+                                        placeholder="a genre"
+                                        onSearch={(search) => {
+                                            setGenreSelectValue(
+                                                topGenres.find((o) => o.includes(search))
+                                            )
+                                        }}
+                                        value={genreSelectValue}
+                                    />
+                                </Box>
+                            ) : (
+                                <Box>
+                                    <Text size="xsmall">{genreSelectValue || "a genre"}</Text>
+                                </Box>
+                            )
                         }
                         checked={sources.recommended}
-                        onChange={() => {
-                            setShowGenre(true)
-                            setIsOpen(true)
-                            onChange(true, 3)
+                        onChange={(event) => {
+                            if (!event.target.checked) {
+                                setGenreSelectValue("")
+                            }
+                            setShowGenre(event.target.checked)
+                            setIsOpen(event.target.checked)
+                            onChange(event.target.checked, 3)
                         }}
                     />
                 </motion.div>
             </Box>
-            {showGenre && (
+            {showGenre && size === "small" && (
                 <Layer
                     onClickOutside={() => {
                         if (!genreSelectValue) {
