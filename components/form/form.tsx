@@ -11,7 +11,7 @@ import { Description } from "../../ui/description/Description"
 import { motion } from "framer-motion"
 import { baseItemBottom } from "../animations/motion"
 import { useSpotify } from "../../common/hooks/useSpotify"
-import { CircularProgress } from "@material-ui/core"
+import { BounceLoader } from "react-spinners"
 
 interface FormProps {
     size: string
@@ -35,7 +35,14 @@ export const Form: FunctionComponent<FormProps> = (props) => {
     }, [])
 
     if (topGenres === undefined) {
-        return <CircularProgress />
+        return (
+            <Box align="center" justify="center" fill>
+                <BounceLoader
+                    size={size === "large" ? 300 : size === "medium" ? 200 : 100}
+                    color="#6FFFB0"
+                />
+            </Box>
+        )
     }
     return (
         <motion.div variants={baseItemBottom} style={{ width: "100%", height: "100%" }}>

@@ -61,6 +61,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
             email: "",
             profileImages: [],
             profileUrl: "",
+            product: "",
         }
         const response = await fetch("https://api.spotify.com/v1/me", {
             headers: {
@@ -77,6 +78,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
             email: data.email,
             profileImages: data.images,
             profileUrl: data.external_urls.spotify,
+            product: data.product,
         }
 
         setCurrentUser(newUser)
