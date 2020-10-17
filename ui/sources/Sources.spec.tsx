@@ -2,7 +2,7 @@ import { Grommet, grommet } from "grommet"
 import { render } from "enzyme"
 import { Sources } from "./Sources"
 
-describe("<Button />", () => {
+describe("<Sources />", () => {
     let testComponent
     beforeEach(() => {
         testComponent = (props) => (

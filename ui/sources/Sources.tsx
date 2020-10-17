@@ -4,7 +4,7 @@ import { CheckBox } from "./Sources.styles"
 import { Box, Text, Select, Layer } from "grommet"
 import { FormSelection } from "../../types/FormSelection"
 import { Button } from "../button/Button"
-import { FormClose } from "grommet-icons"
+import { Close, Checkmark } from "grommet-icons"
 import { trackDetailsVariants } from "../../components/animations/motion"
 
 interface SourcesProps {
@@ -161,17 +161,28 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                 }}
                                 value={genreSelectValue}
                             />
-                            <Button
-                                small
-                                icon={<FormClose />}
-                                color="neutral-4"
-                                onClick={() => {
-                                    setGenreSelectValue("")
-                                    onChange(false, 3)
-                                    setIsOpen(false)
-                                    setTimeout(() => setShowGenre(false), 500)
-                                }}
-                            />
+                            <Box align="center" direction="row" gap="small">
+                                <Button
+                                    small
+                                    icon={<Checkmark />}
+                                    color="neutral-3"
+                                    onClick={() => {
+                                        setIsOpen(false)
+                                        setTimeout(() => setShowGenre(false), 500)
+                                    }}
+                                />
+                                <Button
+                                    small
+                                    icon={<Close />}
+                                    color="neutral-4"
+                                    onClick={() => {
+                                        setGenreSelectValue("")
+                                        onChange(false, 3)
+                                        setIsOpen(false)
+                                        setTimeout(() => setShowGenre(false), 500)
+                                    }}
+                                />
+                            </Box>
                         </Box>
                     </motion.div>
                 </Layer>
