@@ -5,8 +5,6 @@ export const baseContainer = {
         scale: 1,
         transition: {
             delay: 0.3,
-            when: "beforeChildren",
-            staggerChildren: 0.1,
         },
     },
 }
@@ -30,6 +28,58 @@ export const baseItemTop = {
         transition: {
             delay: 0.4,
         },
+    },
+}
+
+export const colorMovementHome = {
+    transition: {
+        duration: 15,
+        yoyo: Infinity,
+    },
+    background: [
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 15%, rgba(252,70,107,1) 75%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 45%, rgba(252,70,107,1) 75%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 15%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+    ],
+}
+
+export const colorMovementLogin = {
+    transition: {
+        duration: 20,
+        yoyo: Infinity,
+    },
+    background: [
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(45deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(170deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 50%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(45deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+        "linear-gradient(215deg, rgba(63,94,251,1) 30%, rgba(252,70,107,1) 100%)",
+    ],
+}
+
+export const colorMovementTracks = {
+    background: [
+        "linear-gradient(115deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 75%)",
+        "linear-gradient(215deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
+        "linear-gradient(230deg, rgba(111,255,176,1) 0%, rgba(57,73,94,1) 75%)",
+        "linear-gradient(180deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 100%)",
+        "linear-gradient(115deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
+        "linear-gradient(215deg, rgba(255,53,53,1) 25%, rgba(57,73,94,1) 75%)",
+        "linear-gradient(190deg, rgba(111,255,176,1) 0%, rgba(57,73,94,1) 75%)",
+        "linear-gradient(270deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
+    ],
+    transition: {
+        duration: 10,
+        yoyo: Infinity,
     },
 }
 

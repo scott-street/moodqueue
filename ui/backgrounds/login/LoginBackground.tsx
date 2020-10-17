@@ -1,32 +1,26 @@
-import React from "react"
 import { motion } from "framer-motion"
-import { baseContainer } from "../../../components/animations/motion"
-import { LoginBackgroundOuter, LoginBackgroundInner } from "../Background.styles"
+import React from "react"
+import { colorMovementLogin } from "../../../components/animations/motion"
+import { LoginBackgroundOuter } from "../Background.styles"
 
 export const LoginBackground: React.FunctionComponent = (props) => {
     return (
-        <LoginBackgroundOuter id="login-outer-box" pad="medium">
-            <motion.div
-                style={{ width: "100%", height: "100%" }}
-                className="container"
-                variants={baseContainer}
-                initial="hidden"
-                animate="visible"
+        <motion.div
+            animate={colorMovementLogin}
+            style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            <LoginBackgroundOuter
+                id="login-outer-box"
+                pad={{ horizontal: "medium", bottom: "medium" }}
             >
-                <LoginBackgroundInner
-                    id="login-inner-box"
-                    round="large"
-                    background={{ color: "#2F3E4D", opacity: 0.7 }}
-                    border={{
-                        side: "all",
-                        size: "large",
-                        style: "outset",
-                        color: "accent-1",
-                    }}
-                >
-                    {props.children}
-                </LoginBackgroundInner>
-            </motion.div>
-        </LoginBackgroundOuter>
+                {props.children}
+            </LoginBackgroundOuter>
+        </motion.div>
     )
 }

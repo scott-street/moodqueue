@@ -111,9 +111,13 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                             if (!event.target.checked) {
                                 setGenreSelectValue("")
                             }
-                            setShowGenre(event.target.checked)
-                            setIsOpen(event.target.checked)
-                            onChange(event.target.checked, 3)
+                            if (event.target.checked && !genreSelectValue && size !== "small") {
+                                onChange(false, 3)
+                            } else {
+                                setShowGenre(event.target.checked)
+                                setIsOpen(event.target.checked)
+                                onChange(event.target.checked, 3)
+                            }
                         }}
                     />
                 </motion.div>

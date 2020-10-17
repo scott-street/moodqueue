@@ -19,6 +19,7 @@ export const Index: React.FunctionComponent = (props) => {
                     <style>{"body { background: #1F2730; }"}</style>
                 </Head>
             }
+
             {props.children}
         </IndexBackgroundOuter>
     )

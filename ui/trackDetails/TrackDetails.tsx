@@ -6,7 +6,7 @@ import { Track } from "../../types/Track"
 import { Down, Spotify, SubtractCircle } from "grommet-icons"
 import { Button } from "../button/Button"
 import { useNotification } from "../../common/hooks/useNotification"
-import { trackDetailsVariants } from "../../components/animations/motion"
+import { colorMovementTracks, trackDetailsVariants } from "../../components/animations/motion"
 
 interface TrackDetailsProps {
     size?: any
@@ -44,19 +44,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                     transition={{ duration: 0.5 }}
                 >
                     <motion.div
-                        animate={{
-                            background: [
-                                "linear-gradient(115deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 75%)",
-                                "linear-gradient(215deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
-                                "linear-gradient(230deg, rgba(111,255,176,1) 0%, rgba(57,73,94,1) 75%)",
-                                "linear-gradient(180deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 100%)",
-                                "linear-gradient(115deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
-                                "linear-gradient(215deg, rgba(255,53,53,1) 25%, rgba(57,73,94,1) 75%)",
-                                "linear-gradient(190deg, rgba(111,255,176,1) 0%, rgba(57,73,94,1) 75%)",
-                                "linear-gradient(270deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
-                            ],
-                        }}
-                        transition={{ duration: 10, yoyo: Infinity }}
+                        animate={colorMovementTracks}
                         style={{ borderBottomRightRadius: 30, borderBottomLeftRadius: 30 }}
                     >
                         <OuterBox

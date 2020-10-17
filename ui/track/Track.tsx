@@ -167,7 +167,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                             id="more-details-btn"
                             title="more"
                             fill={false}
-                            icon={<More size={trackProps.size === "large" ? "large" : "medium"} />}
+                            icon={<More size="large" />}
                             small={trackProps.size === "small"}
                             hover={trackProps.size !== "small" ? "#24C0FF" : "dark-1"}
                             onClick={onClickMore}
@@ -176,13 +176,12 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                         <Trash size={trackProps.size === "small" ? "medium" : "large"} />
                     )}
                 </InnerBoxStart>
-                {/* {isDrag && <Trash size={trackProps.size === "small" ? "medium" : "large"} />} */}
                 {trackProps.size !== "small" && !isDrag && (
                     <Button
                         id="remove-track-btn"
                         color="dark-1"
                         title="remove from moodqueue"
-                        icon={<SubtractCircle color="status-error" size={trackProps.size} />}
+                        icon={<SubtractCircle color="status-error" size="large" />}
                         onClick={() => {
                             onClickRemove()
                             notifySuccess(

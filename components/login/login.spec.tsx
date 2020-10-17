@@ -14,10 +14,10 @@ describe("<Login />", () => {
         expect(wrapper.find("#login-title-txt").at(0).text()).to.be.equal("mdqueue")
     })
 
-    it("renders a desc of the app", () => {
-        const wrapper = render(<Login size={"large"} />)
+    it("renders the box containing the login button", () => {
+        const wrapper = shallow(<Login size={"large"} />)
 
-        expect(wrapper.find("#login-desc-txt").text().length).to.be.eql(19)
+        expect(wrapper.find("#spotify-login-box").length).to.be.eql(1)
     })
 
     it("renders login button", () => {
