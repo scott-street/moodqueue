@@ -33,7 +33,7 @@ export const baseItemTop = {
 
 export const colorMovementHome = {
     transition: {
-        duration: 20,
+        duration: 15,
         yoyo: Infinity,
     },
     background: [
