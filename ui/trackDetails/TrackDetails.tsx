@@ -45,7 +45,10 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                 >
                     <motion.div
                         animate={colorMovementTracks}
-                        style={{ borderBottomRightRadius: 30, borderBottomLeftRadius: 30 }}
+                        style={{
+                            borderBottomRightRadius: 30,
+                            borderBottomLeftRadius: 30,
+                        }}
                     >
                         <OuterBox
                             round={{ corner: "bottom" }}
@@ -59,9 +62,11 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                         >
                             <Image
                                 src={track.imageLink}
-                                fit="contain"
-                                fill={false}
                                 id="album-artwork-img"
+                                fit="contain"
+                                style={
+                                    size !== "large" ? { width: "75%", height: "75%" } : undefined
+                                }
                             />
                             <InnerBox
                                 gap="small"

@@ -64,6 +64,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                 background: bg,
                 borderRadius: 30,
                 borderBottomRightRadius: 0,
+                touchAction: "pan-y",
             }}
             {...bind()}
             key={track.id}

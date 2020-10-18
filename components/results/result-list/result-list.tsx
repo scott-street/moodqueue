@@ -22,6 +22,7 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
                     vertical: "small",
                 }}
                 gap="medium"
+                style={{ touchAction: "pan-y" }}
             >
                 {tracks.map((track, i) => (
                     <ResultListItem key={i} track={track} size={size} dispatch={dispatch} />
