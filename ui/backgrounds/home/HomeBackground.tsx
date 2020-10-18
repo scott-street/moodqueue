@@ -22,7 +22,9 @@ export const HomeBackground: React.FunctionComponent = (props) => {
                     justifyContent: "center",
                 }}
             >
-                <HomeBackgroundOuter id="home-outer-box">{props.children}</HomeBackgroundOuter>
+                <HomeBackgroundOuter id="home-outer-box" pad="xsmall">
+                    {props.children}
+                </HomeBackgroundOuter>
             </motion.div>
         </motion.div>
     )

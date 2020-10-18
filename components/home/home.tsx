@@ -1,4 +1,4 @@
-import { Box, Header, Heading } from "grommet"
+import { Box, Header } from "grommet"
 import React, { FunctionComponent, useState } from "react"
 import { BounceLoader } from "react-spinners"
 import { getTrackSourceFromFormSelection } from "../../common/Helpers"
@@ -11,7 +11,6 @@ import { Form } from "../form"
 import { Results } from "../results"
 import { HomeBackground } from "../../ui/backgrounds/home/HomeBackground"
 import { Content } from "../../ui/content/Content"
-import { Description } from "../../ui/description/Description"
 import { Logo } from "../../ui/logo/Logo"
 import { UserDetails } from "../../ui/user-details/UserDetails"
 
@@ -32,20 +31,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
     return (
         <HomeBackground>
             <Header justify="evenly" direction="row">
-                <Box border="between" gap="small">
-                    <Logo
-                        id="app-name-txt"
-                        textAlign={size !== "small" ? "start" : "center"}
-                        header
-                        size={size}
-                        margin="none"
-                    />
-                    <Description
-                        textAlign="start"
-                        size={size !== "small" ? "medium" : "small"}
-                        text="let your mood inspire you"
-                    />
-                </Box>
+                <Logo id="app-name-txt" textAlign="center" header size={size} margin="none" />
                 <UserDetails user={user} small={size === "small"} />
             </Header>
             <Content size={size}>

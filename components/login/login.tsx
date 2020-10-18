@@ -17,7 +17,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
     const { size } = props
     const { openSpotifyAccountLogin, redirect } = useAuth()
     return (
-        <LoginBackground>
+        <LoginBackground small={size === "small"}>
             <motion.div variants={baseItemTop} animate="visible" initial="hidden">
                 <Logo
                     header={false}
@@ -27,7 +27,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                     id="login-title-txt"
                 />
             </motion.div>
-            <Box alignSelf="center" justify="center" fill>
+            <Box align="center" justify="center">
                 <LoginDescription small={size === "small"} />
             </Box>
             <motion.div
@@ -35,14 +35,7 @@ export const Login: React.FunctionComponent<LoginProps> = (props) => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5, delay: 2.5 }}
             >
-                <Box
-                    align="center"
-                    gap="small"
-                    id="spotify-login-box"
-                    justify="end"
-                    flex
-                    alignSelf="end"
-                >
+                <Box align="center" gap="small" id="spotify-login-box">
                     <Description size="small" text="Get Started" header />
                     <Button
                         id="login-btn"

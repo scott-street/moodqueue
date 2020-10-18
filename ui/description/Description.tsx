@@ -20,7 +20,7 @@ export const Description: React.FunctionComponent<DescProps> = (props) => {
         )
     }
     return (
-        <Header id={id} size={size} textAlign={textAlign}>
+        <Header id={id} size={size} textAlign={textAlign} style={{ userSelect: "none" }}>
             {text}
         </Header>
     )

@@ -45,37 +45,34 @@ export const Form: FunctionComponent<FormProps> = (props) => {
         )
     }
     return (
-        <motion.div variants={baseItemBottom} style={{ width: "100%", height: "100%" }}>
-            <Box justify="between" align="center" flex fill>
-                <Description
-                    header
-                    id="queue-title"
-                    textAlign="center"
-                    size="small"
-                    text="new queue"
+        <motion.div
+            variants={baseItemBottom}
+            style={{
+                width: "100%",
+                height: "100%",
+            }}
+        >
+            <Box fill justify="between" align="center">
+                <MoodSelection
+                    size={size}
+                    moodIndex={state.mood}
+                    progress={state.progress}
+                    dispatch={(value) => dispatch(value)}
                 />
-                <Box fill justify="evenly" align="center">
-                    <MoodSelection
-                        size={size}
-                        moodIndex={state.mood}
-                        progress={state.progress}
-                        dispatch={(value) => dispatch(value)}
-                    />
-                    <SizePicker
-                        size={size}
-                        numSongs={state.numSongs}
-                        progress={state.progress}
-                        dispatch={(value) => dispatch(value)}
-                    />
-                    <SourceSelection
-                        size={size}
-                        source={state.source}
-                        progress={state.progress}
-                        dispatch={(value) => dispatch(value)}
-                        topGenres={topGenres}
-                        getSelectedGenres={setSelectedTopGenres}
-                    />
-                </Box>
+                <SizePicker
+                    size={size}
+                    numSongs={state.numSongs}
+                    progress={state.progress}
+                    dispatch={(value) => dispatch(value)}
+                />
+                <SourceSelection
+                    size={size}
+                    source={state.source}
+                    progress={state.progress}
+                    dispatch={(value) => dispatch(value)}
+                    topGenres={topGenres}
+                    getSelectedGenres={setSelectedTopGenres}
+                />
                 <Button
                     id="submit-form-btn"
                     text="continue"

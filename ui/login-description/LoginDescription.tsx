@@ -1,6 +1,5 @@
 import React from "react"
 import { motion } from "framer-motion"
-import { DescriptionText, SmallDescriptionText } from "./LoginDescription.styles"
 import { Box } from "grommet"
 import { Description } from "../description/Description"
 
@@ -10,7 +9,7 @@ interface LoginDescriptionProps {
 export const LoginDescription: React.FunctionComponent<LoginDescriptionProps> = (props) => {
     const { small } = props
     return (
-        <Box justify="evenly" align="center" alignSelf="center" flex fill>
+        <Box justify="center" align="center" alignSelf="center" flex gap="medium">
             <motion.div id="top-mask-frame" style={{ overflow: "hidden" }}>
                 <motion.div
                     id="top-frame"
