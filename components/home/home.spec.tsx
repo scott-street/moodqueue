@@ -4,10 +4,12 @@ import { SpotifyContext, SpotifyContextValue } from "../../common/hooks/useSpoti
 import { Home } from "./"
 import { UserInfo } from "../../types/UserInfo"
 import { expect } from "chai"
+import { act } from "react-dom/test-utils"
 
 const testUser: UserInfo = {
     name: "test",
     id: "test123",
+    product: "premium",
     email: "test123@gmail.com",
     profileUrl: "spotify.com",
     profileImages: [
@@ -33,6 +35,7 @@ describe("<Home/>", () => {
         getQueue: jest.fn(() => new Promise((resolve) => resolve())),
         addToQueue: jest.fn(),
         getAvailableSeedGenres: jest.fn(() => new Promise((resolve) => resolve(["mock-genre"]))),
+        addToPlaylist: jest.fn(),
     }
     it("renders without crashing", () => {
         shallow(<Home user={testUser} size={"large"} />)
@@ -58,15 +61,28 @@ describe("<Home/>", () => {
         expect(wrapper.find("#app-name-txt").text()).to.contain("mdqueue")
     })
 
-    it("renders icons in header", () => {
-        const wrapper = mount(
-            <MockSpotifyProvider mockContextValue={mockContextValues}>
-                <Home user={testUser} size={"large"} />
-            </MockSpotifyProvider>
-        )
+    it("renders icons in header", async () => {
+        await act(() => {
+            const wrapper = mount(
+                <MockSpotifyProvider mockContextValue={mockContextValues}>
+                    <Home user={testUser} size={"large"} />
+                </MockSpotifyProvider>
+            )
 
-        expect(wrapper.find("#happy-emoji").at(0)).to.be.length(1)
-        expect(wrapper.find("#sad-emoji").at(0)).to.be.length(1)
+            const promise = () => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        wrapper.update()
+                        resolve(wrapper)
+                    }, 3000)
+                })
+            }
+
+            return promise().then((res: any) => {
+                expect(wrapper.find("#happy-emoji").at(0)).to.be.length(1)
+                expect(wrapper.find("#sad-emoji").at(0)).to.be.length(1)
+            })
+        })
     })
 
     it("renders avatar with profile image", () => {
@@ -85,6 +101,7 @@ describe("<Home/>", () => {
             email: "test123@gmail.com",
             profileUrl: "spotify.com",
             profileImages: [],
+            product: "premium",
         }
 
         const wrapper = render(

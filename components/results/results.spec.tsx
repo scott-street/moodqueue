@@ -7,7 +7,6 @@ import { Mood } from "../../types/Mood"
 import { SpotifyContextValue, SpotifyProvider } from "../../common/hooks/useSpotify"
 import { Track } from "../../types/Track"
 import { act } from "react-dom/test-utils"
-import { BounceLoader } from "react-spinners"
 import { ResultList } from "./result-list"
 
 const source: FormSelection = {
@@ -45,11 +44,12 @@ describe("<Results />", () => {
                 mood={0}
                 source={source}
                 resetForm={() => console.log("reset")}
+                userProduct="premium"
             />
         )
     })
 
-    it("renders mood name in title", () => {
+    it("does not render queue button if free user", () => {
         const wrapper = render(
             <Results
                 size={"large"}
@@ -57,10 +57,11 @@ describe("<Results />", () => {
                 tracks={mockTracks}
                 source={source}
                 resetForm={jest.fn()}
+                userProduct="free"
             />
         )
 
-        expect(wrapper.find("#desc-title").text()).to.contain("sleepy")
+        expect(wrapper.find("#play-queue-btn").length).to.be.eql(0)
     })
 
     it("renders 'loading...' for number of tracks when tracks are loading", () => {
@@ -71,6 +72,7 @@ describe("<Results />", () => {
                 tracks={mockTracks}
                 source={source}
                 resetForm={jest.fn()}
+                userProduct="premium"
             />
         )
 
@@ -86,6 +88,8 @@ describe("<Results />", () => {
                         resolve(mockTracks)
                     })
             ),
+            addToPlaylist: jest.fn(),
+            getAvailableSeedGenres: jest.fn(),
         }
 
         const TestComponent = () => (
@@ -96,6 +100,7 @@ describe("<Results />", () => {
                     tracks={mockTracks}
                     source={source}
                     resetForm={jest.fn()}
+                    userProduct="premium"
                 />
             </SpotifyProvider>
         )
@@ -126,6 +131,7 @@ describe("<Results />", () => {
                 tracks={mockTracks}
                 source={source}
                 resetForm={jest.fn()}
+                userProduct="premium"
             />
         )
         expect(wrapper.find("#desc-sources").text()).to.contain("saved")
@@ -140,6 +146,8 @@ describe("<Results />", () => {
                         resolve(mockTracks)
                     })
             ),
+            addToPlaylist: jest.fn(),
+            getAvailableSeedGenres: jest.fn(),
         }
 
         const TestComponent = () => (
@@ -150,6 +158,7 @@ describe("<Results />", () => {
                     tracks={mockTracks}
                     source={source}
                     resetForm={jest.fn()}
+                    userProduct="premium"
                 />
             </SpotifyProvider>
         )
@@ -181,6 +190,8 @@ describe("<Results />", () => {
                         resolve([])
                     })
             ),
+            addToPlaylist: jest.fn(),
+            getAvailableSeedGenres: jest.fn(),
         }
 
         const TestComponent = () => (
@@ -191,6 +202,7 @@ describe("<Results />", () => {
                     tracks={[]}
                     source={source}
                     resetForm={jest.fn()}
+                    userProduct="premium"
                 />
             </SpotifyProvider>
         )
@@ -221,6 +233,7 @@ describe("<Results />", () => {
                 tracks={mockTracks}
                 source={source}
                 resetForm={jest.fn()}
+                userProduct="premium"
             />
         )
         expect(wrapper.find("#play-queue-btn").length).to.be.eql(1)
@@ -234,6 +247,7 @@ describe("<Results />", () => {
                 tracks={mockTracks}
                 source={source}
                 resetForm={jest.fn()}
+                userProduct="premium"
             />
         )
         expect(wrapper.find("#reset-btn").length).to.be.eql(1)
@@ -249,6 +263,8 @@ describe("<Results />", () => {
                         resolve(mockTracks)
                     })
             ),
+            addToPlaylist: jest.fn(),
+            getAvailableSeedGenres: jest.fn(),
         }
 
         const TestComponent = () => (
@@ -259,6 +275,7 @@ describe("<Results />", () => {
                     tracks={mockTracks}
                     source={source}
                     resetForm={jest.fn()}
+                    userProduct="premium"
                 />
             </SpotifyProvider>
         )
@@ -282,6 +299,52 @@ describe("<Results />", () => {
         })
     })
 
+    it("calls useSpotify.addToPlaylist when playlist button is clicked", async () => {
+        const mockAddToPlaylist = jest.fn()
+        const contextValues: SpotifyContextValue = {
+            addToQueue: jest.fn(),
+            getQueue: jest.fn(
+                () =>
+                    new Promise((resolve) => {
+                        resolve(mockTracks)
+                    })
+            ),
+            addToPlaylist: mockAddToPlaylist,
+            getAvailableSeedGenres: jest.fn(),
+        }
+
+        const TestComponent = () => (
+            <SpotifyProvider value={contextValues}>
+                <Results
+                    size={"large"}
+                    mood={Mood.SLEEPY}
+                    tracks={mockTracks}
+                    source={source}
+                    resetForm={jest.fn()}
+                    userProduct="premium"
+                />
+            </SpotifyProvider>
+        )
+
+        await act(() => {
+            const wrapper = mount(<TestComponent />)
+
+            const promise = () => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        wrapper.update()
+                        resolve(wrapper)
+                    }, 3000)
+                })
+            }
+
+            return promise().then((res: any) => {
+                res.find("#playlist-btn").at(1).simulate("click")
+                expect(mockAddToPlaylist.mock.calls.length).to.be.eql(1)
+            })
+        })
+    })
+
     it("calls props.resetForm when start over is clicked", async () => {
         const mockReset = jest.fn(() => {})
         const contextValues: SpotifyContextValue = {
@@ -292,6 +355,8 @@ describe("<Results />", () => {
                         resolve(mockTracks)
                     })
             ),
+            addToPlaylist: jest.fn(),
+            getAvailableSeedGenres: jest.fn(),
         }
 
         const TestComponent = () => (
@@ -302,6 +367,7 @@ describe("<Results />", () => {
                     tracks={mockTracks}
                     source={source}
                     resetForm={mockReset}
+                    userProduct="premium"
                 />
             </SpotifyProvider>
         )
