@@ -40,6 +40,7 @@ export class SpotifyHelper {
                         imageLink: track.album.images[0].url,
                         id: track.id,
                         uri: track.uri,
+                        popularity: track.popularity,
                     }))
                 }
             )
@@ -82,6 +83,7 @@ export class SpotifyHelper {
                     imageLink: item.track.album.images[0].url,
                     id: item.track.id,
                     uri: item.track.uri,
+                    popularity: item.track.popularity,
                 }))
             })
         } catch (e) {
@@ -110,6 +112,7 @@ export class SpotifyHelper {
                     imageLink: track.album.images[0].url,
                     id: track.id,
                     uri: track.uri,
+                    popularity: track.popularity,
                 }))
             })
         } catch (e) {
@@ -141,6 +144,7 @@ export class SpotifyHelper {
                             imageLink: data.tracks[0].album.images[0].url,
                             id: data.tracks[0].id,
                             uri: data.tracks[0].uri,
+                            popularity: data.tracks[0].popularity,
                         }
                     })
                 })

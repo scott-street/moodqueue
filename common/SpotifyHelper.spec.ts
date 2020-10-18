@@ -44,6 +44,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                popularity: track.popularity,
             }
             expect(await helper.getTopSongs(1)).toEqual([expected])
         })
@@ -110,6 +111,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.track.album.images[0].url,
                 id: track.track.id,
                 uri: track.track.uri,
+                popularity: track.track.popularity,
             }
             expect(await helper.getSavedTracks(1)).toEqual([expected])
         })
@@ -137,6 +139,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                popularity: track.popularity,
             }
             expect(await helper.getRecommendedFromSeed("tracks", "seed", 1)).toEqual([expected])
             expect(spy).toHaveBeenCalledWith(
@@ -154,6 +157,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                popularity: track.popularity,
             }
             expect(await helper.getRecommendedFromSeed("artists", "seed", 1)).toEqual([expected])
             expect(spy).toHaveBeenCalledWith(
@@ -171,6 +175,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                popularity: track.popularity,
             }
             expect(await helper.getRecommendedFromSeed("genres", "seed", 1)).toEqual([expected])
             expect(spy).toHaveBeenCalledWith(
@@ -209,6 +214,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                popularity: track.popularity,
             }
             expect(await helper.getRecommendedSongs(["whatever"])).toEqual([expected])
         })
@@ -241,6 +247,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                popularity: track.popularity,
             }
             expect(await helper.getTopArtistsTopSongs(1)).toEqual([expected])
         })

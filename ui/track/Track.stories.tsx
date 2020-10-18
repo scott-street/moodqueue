@@ -12,6 +12,7 @@ const mockTrack: TrackType = {
     imageLink: "https://i.scdn.co/image/ab67616d0000b273e9a375a80097985178b73c4d",
     id: "1",
     uri: "",
+    popularity: 60,
 }
 
 export default { title: "Track" }
