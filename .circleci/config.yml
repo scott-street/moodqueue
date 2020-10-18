@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
     node: circleci/node@4.1.0
-    cypress: cypress-io/cypress@1
 jobs:
     build-test-and-notify:
         executor:
@@ -21,8 +20,4 @@ jobs:
 workflows:
     build:
         jobs:
-            - cypress/run:
-                  yarn: true
-                  start: yarn build && yarn next start
-                  wait-on: "http://localhost:3000"
             - build-test-and-notify
