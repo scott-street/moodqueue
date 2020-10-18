@@ -49,6 +49,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         mood={mood}
                         source={source}
                         resetForm={() => setShowResults(false)}
+                        userProduct={user.product}
                     />
                 ) : (
                     <Form

@@ -31,14 +31,14 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
             selected.tracks === false &&
             selected.saved === false
         ) {
-            prog--
+            if (prog - 1 >= 0) prog--
         } else if (
             current.artists === false &&
             current.recommended === false &&
             current.tracks === false &&
             current.saved === false
         ) {
-            prog++
+            if (prog + 1 <= 3) prog++
         }
         dispatch(update("progress", prog))
     }

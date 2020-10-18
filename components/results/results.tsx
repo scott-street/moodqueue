@@ -22,7 +22,6 @@ import { motion } from "framer-motion"
 import { baseItemTop } from "../animations/motion"
 import { Button } from "../../ui/button/Button"
 import { Description } from "../../ui/description/Description"
-import { useAuth } from "../../common/hooks/useAuth"
 
 interface ResultsProps {
     size: string
@@ -30,12 +29,12 @@ interface ResultsProps {
     mood: Mood
     source: FormSelection
     resetForm(): void
+    userProduct: string
 }
 
 export const Results: FunctionComponent<ResultsProps> = (props) => {
-    const { size, tracks, source, mood, resetForm } = props
+    const { size, tracks, source, mood, resetForm, userProduct } = props
     const { addToQueue, addToPlaylist } = useSpotify()
-    const { user } = useAuth()
 
     const [state, dispatch] = useReducer<Reducer<ResultState, ResultAction>>(
         resultReducer,
@@ -128,7 +127,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     )}
                 </Box>
                 {size === "small" ? (
-                    user.product === "premium" ? (
+                    userProduct === "premium" ? (
                         <Box align="center" gap="small">
                             <Box direction="row" align="center" gap="medium">
                                 <Button
@@ -187,7 +186,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     )
                 ) : (
                     <Box direction="row" align="center" gap="medium">
-                        {user.product === "premium" && (
+                        {userProduct === "premium" && (
                             <Button
                                 id="play-queue-btn"
                                 title="play your moodqueue"
