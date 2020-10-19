@@ -165,6 +165,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     ) : (
                         <Box direction="row" align="center" gap="medium">
                             <Button
+                                small
                                 id="playlist-btn"
                                 title="create a new moodqueue playlist"
                                 text="playlist"
@@ -175,6 +176,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 secondary
                             />
                             <Button
+                                small
                                 id="reset-btn"
                                 title="start over to begin a new moodqueue"
                                 icon={<Previous color="light-2" />}
