@@ -30,7 +30,11 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
 
     return (
         <HomeBackground>
-            <Header justify="evenly" direction="row">
+            <Header
+                justify="between"
+                direction="row"
+                margin={{ horizontal: size !== "small" ? "large" : "large" }}
+            >
                 <Logo id="app-name-txt" textAlign="center" header size={size} margin="none" />
                 <UserDetails user={user} small={size === "small"} />
             </Header>

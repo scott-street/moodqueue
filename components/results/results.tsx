@@ -49,7 +49,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
     return (
         <Box align="center" fill>
             <Box align="center" justify="between" gap="small" fill>
-                <Box border="between" gap="small" align="center">
+                <Box direction="row" border="between" gap="small" align="center">
                     <Description
                         id="desc-num-songs"
                         textAlign="center"
@@ -66,7 +66,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     <Description
                         id="desc-sources"
                         textAlign="center"
-                        size={size !== "small" ? "medium" : "small"}
+                        size={size !== "small" ? "xlarge" : "medium"}
                         text={"based off your " + getSourcesString(source)}
                     />
                 </Box>
@@ -201,7 +201,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             id="playlist-btn"
                             title="create a new moodqueue playlist"
                             text="create playlist"
-                            icon={<Playlist width="28px" height="28px" />}
+                            icon={<Playlist width="26px" height="26px" />}
                             onClick={() => {
                                 addToPlaylist(state.tracks)
                             }}

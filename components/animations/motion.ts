@@ -78,7 +78,7 @@ export const colorMovementTracks = {
         "linear-gradient(270deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
     ],
     transition: {
-        duration: 10,
+        duration: 15,
         yoyo: Infinity,
     },
 }

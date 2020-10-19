@@ -7,6 +7,8 @@ export const OuterBox = styled(GrommetBox)`
     align-items: center;
     overflow: hidden;
     justify-content: center;
+    width: 75%;
+    height: 75%;
 `
 
 export const InnerBox = styled(GrommetBox)`

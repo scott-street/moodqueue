@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { motion, useMotionValue, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import { OuterBox, InnerBox } from "./TrackDetails.styles"
 import { Layer, Image, Text, Anchor } from "grommet"
 import { Track } from "../../types/Track"
@@ -27,14 +27,15 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                 id="options-layer"
                 animation={false}
                 position="center"
-                responsive={false}
                 onClickOutside={() => {
                     setIsOpen(false)
                     setTimeout(() => close(), 500)
                 }}
                 style={{
                     background: "transparent",
-                    borderRadius: 30,
+                    alignItems: "center",
+                    display: "flex",
+                    justifyContent: "center",
                 }}
             >
                 <motion.div
@@ -42,12 +43,16 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                     animate={isOpen ? "open" : "closed"}
                     initial={{ scale: 0 }}
                     transition={{ duration: 0.5 }}
+                    style={{ width: "75%", height: "75%", display: "flex" }}
                 >
                     <motion.div
                         animate={colorMovementTracks}
                         style={{
                             borderBottomRightRadius: 30,
                             borderBottomLeftRadius: 30,
+                            width: "100%",
+                            height: "100%",
+                            display: "flex",
                         }}
                     >
                         <OuterBox
@@ -64,9 +69,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                 src={track.imageLink}
                                 id="album-artwork-img"
                                 fit="contain"
-                                style={
-                                    size !== "large" ? { width: "75%", height: "75%" } : undefined
-                                }
+                                fill
                             />
                             <InnerBox
                                 gap="small"
