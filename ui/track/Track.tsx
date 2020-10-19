@@ -49,6 +49,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
 
     return (
         <motion.div
+            whileHover={{ scale: 1.05 }}
             initial={{ opacity: 0, y: 100 }}
             animate={{
                 opacity: 1,

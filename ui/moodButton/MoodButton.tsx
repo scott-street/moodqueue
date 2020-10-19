@@ -40,6 +40,7 @@ export const MoodButton: React.FunctionComponent<MoodButtonProps> = (props) => {
                         textAlign="center"
                         id="mood-txt"
                         color="#555555"
+                        style={{ userSelect: "none" }}
                     >
                         {Mood[mood].toLowerCase()}
                     </Text>

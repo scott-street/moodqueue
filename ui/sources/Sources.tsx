@@ -108,15 +108,16 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                         }
                         checked={sources.recommended}
                         onChange={(event) => {
-                            if (!event.target.checked) {
-                                setGenreSelectValue("")
-                            }
-                            if (event.target.checked && !genreSelectValue && size !== "small") {
-                                onChange(false, 3)
+                            if (size !== "small") {
+                                if (!event.target.checked) {
+                                    onChange(false, 3)
+                                    setGenreSelectValue("")
+                                }
                             } else {
                                 setShowGenre(event.target.checked)
                                 setIsOpen(event.target.checked)
                                 onChange(event.target.checked, 3)
+                                if (!event.target.checked) setGenreSelectValue("")
                             }
                         }}
                     />
@@ -136,7 +137,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                     animation={false}
                     style={{
                         background: "transparent",
-                        width: size === "small" ? "100%" : undefined,
+                        width: "100%",
                     }}
                 >
                     <motion.div
@@ -164,7 +165,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                 options={topGenres}
                                 onChange={({ option }) => {
                                     setGenreSelectValue(option)
-                                    onChange(true, 3)
+                                    if (!sources.recommended) onChange(true, 3)
                                 }}
                                 dropHeight="small"
                                 closeOnChange

@@ -14,12 +14,12 @@ export const SizePicker: FunctionComponent<SizePickerProps> = (props) => {
     const { size, numSongs, progress, dispatch } = props
     return (
         <Box gap="xsmall" fill="horizontal">
-            <Text textAlign="center" size={size !== "small" ? "medium" : "small"}>
+            <Text textAlign="center" size={size !== "small" ? "large" : "medium"}>
                 number of songs:{" "}
                 <Text
                     textAlign="center"
                     color="accent-1"
-                    size={size !== "small" ? "medium" : "small"}
+                    size={size !== "small" ? "large" : "medium"}
                 >
                     {numSongs}
                 </Text>
