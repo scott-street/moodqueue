@@ -17,7 +17,6 @@ interface SourcesProps {
 }
 export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
     const { size, onChange, sources, selectedGenreValue, topGenres, getSelectedGenres } = props
-    //const [genreSelectValue, setGenreSelectValue] = React.useState('');
     const [showGenre, setShowGenre] = React.useState(false)
     const [isOpen, setIsOpen] = React.useState(false)
 
