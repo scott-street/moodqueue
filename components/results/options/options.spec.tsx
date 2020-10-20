@@ -1,6 +1,6 @@
 import React from "react"
 import { expect } from "chai"
-import { mount, render, shallow } from "enzyme"
+import { mount, shallow } from "enzyme"
 import { Track } from "../../../types/Track"
 import { Options } from "./"
 
