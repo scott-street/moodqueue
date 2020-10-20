@@ -10,19 +10,20 @@ import { trackDetailsVariants } from "../../components/animations/motion"
 interface SourcesProps {
     size?: any
     sources: FormSelection
+    selectedGenreValue: string
     topGenres: string[]
-    onChange?: (value: boolean, index: number) => void
+    onChange?: (value: any, index: number) => void
     getSelectedGenres: (genres: string[]) => void
 }
 export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
-    const { size, onChange, sources, topGenres, getSelectedGenres } = props
-    const [genreSelectValue, setGenreSelectValue] = React.useState("")
+    const { size, onChange, sources, selectedGenreValue, topGenres, getSelectedGenres } = props
+    //const [genreSelectValue, setGenreSelectValue] = React.useState('');
     const [showGenre, setShowGenre] = React.useState(false)
     const [isOpen, setIsOpen] = React.useState(false)
 
     React.useEffect(() => {
-        getSelectedGenres([genreSelectValue])
-    }, [genreSelectValue])
+        getSelectedGenres([selectedGenreValue])
+    }, [selectedGenreValue])
 
     return (
         <Box align="center">
@@ -86,23 +87,24 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                         id="genre-select"
                                         options={topGenres}
                                         onChange={({ option }) => {
-                                            setGenreSelectValue(option)
+                                            onChange(option, 4)
                                             onChange(true, 3)
                                         }}
                                         dropHeight="small"
                                         closeOnChange={false}
                                         placeholder="a genre"
                                         onSearch={(search) => {
-                                            setGenreSelectValue(
-                                                topGenres.find((o) => o.includes(search))
+                                            onChange(
+                                                topGenres.find((o) => o.includes(search)),
+                                                4
                                             )
                                         }}
-                                        value={genreSelectValue}
+                                        value={selectedGenreValue}
                                     />
                                 </Box>
                             ) : (
                                 <Box>
-                                    <Text size="xsmall">{genreSelectValue || "a genre"}</Text>
+                                    <Text size="xsmall">{selectedGenreValue || "a genre"}</Text>
                                 </Box>
                             )
                         }
@@ -110,14 +112,14 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                         onChange={(event) => {
                             if (size !== "small") {
                                 if (!event.target.checked) {
-                                    onChange(false, 3)
-                                    setGenreSelectValue("")
+                                    onChange("", 4)
                                 }
+                                onChange(event.target.checked, 3)
                             } else {
                                 setShowGenre(event.target.checked)
                                 setIsOpen(event.target.checked)
                                 onChange(event.target.checked, 3)
-                                if (!event.target.checked) setGenreSelectValue("")
+                                if (!event.target.checked) onChange("", 4)
                             }
                         }}
                     />
@@ -126,7 +128,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
             {showGenre && size === "small" && (
                 <Layer
                     onClickOutside={() => {
-                        if (!genreSelectValue) {
+                        if (!selectedGenreValue) {
                             onChange(false, 3)
                         }
                         setIsOpen(false)
@@ -164,21 +166,24 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                             <Select
                                 options={topGenres}
                                 onChange={({ option }) => {
-                                    setGenreSelectValue(option)
+                                    onChange(option, 4)
                                     if (!sources.recommended) onChange(true, 3)
                                 }}
                                 dropHeight="small"
                                 closeOnChange
                                 placeholder="select a genre"
                                 onSearch={(search) => {
-                                    setGenreSelectValue(topGenres.find((o) => o.includes(search)))
+                                    onChange(
+                                        topGenres.find((o) => o.includes(search)),
+                                        4
+                                    )
                                 }}
-                                value={genreSelectValue}
+                                value={selectedGenreValue}
                             />
                             <Box align="center" direction="row" gap="medium">
                                 <Button
                                     small
-                                    disabled={!genreSelectValue}
+                                    disabled={!selectedGenreValue}
                                     icon={<Checkmark />}
                                     color="neutral-3"
                                     onClick={() => {
@@ -191,7 +196,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                     icon={<Close />}
                                     color="neutral-4"
                                     onClick={() => {
-                                        setGenreSelectValue("")
+                                        onChange("", 4)
                                         onChange(false, 3)
                                         setIsOpen(false)
                                         setTimeout(() => setShowGenre(false), 500)

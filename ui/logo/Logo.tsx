@@ -1,7 +1,7 @@
 import React from "react"
 import { Mood as Happy } from "@styled-icons/material-twotone/Mood"
 import { MoodBad as Sad } from "@styled-icons/material-twotone/MoodBad"
-import { LogoHeader } from "./Logo.styles"
+import { Heading as LogoHeader } from "grommet"
 
 interface LogoProps {
     id?: string

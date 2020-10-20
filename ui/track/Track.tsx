@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { OuterBox, InnerBoxStart } from "./Track.styles"
 import { Box, Image, Text } from "grommet"
 import { More, SubtractCircle, Trash } from "grommet-icons"
-import { getShortenedName } from "../../common/Helpers"
 import { Track as TrackType } from "../../types/Track"
 import { Button } from "../button/Button"
 import { MoonLoader } from "react-spinners"
@@ -89,6 +88,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                 >
                     <Box direction="row" align="center" gap="small" round="small">
                         <Box
+                            flex={false}
                             background={{
                                 color: trackProps.size !== "small" ? "#1F2730" : undefined,
                                 opacity: 0.6,
@@ -126,42 +126,44 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                                     fill
                                     alignSelf="center"
                                     src={track.imageLink}
-                                    fit="contain"
+                                    fit="cover"
                                 />
                             )}
                         </Box>
                         <Box align="start">
-                            <Text
-                                style={{ userSelect: "none" }}
-                                textAlign="start"
-                                weight="bold"
-                                size={
-                                    trackProps.size === "large"
-                                        ? "xxlarge"
-                                        : trackProps.size === "medium"
-                                        ? "xlarge"
-                                        : trackProps.size
-                                }
-                            >
-                                {trackProps.size === "small"
-                                    ? getShortenedName(track.name, true)
-                                    : track.name}
-                            </Text>
-                            <Text
-                                style={{ userSelect: "none" }}
-                                textAlign="start"
-                                size={
-                                    trackProps.size === "large"
-                                        ? "medium"
-                                        : trackProps.size === "medium"
-                                        ? "small"
-                                        : "xsmall"
-                                }
-                            >
-                                {trackProps.size === "small"
-                                    ? getShortenedName(track.artist, false)
-                                    : track.artist}
-                            </Text>
+                            <Box overflow="hidden">
+                                <Text
+                                    truncate
+                                    style={{ userSelect: "none" }}
+                                    textAlign="start"
+                                    weight="bold"
+                                    size={
+                                        trackProps.size === "large"
+                                            ? "xxlarge"
+                                            : trackProps.size === "medium"
+                                            ? "xlarge"
+                                            : trackProps.size
+                                    }
+                                >
+                                    {track.name}
+                                </Text>
+                            </Box>
+                            <Box overflow="hidden">
+                                <Text
+                                    truncate
+                                    style={{ userSelect: "none" }}
+                                    textAlign="start"
+                                    size={
+                                        trackProps.size === "large"
+                                            ? "medium"
+                                            : trackProps.size === "medium"
+                                            ? "small"
+                                            : "xsmall"
+                                    }
+                                >
+                                    {track.artist}
+                                </Text>
+                            </Box>
                         </Box>
                     </Box>
                     {!isDrag ? (

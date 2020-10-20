@@ -7,7 +7,6 @@ import { SourceSelection } from "./souce"
 import { FormSelection } from "../../types/FormSelection"
 import { Mood } from "../../types/Mood"
 import { Button } from "../../ui/button/Button"
-import { Description } from "../../ui/description/Description"
 import { motion } from "framer-motion"
 import { baseItemBottom } from "../animations/motion"
 import { useSpotify } from "../../common/hooks/useSpotify"
@@ -15,7 +14,13 @@ import { BounceLoader } from "react-spinners"
 
 interface FormProps {
     size: string
-    handleSubmit(mood: Mood, numSongs: number, source: FormSelection, topGenres?: string[]): void
+    handleSubmit(
+        mood: Mood,
+        numSongs: number,
+        source: FormSelection,
+        selectedGenreValue: string,
+        topGenres?: string[]
+    ): void
 }
 
 export const Form: FunctionComponent<FormProps> = (props) => {
@@ -68,6 +73,7 @@ export const Form: FunctionComponent<FormProps> = (props) => {
                 <SourceSelection
                     size={size}
                     source={state.source}
+                    selectedGenreValue={state.genre}
                     progress={state.progress}
                     dispatch={(value) => dispatch(value)}
                     topGenres={topGenres}
@@ -77,9 +83,23 @@ export const Form: FunctionComponent<FormProps> = (props) => {
                     id="submit-form-btn"
                     text="continue"
                     onClick={() =>
-                        handleSubmit(state.mood, state.numSongs, state.source, selectedTopGenres)
+                        handleSubmit(
+                            state.mood,
+                            state.numSongs,
+                            state.source,
+                            state.genre,
+                            selectedTopGenres
+                        )
                     }
-                    disabled={state.progress !== 3}
+                    disabled={
+                        state.progress !== 3
+                            ? true
+                            : state.source.recommended
+                            ? state.genre
+                                ? false
+                                : true
+                            : false
+                    }
                 />
             </Box>
         </motion.div>

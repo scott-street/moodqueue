@@ -1,5 +1,5 @@
 import React from "react"
-import { Header, Text } from "./Description.styles"
+import { Heading as Header, Text } from "grommet"
 
 interface DescProps {
     id?: string
@@ -20,7 +20,13 @@ export const Description: React.FunctionComponent<DescProps> = (props) => {
         )
     }
     return (
-        <Header id={id} size={size} textAlign={textAlign} style={{ userSelect: "none" }}>
+        <Header
+            id={id}
+            size={size}
+            textAlign={textAlign}
+            margin="none"
+            style={{ userSelect: "none" }}
+        >
             {text}
         </Header>
     )

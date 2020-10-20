@@ -9,6 +9,7 @@ const exampleFormSelection: FormSelection = {
     artists: false,
     tracks: false,
     recommended: true,
+    genre: "",
 }
 
 describe("<SourceSelection />", () => {

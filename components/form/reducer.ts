@@ -5,6 +5,7 @@ export interface FormState {
     mood: Mood
     numSongs: number
     source: FormSelection
+    genre: string
     progress: number
 }
 
@@ -12,6 +13,7 @@ export const initialFormState: FormState = {
     mood: -1,
     numSongs: 0,
     source: defaultFormSelection,
+    genre: "",
     progress: 0,
 }
 
@@ -36,6 +38,7 @@ export const formReducer = (state: FormState, action: FormAction) => {
                 mood: -1,
                 numSongs: 0,
                 source: defaultFormSelection,
+                genre: "",
                 progress: 0,
                 showResults: false,
             }

@@ -24,6 +24,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
     const [showResults, setShowResults] = useState(false)
     const [mood, setMood] = useState<Mood>(-1)
     const [source, setSource] = useState<FormSelection>(defaultFormSelection)
+    const [selectedGenreValue, setSelectedGenreValue] = useState("")
     const [tracks, setTracks] = useState<Track[]>()
     const [loading, setLoading] = useState(false)
     const { getQueue } = useSpotify()
@@ -51,6 +52,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                         tracks={tracks}
                         size={size}
                         mood={mood}
+                        selectedGenreValue={selectedGenreValue}
                         source={source}
                         resetForm={() => setShowResults(false)}
                         userProduct={user.product}
@@ -58,13 +60,20 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
                 ) : (
                     <Form
                         size={size}
-                        handleSubmit={(mood, numSongs, source, topGenres?: string[]) => {
+                        handleSubmit={(
+                            mood,
+                            numSongs,
+                            source,
+                            selectedGenreValue,
+                            topGenres?: string[]
+                        ) => {
                             setLoading(true)
                             const trackSources = getTrackSourceFromFormSelection(source)
                             getQueue(trackSources, numSongs, mood, topGenres).then((data) => {
                                 setTracks(data)
                                 setMood(mood)
                                 setSource(source)
+                                setSelectedGenreValue(selectedGenreValue)
                                 setLoading(false)
                                 setShowResults(true)
                             })
