@@ -34,19 +34,6 @@ describe("SpotifyHelper", () => {
     })
 
     describe("#getTopSongs", () => {
-        it("returns Track[] users top songs", async () => {
-            fetch.mockResponseOnce(JSON.stringify(topTracksMock))
-            const track = topTracksMock.items[0]
-            const expected = {
-                previewUrl: track.preview_url,
-                name: track.name,
-                artist: track.album.artists[0].name,
-                imageLink: track.album.images[0].url,
-                id: track.id,
-                uri: track.uri,
-            }
-            expect(await helper.getTopSongs(1)).toEqual([expected])
-        })
         it("throws an error when error fetching data", async () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
@@ -100,19 +87,6 @@ describe("SpotifyHelper", () => {
     })
 
     describe("#getSavedTracks", () => {
-        it("returns a Track[] of users saved tracks", async () => {
-            fetch.mockResponseOnce(JSON.stringify(savedTracksMock))
-            const track = savedTracksMock.items[0]
-            const expected = {
-                previewUrl: track.track.preview_url,
-                name: track.track.name,
-                artist: track.track.album.artists[0].name,
-                imageLink: track.track.album.images[0].url,
-                id: track.track.id,
-                uri: track.track.uri,
-            }
-            expect(await helper.getSavedTracks(1)).toEqual([expected])
-        })
         it("throws an error when error fetching data", async () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
