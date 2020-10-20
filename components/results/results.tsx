@@ -147,6 +147,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                         icon={<CirclePlay color="dark-2" />}
                                         onClick={() => {
                                             addToQueue(state.tracks)
+                                            dispatch(update("showAfterParty", true))
                                         }}
                                     />
                                     <Button
@@ -157,6 +158,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                         icon={<Playlist width="24px" height="24px" />}
                                         onClick={() => {
                                             addToPlaylist(state.tracks)
+                                            dispatch(update("showAfterParty", true))
                                         }}
                                         secondary
                                     />
@@ -181,6 +183,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     icon={<Playlist width="24px" height="24px" />}
                                     onClick={() => {
                                         addToPlaylist(state.tracks)
+                                        dispatch(update("showAfterParty", true))
                                     }}
                                     secondary
                                 />
@@ -205,6 +208,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     icon={<CirclePlay color="dark-2" />}
                                     onClick={() => {
                                         addToQueue(state.tracks)
+                                        dispatch(update("showAfterParty", true))
                                     }}
                                 />
                             )}
@@ -214,7 +218,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 text="create playlist"
                                 icon={<Playlist width="26px" height="26px" />}
                                 onClick={() => {
-                                    //addToPlaylist(state.tracks);
+                                    addToPlaylist(state.tracks)
                                     dispatch(update("showAfterParty", true))
                                 }}
                                 secondary
