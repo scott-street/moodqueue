@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { Box as GrommetBox } from "grommet"
 
 export const OuterBox = styled(GrommetBox)`
-    overflow-y: hidden;
+    overflow: hidden;
     flex-direction: row;
     justify-content: space-between;
     display: flex;

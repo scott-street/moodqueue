@@ -40,7 +40,6 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     icon={icon}
                     onClick={onClick}
                     disabled={disabled}
-                    alignSelf="center"
                     hoverIndicator={hover}
                     title={title}
                     primary={fill === undefined ? true : fill}
@@ -60,7 +59,6 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     icon={icon}
                     onClick={onClick}
                     disabled={disabled}
-                    alignSelf="center"
                     hoverIndicator={hover}
                     title={title}
                     color={color === undefined ? "accent-1" : color}
@@ -81,7 +79,6 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                     label={text}
                     onClick={onClick}
                     disabled={disabled}
-                    alignSelf="center"
                     size="large"
                     hoverIndicator={hover}
                     title={title}
@@ -101,7 +98,6 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                 label={text}
                 onClick={onClick}
                 disabled={disabled}
-                alignSelf="center"
                 size="large"
                 hoverIndicator={hover}
                 title={title}

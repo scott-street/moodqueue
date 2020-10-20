@@ -46,14 +46,3 @@ export const getTrackSourceFromFormSelection = (formSelection: FormSelection): T
     }
     return result
 }
-
-export const getShortenedName = (name: string, track: boolean) => {
-    if (name.length <= (track ? 10 : 15)) {
-        return name
-    } else {
-        let temp: string = ""
-        temp = name.substring(0, track ? 9 : 14)
-        temp += "..."
-        return temp
-    }
-}

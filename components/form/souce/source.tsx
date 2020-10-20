@@ -7,6 +7,7 @@ import { Sources } from "../../../ui/sources/Sources"
 interface SourceSelectionProps {
     progress: number
     source: FormSelection
+    selectedGenreValue: string
     size: string
     dispatch(value: FormAction): void
     topGenres: string[]
@@ -14,7 +15,15 @@ interface SourceSelectionProps {
 }
 
 export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) => {
-    const { size, source, progress, dispatch, topGenres, getSelectedGenres } = props
+    const {
+        size,
+        source,
+        selectedGenreValue,
+        progress,
+        dispatch,
+        topGenres,
+        getSelectedGenres,
+    } = props
 
     const updateProgressAfterCheckboxChange = (index: number, checked: boolean) => {
         const current = source
@@ -57,10 +66,11 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
             <Sources
                 size={size}
                 sources={source}
+                selectedGenreValue={selectedGenreValue}
                 topGenres={topGenres}
                 getSelectedGenres={getSelectedGenres}
                 onChange={(value, index) => {
-                    updateProgressAfterCheckboxChange(index, value)
+                    if (index !== 4) updateProgressAfterCheckboxChange(index, value)
                     switch (index) {
                         case 0:
                             dispatch(updateSourceSelection("saved", value))
@@ -73,6 +83,9 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
                             break
                         case 3:
                             dispatch(updateSourceSelection("recommended", value))
+                            break
+                        case 4:
+                            dispatch(update("genre", value))
                             break
                         default:
                             dispatch(updateSourceSelection("saved", value))
