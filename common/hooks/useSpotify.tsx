@@ -51,9 +51,16 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
     const getMultipleTracksAudioFeatures = async (
         tracks: Track[]
     ): Promise<PropertyTrack[] | void[]> => {
-        try {
-            return await fetch(
-                `https://api.spotify.com/v1/audio-features?ids=${getTrackIdList(tracks)}`,
+        let result: PropertyTrack[] = []
+        const max = tracks.length
+        let left = 0
+        let right = 99
+        if (max < right) right = max
+
+        while (right <= max) {
+            const currentSet = tracks.slice(left, right)
+            const temp = await fetch(
+                `https://api.spotify.com/v1/audio-features?ids=${getTrackIdList(currentSet)}`,
                 {
                     headers: {
                         Accept: "application/json",
@@ -67,11 +74,16 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                     return data.json()
                 })
                 .then((data) => {
+                    console.log(left, ":", right, ":", data.audio_features)
                     return combineTwoArraysOnId(tracks, data.audio_features)
                 })
-        } catch (e) {
-            notifyError("Error")
+            result.push(...temp)
+            left = right + 1
+            right = right + 100
+            if (max < right) right = max
+            if (max <= left) break
         }
+        return result
     }
 
     const addSongToQueue = async (uri: string) => {
@@ -236,9 +248,12 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         } else {
             comparator = sadComparator
         }
+        let trackSet = Array.from(new Set(tracks.map((o) => JSON.stringify(o)).values())).map((o) =>
+            JSON.parse(o)
+        )
 
         return processQueue({
-            entities: tracks,
+            entities: trackSet,
             comparator: comparator,
             count: count,
         })
