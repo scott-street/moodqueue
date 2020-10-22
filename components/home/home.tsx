@@ -13,6 +13,8 @@ import { HomeBackground } from "../../ui/backgrounds/home/HomeBackground"
 import { Content } from "../../ui/content/Content"
 import { Logo } from "../../ui/logo/Logo"
 import { UserDetails } from "../../ui/user-details/UserDetails"
+import { Button } from "../../ui/button/Button"
+import { FormClose } from "grommet-icons"
 
 interface HomeProps {
     user: UserInfo
@@ -41,7 +43,7 @@ export const Home: FunctionComponent<HomeProps> = (props) => {
             </Header>
             <Content size={size}>
                 {loading ? (
-                    <Box align="center" justify="center" fill>
+                    <Box align="center" justify="center" fill gap="large">
                         <BounceLoader
                             size={size === "large" ? 300 : size === "medium" ? 200 : 100}
                             color="#6FFFB0"

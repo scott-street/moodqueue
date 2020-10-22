@@ -22,8 +22,8 @@ export interface SpotifyContextValue {
         mood: Mood,
         topGenres?: string[]
     ) => Promise<Track[]>
-    addToQueue: (tracks: Track[]) => Promise<void | void[]>
-    addToPlaylist: (tracks: Track[]) => Promise<void>
+    addToQueue: (tracks: Track[]) => Promise<boolean>
+    addToPlaylist: (tracks: Track[]) => Promise<boolean>
     getAvailableSeedGenres: () => Promise<string[]>
 }
 
@@ -161,7 +161,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         }
     }
 
-    const addSongsToPlaylist = async (uris: string, playlistId): Promise<void> => {
+    const addSongsToPlaylist = async (uris: string, playlistId): Promise<boolean> => {
         try {
             return await fetch(
                 `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${uris}`,
@@ -176,15 +176,17 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             ).then((res) => {
                 if (!res.ok) {
                     notifyError("Error adding songs to playlist.")
+                    return false
                 } else {
                     notifySuccess("Songs added to playlist")
+                    return true
                 }
             })
         } catch (e) {
             throw e
         }
     }
-    const addToPlaylist = async (tracks: Track[]): Promise<void> => {
+    const addToPlaylist = async (tracks: Track[]): Promise<boolean> => {
         const trackUris = tracks.map((o) => o.uri).join(",")
         const userPlaylists = await getUserPlaylists()
         const moodqueueId = moodqueuePlaylistId(userPlaylists)
@@ -192,7 +194,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             return addSongsToPlaylist(trackUris, moodqueueId)
         } else {
             return createMoodqueuePlaylist().then(() => {
-                addToPlaylist(tracks)
+                return addToPlaylist(tracks)
             })
         }
     }
@@ -259,12 +261,20 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         })
     }
 
-    const addToQueue = (tracks: Track[]): Promise<void | void[]> => {
-        return Promise.all(
-            tracks.map((track) => {
-                addSongToQueue(track.uri)
+    const addToQueue = async (tracks: Track[]): Promise<boolean> => {
+        try {
+            await Promise.all(
+                tracks.map((track) => {
+                    addSongToQueue(track.uri)
+                })
+            ).then(() => {
+                notifySuccess("Songs added to queue")
+                return true
             })
-        ).catch((e) => notifyError(e))
+        } catch (e) {
+            notifyError(e)
+            return false
+        }
     }
 
     const spotifyContextValue = {
