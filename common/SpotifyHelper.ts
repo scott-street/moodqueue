@@ -30,22 +30,38 @@ export class SpotifyHelper {
     }
 
     async getTopSongs(count: number): Promise<Track[]> {
-        try {
-            return this.get(`https://api.spotify.com/v1/me/top/tracks?limit=${count}`).then(
-                (data) => {
-                    return data.items.map((track) => ({
-                        previewUrl: track.preview_url,
-                        name: track.name,
-                        artist: track.album.artists[0].name,
-                        imageLink: track.album.images[0].url,
-                        id: track.id,
-                        uri: track.uri,
-                    }))
-                }
-            )
-        } catch (e) {
-            throw e
-        }
+        const tracks: Track[] = []
+        let timeRange = ["short_term", "medium_term", "long_term"]
+
+        let temp = await this.get(
+            `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange[1]}&limit=${count}`
+        ).then((data) => {
+            return data.items.map((track) => ({
+                previewUrl: track.preview_url,
+                name: track.name,
+                artist: track.album.artists[0].name,
+                imageLink: track.album.images[0].url,
+                id: track.id,
+                uri: track.uri,
+            }))
+        })
+        tracks.push(...temp)
+
+        temp = await this.get(
+            `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange[2]}&limit=${count}`
+        ).then((data) => {
+            return data.items.map((track) => ({
+                previewUrl: track.preview_url,
+                name: track.name,
+                artist: track.album.artists[0].name,
+                imageLink: track.album.images[0].url,
+                id: track.id,
+                uri: track.uri,
+            }))
+        })
+        tracks.push(...temp)
+
+        return tracks
     }
 
     async getTopArtists(count: number): Promise<Artist[]> {
@@ -73,8 +89,16 @@ export class SpotifyHelper {
     }
 
     async getSavedTracks(count: number): Promise<Track[]> {
-        try {
-            return this.get(`https://api.spotify.com/v1/me/tracks?limit=${count}`).then((data) => {
+        const tracks: Track[] = []
+        let temp: Track[] = []
+        let n = 0
+        do {
+            temp = await this.get(
+                `https://api.spotify.com/v1/me/tracks?offset=${n}&limit=${count}`
+            ).then((data) => {
+                if (data.items.length === 0) {
+                    return []
+                }
                 return data.items.map((item) => ({
                     previewUrl: item.track.preview_url,
                     name: item.track.name,
@@ -84,9 +108,12 @@ export class SpotifyHelper {
                     uri: item.track.uri,
                 }))
             })
-        } catch (e) {
-            throw e
-        }
+            if (temp.length !== 0) {
+                tracks.push(...temp)
+                n = n + 50
+            }
+        } while (temp.length !== 0)
+        return tracks
     }
 
     async getRecommendedFromSeed(type: string, seed: string, count: number): Promise<Track[]> {
