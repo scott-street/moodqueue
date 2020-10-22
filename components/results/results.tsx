@@ -164,7 +164,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     >
                                         <Box width="small" align="center">
                                             <Description
-                                                text="unfortunately, this feature is reserved for spotify premium users only :("
+                                                text="unfortunately, this feature is limited to spotify premium users only :("
                                                 textAlign="center"
                                             />
                                         </Box>
@@ -211,7 +211,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     <Button
                                         disabled
                                         id="play-queue-btn"
-                                        title="play your moodqueue"
                                         text="add to queue"
                                         icon={<CirclePlay color="dark-2" />}
                                     />
@@ -219,7 +218,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 <ReactTooltip id="queue-tooltip">
                                     <Box width="small" align="center">
                                         <Description
-                                            text="unfortunately, this feature is reserved for spotify premium users only :("
+                                            text="unfortunately, this feature is limited to spotify premium users only :("
                                             textAlign="center"
                                         />
                                     </Box>
