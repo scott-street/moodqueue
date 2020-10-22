@@ -39,6 +39,7 @@ describe("<Results />", () => {
     it("renders without crashing", () => {
         shallow(
             <Results
+                selectedGenreValue={""}
                 tracks={mockTracks}
                 size={"large"}
                 mood={0}
@@ -49,9 +50,10 @@ describe("<Results />", () => {
         )
     })
 
-    it("does not render queue button if free user", () => {
-        const wrapper = render(
+    it("renders disabled queue button if free user", () => {
+        const wrapper = mount(
             <Results
+                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -61,12 +63,13 @@ describe("<Results />", () => {
             />
         )
 
-        expect(wrapper.find("#play-queue-btn").length).to.be.eql(0)
+        expect(wrapper.find("#play-queue-btn").at(0).props().disabled).to.be.eql(true)
     })
 
     it("renders 'loading...' for number of tracks when tracks are loading", () => {
         const wrapper = render(
             <Results
+                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -95,6 +98,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -126,6 +130,7 @@ describe("<Results />", () => {
     it("renders queue sources in description", () => {
         const wrapper = render(
             <Results
+                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -153,6 +158,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -197,6 +203,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={[]}
@@ -228,6 +235,7 @@ describe("<Results />", () => {
     it("renders play queue button", () => {
         const wrapper = render(
             <Results
+                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -242,6 +250,7 @@ describe("<Results />", () => {
     it("renders start over button", () => {
         const wrapper = render(
             <Results
+                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -270,6 +279,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -316,6 +326,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -362,6 +373,7 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
+                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
