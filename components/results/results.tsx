@@ -146,7 +146,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     <Button
                                         small
                                         id="play-queue-btn"
-                                        title="play your moodqueue"
                                         text="queue"
                                         icon={<CirclePlay color="dark-2" />}
                                         onClick={async () => {
@@ -165,7 +164,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                                 disabled
                                                 small
                                                 id="play-queue-btn"
-                                                title="play your moodqueue"
                                                 text="queue"
                                                 icon={<CirclePlay color="dark-2" />}
                                             />
@@ -175,7 +173,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                             globalEventOff="click"
                                             effect="solid"
                                         >
-                                            <Box width="small" align="center">
+                                            <Box width="small" align="center" round>
                                                 <Description
                                                     text="unfortunately, this feature is reserved for spotify premium users only :("
                                                     textAlign="center"
@@ -187,7 +185,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 <Button
                                     small
                                     id="playlist-btn"
-                                    title="create a new moodqueue playlist or add to an existing one"
                                     text="playlist"
                                     icon={<Playlist width="24px" height="24px" />}
                                     onClick={async () => {
@@ -200,7 +197,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             <Button
                                 small
                                 id="reset-btn"
-                                title="start over to begin a new moodqueue"
                                 icon={<Previous color="light-2" />}
                                 text="back"
                                 onClick={resetForm}
@@ -226,13 +222,12 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                         <Button
                                             disabled
                                             id="play-queue-btn"
-                                            title="play your moodqueue"
                                             text="add to queue"
                                             icon={<CirclePlay color="dark-2" />}
                                         />
                                     </a>
                                     <ReactTooltip id="queue-tooltip">
-                                        <Box width="small" align="center">
+                                        <Box width="small" align="center" round>
                                             <Description
                                                 text="unfortunately, this feature is reserved for spotify premium users only :("
                                                 textAlign="center"
