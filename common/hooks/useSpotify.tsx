@@ -1,4 +1,5 @@
 import React from "react"
+import * as Sentry from "@sentry/browser"
 import { useAuth } from "./useAuth"
 import { Track, PropertyTrack } from "../../types/Track"
 import { TrackSource } from "../../types/TrackSource"
@@ -74,7 +75,6 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                     return data.json()
                 })
                 .then((data) => {
-                    console.log(left, ":", right, ":", data.audio_features)
                     return combineTwoArraysOnId(tracks, data.audio_features)
                 })
             result.push(...temp)
@@ -162,6 +162,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
     }
 
     const addSongsToPlaylist = async (uris: string, playlistId): Promise<void> => {
+        Sentry.captureMessage(`add to playlist`)
         try {
             return await fetch(
                 `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${uris}`,
@@ -204,9 +205,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         topGenres?: string[]
     ): Promise<Track[]> => {
         let tracks = []
-        console.log("TOP GENRES", topGenres)
 
         if (trackSource.includes(TrackSource.TOP_SONGS)) {
+            Sentry.captureMessage(`source includes top songs`)
             await spotifyHelper.getTopSongs(50).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((topTracks) => {
                     tracks = tracks.concat(topTracks)
@@ -214,6 +215,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             })
         }
         if (trackSource.includes(TrackSource.RECOMMENDED_SONGS)) {
+            Sentry.captureMessage(`source includes recommended songs`)
             await spotifyHelper.getRecommendedSongs(topGenres).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((recommendedTracks) => {
                     tracks = tracks.concat(recommendedTracks)
@@ -221,6 +223,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             })
         }
         if (trackSource.includes(TrackSource.TOP_ARTISTS_SONGS)) {
+            Sentry.captureMessage(`soure includes top artists`)
             await spotifyHelper.getTopArtistsTopSongs(50).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((topArtistsTracks) => {
                     tracks = tracks.concat(topArtistsTracks)
@@ -228,6 +231,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             })
         }
         if (trackSource.includes(TrackSource.SAVED_SONGS)) {
+            Sentry.captureMessage(`source includes saved songs`)
             await spotifyHelper.getSavedTracks(50).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((savedTracks) => {
                     tracks = tracks.concat(savedTracks)
@@ -238,14 +242,19 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         //as we add more moods, we will add more comparators
         let comparator
         if (mood === Mood.HAPPY) {
+            Sentry.captureMessage(`Mood: Happy`)
             comparator = happyComparator
         } else if (mood === Mood.SLEEPY) {
+            Sentry.captureMessage(`Mood: Sleepy`)
             comparator = sleepyComparator
         } else if (mood === Mood.PARTY) {
+            Sentry.captureMessage(`Mood: Party`)
             comparator = partyComparator
         } else if (mood === Mood.DRIVING) {
+            Sentry.captureMessage(`Mood: Driving`)
             comparator = drivingComparator
         } else {
+            Sentry.captureMessage(`Mood: Sad`)
             comparator = sadComparator
         }
         let trackSet = Array.from(new Set(tracks.map((o) => JSON.stringify(o)).values())).map((o) =>
@@ -260,6 +269,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
     }
 
     const addToQueue = (tracks: Track[]): Promise<void | void[]> => {
+        Sentry.captureMessage(`add to queue`)
         return Promise.all(
             tracks.map((track) => {
                 addSongToQueue(track.uri)
