@@ -1,4 +1,5 @@
 import React from "react"
+import * as Sentry from "@sentry/browser"
 import { UserInfo } from "../../types/UserInfo"
 
 export interface AuthContextValue {
@@ -80,8 +81,8 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
             profileUrl: data.external_urls.spotify,
             product: data.product,
         }
-
         setCurrentUser(newUser)
+        Sentry.captureMessage(`Login`)
     }
     const setAuthRedirect = (hostname: string) => {
         const regex = new RegExp(process.env.REVIEW_URL)
