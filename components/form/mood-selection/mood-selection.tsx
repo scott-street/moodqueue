@@ -14,10 +14,16 @@ interface MoodSelectionProps {
 export const MoodSelection: FunctionComponent<MoodSelectionProps> = (props) => {
     const { size, moodIndex, progress, dispatch } = props
     return (
-        <Box gap="small" align="center">
-            <Text textAlign="center" size={size !== "small" ? "large" : "medium"}>
+        <div style={{ display: "flex", flexDirection: "column", marginTop: "5%" }}>
+            <Text
+                style={{ marginBottom: "5%" }}
+                weight="bold"
+                textAlign="center"
+                size={size !== "small" ? "large" : "medium"}
+            >
                 what music are you in the mood for?
             </Text>
+
             <Box
                 direction="row"
                 gap="small"
@@ -48,6 +54,6 @@ export const MoodSelection: FunctionComponent<MoodSelectionProps> = (props) => {
                         )
                 )}
             </Box>
-        </Box>
+        </div>
     )
 }
