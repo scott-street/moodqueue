@@ -15,7 +15,7 @@ export const MoodSelection: FunctionComponent<MoodSelectionProps> = (props) => {
     const { size, moodIndex, progress, dispatch } = props
     return (
         <Box gap="small" align="center">
-            <Text textAlign="center" size={size !== "small" ? "large" : "medium"}>
+            <Text textAlign="center" size={size !== "small" ? "large" : "medium"} weight="bold">
                 what music are you in the mood for?
             </Text>
             <Box
