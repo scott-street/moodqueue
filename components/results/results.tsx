@@ -1,5 +1,5 @@
-import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
-import { Box } from "grommet"
+import React, { FunctionComponent, Reducer, useEffect, useReducer, useState } from "react"
+import { Box, Layer } from "grommet"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
 import { useSpotify } from "../../common/hooks/useSpotify"
@@ -38,6 +38,8 @@ interface ResultsProps {
 export const Results: FunctionComponent<ResultsProps> = (props) => {
     const { size, tracks, source, selectedGenreValue, mood, resetForm, userProduct } = props
     const { addToQueue, addToPlaylist } = useSpotify()
+    const [showPlaylistWarningModal, setShowPlaylistWarningModal] = useState(false)
+    const [showQueueWarningModal, setShowQueueWarningModal] = useState(false)
 
     const [state, dispatch] = useReducer<Reducer<ResultState, ResultAction>>(
         resultReducer,
@@ -51,7 +53,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
 
     return (
         <Box align="center" fill>
-            <Box align="center" justify="between" gap="small" fill>
+            <Box align="center" justify="between" gap={size === "small" ? "none" : "small"} fill>
                 <Box direction="row" border="between" gap="small" align="center">
                     <Description
                         id="desc-num-songs"
@@ -140,8 +142,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             id="playlist-btn"
                             icon={<Playlist width="24px" height="24px" />}
                             onClick={async () => {
-                                await addToPlaylist(state.tracks)
-                                resetForm()
+                                setShowPlaylistWarningModal(true)
                             }}
                             secondary
                         />
@@ -151,8 +152,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 id="play-queue-btn"
                                 icon={<Queue width="24px" height="24px" />}
                                 onClick={async () => {
-                                    await addToQueue(state.tracks)
-                                    resetForm()
+                                    setShowQueueWarningModal(true)
                                 }}
                             />
                         ) : (
@@ -248,6 +248,91 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 close={() => dispatch(updateTrackToShow("trackToShow", undefined))}
                 dispatch={(value) => dispatch(value)}
             />
+            {showPlaylistWarningModal && !showQueueWarningModal && (
+                <Layer
+                    onClickOutside={() => setShowPlaylistWarningModal(false)}
+                    responsive={false}
+                    position="center"
+                    margin={{ horizontal: "large" }}
+                    style={{ background: "transparent", width: "100%" }}
+                >
+                    <Box
+                        style={{
+                            background:
+                                "linear-gradient(180deg, rgba(129,252,237,1) 0%, rgba(68,99,115,1) 50%, rgba(57,73,94,1) 75%)",
+                        }}
+                        align="center"
+                        gap="large"
+                        background={{ color: "#34495E" }}
+                        pad="medium"
+                        round="large"
+                        border={{
+                            color: "accent-3",
+                            size: "large",
+                            side: "bottom",
+                            style: "groove",
+                        }}
+                    >
+                        <Description header text="playlist" textAlign="center" />
+                        <Description
+                            text="pressing continue will either create a new moodqueue playlist or add to an existing one"
+                            textAlign="center"
+                        />
+                        <Button
+                            text="continue"
+                            onClick={async () => {
+                                await addToPlaylist(state.tracks)
+                                setShowPlaylistWarningModal(false)
+                                resetForm()
+                            }}
+                            small
+                            secondary
+                        />
+                    </Box>
+                </Layer>
+            )}
+            {showQueueWarningModal && !showPlaylistWarningModal && (
+                <Layer
+                    onClickOutside={() => setShowQueueWarningModal(false)}
+                    responsive={false}
+                    position="center"
+                    margin={{ horizontal: "large" }}
+                    style={{ background: "transparent", width: "100%" }}
+                >
+                    <Box
+                        style={{
+                            background:
+                                "linear-gradient(180deg, rgba(111,255,176,1) 0%, rgba(66,105,108,1) 50%, rgba(57,73,94,1) 75%)",
+                        }}
+                        align="center"
+                        gap="large"
+                        background={{ color: "#34495E" }}
+                        pad="medium"
+                        round="large"
+                        border={{
+                            color: "accent-1",
+                            size: "large",
+                            side: "bottom",
+                            style: "groove",
+                        }}
+                    >
+                        <Description header text="queue" textAlign="center" />
+                        <Description
+                            textAlign="center"
+                            text="pressing the button below will add the songs above to your queue if you have spotify already open and playing"
+                        />
+                        <Button
+                            text="add to queue"
+                            small
+                            onClick={async () => {
+                                await addToQueue(state.tracks)
+                                setShowQueueWarningModal(false)
+                                resetForm()
+                            }}
+                        />
+                    </Box>
+                </Layer>
+            )}
         </Box>
     )
 }
