@@ -195,7 +195,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             text="playlist"
                             icon={<Playlist width="26px" height="26px" />}
                             onClick={async () => {
-                                await addToPlaylist(state.tracks)
+                                await addToPlaylist(state.tracks, mood, source)
                                 resetForm()
                             }}
                             secondary
@@ -281,7 +281,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         <Button
                             text="continue"
                             onClick={async () => {
-                                await addToPlaylist(state.tracks)
+                                await addToPlaylist(state.tracks, mood, source)
                                 setShowPlaylistWarningModal(false)
                                 resetForm()
                             }}
