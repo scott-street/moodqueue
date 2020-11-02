@@ -1,11 +1,12 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
 import { Box } from "grommet"
-import { Previous, CirclePlay, FormPrevious } from "grommet-icons"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
 import { useSpotify } from "../../common/hooks/useSpotify"
 import { EmotionSad as Sad } from "@styled-icons/remix-fill/EmotionSad"
 import { PlaylistAdd as Playlist } from "@styled-icons/material-rounded/PlaylistAdd"
+import { QueueMusic as Queue } from "@styled-icons/material-rounded/QueueMusic"
+import { SkipBackwardFill as Back } from "@styled-icons/bootstrap/SkipBackwardFill"
 import {
     ResultState,
     ResultAction,
@@ -148,7 +149,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             <Button
                                 small
                                 id="play-queue-btn"
-                                icon={<CirclePlay color="dark-2" />}
+                                icon={<Queue width="24px" height="24px" />}
                                 onClick={async () => {
                                     await addToQueue(state.tracks)
                                     resetForm()
@@ -161,12 +162,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                         disabled
                                         small
                                         id="play-queue-btn"
-                                        icon={
-                                            <CirclePlay
-                                                color="dark-2"
-                                                style={{ width: "24px", height: "24px" }}
-                                            />
-                                        }
+                                        icon={<Queue width="24px" height="24px" />}
                                     />
                                 </a>
                                 <ReactTooltip
@@ -176,7 +172,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 >
                                     <Box width="small" align="center">
                                         <Description
-                                            text="unfortunately, this feature is limited to spotify premium users only :("
+                                            text="unfortunately, the add-to-queue feature is limited to spotify premium users only :("
                                             textAlign="center"
                                         />
                                     </Box>
@@ -186,7 +182,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         <Button
                             small
                             id="reset-btn"
-                            icon={<FormPrevious color="light-2" />}
+                            icon={<Back width="24px" height="24px" />}
                             onClick={resetForm}
                             color="neutral-4"
                         />
@@ -209,7 +205,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 id="play-queue-btn"
                                 title="play your moodqueue"
                                 text="add to queue"
-                                icon={<CirclePlay color="dark-2" />}
+                                icon={<Queue width="26px" height="26px" />}
                                 onClick={async () => {
                                     await addToQueue(state.tracks)
                                     resetForm()
@@ -222,7 +218,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                         disabled
                                         id="play-queue-btn"
                                         text="add to queue"
-                                        icon={<CirclePlay color="dark-2" />}
+                                        icon={<Queue width="26px" height="26px" />}
                                     />
                                 </a>
                                 <ReactTooltip id="queue-tooltip">
@@ -238,7 +234,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         <Button
                             id="reset-btn"
                             title="start over to begin a new moodqueue"
-                            icon={<Previous color="light-2" />}
+                            icon={<Back width="26px" height="26px" />}
                             text="start over"
                             onClick={resetForm}
                             color="neutral-4"
