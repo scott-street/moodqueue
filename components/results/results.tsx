@@ -1,6 +1,6 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer } from "react"
 import { Box } from "grommet"
-import { Previous, CirclePlay } from "grommet-icons"
+import { Previous, CirclePlay, FormPrevious } from "grommet-icons"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
 import { useSpotify } from "../../common/hooks/useSpotify"
@@ -133,67 +133,77 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     )}
                 </Box>
                 {size === "small" ? (
-                    <Box align="center" gap="small">
-                        <Box direction="row" align="center" gap="medium">
-                            {userProduct === "premium" ? (
-                                <Button
-                                    small
-                                    id="play-queue-btn"
-                                    text="queue"
-                                    icon={<CirclePlay color="dark-2" />}
-                                    onClick={async () => {
-                                        await addToQueue(state.tracks)
-                                        resetForm()
-                                    }}
-                                />
-                            ) : (
-                                <Box align="center">
-                                    <a data-for="queue-tooltip" data-tip data-event="click focus">
-                                        <Button
-                                            disabled
-                                            small
-                                            id="play-queue-btn"
-                                            text="queue"
-                                            icon={<CirclePlay color="dark-2" />}
-                                        />
-                                    </a>
-                                    <ReactTooltip
-                                        id="queue-tooltip"
-                                        globalEventOff="click"
-                                        effect="solid"
-                                    >
-                                        <Box width="small" align="center">
-                                            <Description
-                                                text="unfortunately, this feature is limited to spotify premium users only :("
-                                                textAlign="center"
-                                            />
-                                        </Box>
-                                    </ReactTooltip>
-                                </Box>
-                            )}
+                    <Box direction="row" align="center" gap="medium">
+                        <Button
+                            small
+                            id="playlist-btn"
+                            icon={<Playlist width="24px" height="24px" />}
+                            onClick={async () => {
+                                await addToPlaylist(state.tracks)
+                                resetForm()
+                            }}
+                            secondary
+                        />
+                        {userProduct === "premium" ? (
                             <Button
                                 small
-                                id="playlist-btn"
-                                text="playlist"
-                                icon={<Playlist width="24px" height="24px" />}
+                                id="play-queue-btn"
+                                icon={<CirclePlay color="dark-2" />}
                                 onClick={async () => {
-                                    await addToPlaylist(state.tracks)
+                                    await addToQueue(state.tracks)
                                     resetForm()
                                 }}
-                                secondary
                             />
-                        </Box>
+                        ) : (
+                            <Box align="center">
+                                <a data-for="queue-tooltip" data-tip data-event="click focus">
+                                    <Button
+                                        disabled
+                                        small
+                                        id="play-queue-btn"
+                                        icon={
+                                            <CirclePlay
+                                                color="dark-2"
+                                                style={{ width: "24px", height: "24px" }}
+                                            />
+                                        }
+                                    />
+                                </a>
+                                <ReactTooltip
+                                    id="queue-tooltip"
+                                    globalEventOff="click"
+                                    effect="solid"
+                                >
+                                    <Box width="small" align="center">
+                                        <Description
+                                            text="unfortunately, this feature is limited to spotify premium users only :("
+                                            textAlign="center"
+                                        />
+                                    </Box>
+                                </ReactTooltip>
+                            </Box>
+                        )}
                         <Button
                             small
                             id="reset-btn"
-                            icon={<Previous color="light-2" />}
-                            text="back"
+                            icon={<FormPrevious color="light-2" />}
                             onClick={resetForm}
                             color="neutral-4"
                         />
                     </Box>
                 ) : (
                     <Box direction="row" align="center" gap="medium">
+                        <Button
+                            id="playlist-btn"
+                            title="create a new moodqueue playlist or add to an existing one"
+                            text="playlist"
+                            icon={<Playlist width="26px" height="26px" />}
+                            onClick={async () => {
+                                await addToPlaylist(state.tracks)
+                                resetForm()
+                            }}
+                            secondary
+                        />
                         {userProduct === "premium" ? (
                             <Button
                                 id="play-queue-btn"
@@ -225,17 +235,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 </ReactTooltip>
                             </Box>
                         )}
-                        <Button
-                            id="playlist-btn"
-                            title="create a new moodqueue playlist or add to an existing one"
-                            text="playlist"
-                            icon={<Playlist width="26px" height="26px" />}
-                            onClick={async () => {
-                                await addToPlaylist(state.tracks)
-                                resetForm()
-                            }}
-                            secondary
-                        />
                         <Button
                             id="reset-btn"
                             title="start over to begin a new moodqueue"
