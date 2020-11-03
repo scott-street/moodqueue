@@ -72,7 +72,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         id="desc-sources"
                         textAlign="center"
                         size={size !== "small" ? "xlarge" : "medium"}
-                        text={`based off ${
+                        text={`based on ${
                             !selectedGenreValue
                                 ? "your " + getSourcesString(source)
                                 : selectedGenreValue.replace("-", " ")
@@ -195,8 +195,8 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             text="playlist"
                             icon={<Playlist width="26px" height="26px" />}
                             onClick={async () => {
-                                await addToPlaylist(state.tracks, mood, source)
-                                resetForm()
+                                const result = await addToPlaylist(state.tracks, mood, source)
+                                if (result) resetForm()
                             }}
                             secondary
                         />
@@ -207,8 +207,9 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 text="add to queue"
                                 icon={<Queue width="26px" height="26px" />}
                                 onClick={async () => {
-                                    await addToQueue(state.tracks)
-                                    resetForm()
+                                    const result = await addToQueue(state.tracks)
+                                    console.log(result)
+                                    if (result) resetForm()
                                 }}
                             />
                         ) : (
@@ -281,9 +282,9 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         <Button
                             text="continue"
                             onClick={async () => {
-                                await addToPlaylist(state.tracks, mood, source)
+                                const result = await addToPlaylist(state.tracks, mood, source)
                                 setShowPlaylistWarningModal(false)
-                                resetForm()
+                                if (result) resetForm()
                             }}
                             small
                             secondary
@@ -325,9 +326,9 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             text="add to queue"
                             small
                             onClick={async () => {
-                                await addToQueue(state.tracks)
+                                const result = await addToQueue(state.tracks)
                                 setShowQueueWarningModal(false)
-                                resetForm()
+                                if (result) resetForm()
                             }}
                         />
                     </Box>
