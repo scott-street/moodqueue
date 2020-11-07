@@ -40,7 +40,7 @@ export class SpotifyHelper {
                 previewUrl: track.preview_url,
                 name: track.name,
                 artist: track.album.artists[0].name,
-                imageLink: track.album.images[0].url,
+                imageLink: track.album.images[0] ? track.album.images[0].url : "",
                 id: track.id,
                 uri: track.uri,
             }))
@@ -54,7 +54,7 @@ export class SpotifyHelper {
                 previewUrl: track.preview_url,
                 name: track.name,
                 artist: track.album.artists[0].name,
-                imageLink: track.album.images[0].url,
+                imageLink: track.album.images[0] ? track.album.images[0].url : "",
                 id: track.id,
                 uri: track.uri,
             }))
@@ -68,7 +68,10 @@ export class SpotifyHelper {
         try {
             return this.get(`https://api.spotify.com/v1/me/top/artists?limit=${count}`).then(
                 (data) => {
-                    return data.items.map((artist) => ({ id: artist.id, genres: artist.genres }))
+                    return data.items.map((artist) => ({
+                        id: artist.id,
+                        genres: artist.genres,
+                    }))
                 }
             )
         } catch (e) {
@@ -103,7 +106,7 @@ export class SpotifyHelper {
                     previewUrl: item.track.preview_url,
                     name: item.track.name,
                     artist: item.track.album.artists[0].name,
-                    imageLink: item.track.album.images[0].url,
+                    imageLink: item.track.album.images[0] ? item.track.album.images[0].url : "",
                     id: item.track.id,
                     uri: item.track.uri,
                 }))
@@ -134,7 +137,7 @@ export class SpotifyHelper {
                     previewUrl: track.preview_url,
                     name: track.name,
                     artist: track.album.artists[0].name,
-                    imageLink: track.album.images[0].url,
+                    imageLink: track.album.images[0] ? track.album.images[0].url : "",
                     id: track.id,
                     uri: track.uri,
                 }))
@@ -165,7 +168,9 @@ export class SpotifyHelper {
                             previewUrl: data.tracks[0].preview_url,
                             name: data.tracks[0].name,
                             artist: data.tracks[0].album.artists[0].name,
-                            imageLink: data.tracks[0].album.images[0].url,
+                            imageLink: data.tracks[0].album.images[0]
+                                ? data.tracks[0].album.images[0].url
+                                : "",
                             id: data.tracks[0].id,
                             uri: data.tracks[0].uri,
                         }

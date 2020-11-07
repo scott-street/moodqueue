@@ -90,6 +90,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                             onChange(true, 3)
                                         }}
                                         dropHeight="small"
+                                        dropAlign={{ bottom: "top", left: "left" }}
                                         closeOnChange={false}
                                         placeholder="a genre"
                                         onSearch={(search) => {

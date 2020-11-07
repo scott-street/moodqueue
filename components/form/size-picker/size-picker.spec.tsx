@@ -2,15 +2,22 @@ import React from "react"
 import { expect } from "chai"
 import { render, mount } from "enzyme"
 import { SizePicker } from "./"
+import { Grommet } from "grommet"
 
 describe("<SizePicker />", () => {
     it("renders without crashing", () => {
-        render(<SizePicker size={"large"} numSongs={0} progress={0} dispatch={jest.fn()} />)
+        render(
+            <Grommet>
+                <SizePicker size={"large"} numSongs={0} progress={0} dispatch={jest.fn()} />
+            </Grommet>
+        )
     })
 
     it("renders the number of songs", () => {
         const wrapper = render(
-            <SizePicker size={"large"} numSongs={10} progress={0} dispatch={jest.fn()} />
+            <Grommet>
+                <SizePicker size={"large"} numSongs={10} progress={0} dispatch={jest.fn()} />
+            </Grommet>
         )
 
         expect(wrapper.text()).to.contain("10")
@@ -18,7 +25,9 @@ describe("<SizePicker />", () => {
 
     it("renders +/- buttons for large screens", () => {
         const wrapper = render(
-            <SizePicker size={"large"} numSongs={0} progress={0} dispatch={jest.fn()} />
+            <Grommet>
+                <SizePicker size={"large"} numSongs={0} progress={0} dispatch={jest.fn()} />
+            </Grommet>
         )
 
         expect(wrapper.find("#add-btn")).to.have.length(1)
@@ -27,7 +36,9 @@ describe("<SizePicker />", () => {
 
     it("doesn't render +/- buttons for small screens", () => {
         const wrapper = render(
-            <SizePicker size={"small"} numSongs={0} progress={0} dispatch={jest.fn()} />
+            <Grommet>
+                <SizePicker size={"small"} numSongs={0} progress={0} dispatch={jest.fn()} />
+            </Grommet>
         )
 
         expect(wrapper.find("#add-btn")).to.have.length(0)
@@ -37,7 +48,9 @@ describe("<SizePicker />", () => {
     it("triggers prop two 'dispatch' calls on + button click", () => {
         const dispatchMock = jest.fn()
         const wrapper = mount(
-            <SizePicker size={"large"} numSongs={0} progress={0} dispatch={dispatchMock} />
+            <Grommet>
+                <SizePicker size={"large"} numSongs={0} progress={0} dispatch={dispatchMock} />
+            </Grommet>
         )
 
         const moreBtn = wrapper.find("#add-btn").hostNodes()
@@ -48,7 +61,9 @@ describe("<SizePicker />", () => {
     it("triggers prop two 'dispatch' calls on - button click", () => {
         const dispatchMock = jest.fn()
         const wrapper = mount(
-            <SizePicker size={"large"} numSongs={0} progress={0} dispatch={dispatchMock} />
+            <Grommet>
+                <SizePicker size={"large"} numSongs={0} progress={0} dispatch={dispatchMock} />
+            </Grommet>
         )
 
         const moreBtn = wrapper.find("#subtract-btn").hostNodes()
@@ -59,7 +74,9 @@ describe("<SizePicker />", () => {
     it("triggers prop two 'dispatch' calls on range input change", () => {
         const dispatchMock = jest.fn()
         const wrapper = mount(
-            <SizePicker size={"large"} numSongs={0} progress={0} dispatch={dispatchMock} />
+            <Grommet>
+                <SizePicker size={"large"} numSongs={0} progress={0} dispatch={dispatchMock} />
+            </Grommet>
         )
 
         const picker = wrapper.find("#size-picker").hostNodes()
@@ -71,7 +88,9 @@ describe("<SizePicker />", () => {
     it("num songs does not go below 0 when subtract button is clicked", () => {
         const dispatchMock = jest.fn()
         const wrapper = mount(
-            <SizePicker size={"large"} numSongs={0} progress={0} dispatch={dispatchMock} />
+            <Grommet>
+                <SizePicker size={"large"} numSongs={0} progress={0} dispatch={dispatchMock} />
+            </Grommet>
         )
 
         const moreBtn = wrapper.find("#add-btn").hostNodes()
@@ -82,7 +101,9 @@ describe("<SizePicker />", () => {
     it("num songs does not go above 50 when add button is clicked", () => {
         const dispatchMock = jest.fn()
         const wrapper = mount(
-            <SizePicker size={"large"} numSongs={50} progress={0} dispatch={dispatchMock} />
+            <Grommet>
+                <SizePicker size={"large"} numSongs={50} progress={0} dispatch={dispatchMock} />
+            </Grommet>
         )
 
         const moreBtn = wrapper.find("#add-btn").hostNodes()

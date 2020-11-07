@@ -75,8 +75,8 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                 }}
                 border={{
                     side: "all",
-                    size: trackProps.size !== "small" ? "medium" : "small",
-                    color: "accent-3",
+                    size: "small",
+                    color: "accent-1",
                 }}
                 background={{ dark: true }}
             >

@@ -59,11 +59,6 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                             round={{ corner: "bottom" }}
                             pad={{ top: "xsmall", bottom: "small", horizontal: "xsmall" }}
                             gap="small"
-                            border={{
-                                side: "all",
-                                color: "accent-1",
-                                size: "small",
-                            }}
                             style={{ width: "75%", height: "75%" }}
                         >
                             <Image
