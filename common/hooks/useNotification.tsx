@@ -50,7 +50,7 @@ export const NotificationProvider = (props: NotificationProviderProps) => (
     <SnackbarProvider
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         preventDuplicate
-        autoHideDuration={3000}
+        autoHideDuration={4000}
     >
         <BaseNotificationProvider {...props} />
     </SnackbarProvider>
