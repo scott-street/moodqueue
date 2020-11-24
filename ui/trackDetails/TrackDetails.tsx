@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { OuterBox, InnerBox } from "./TrackDetails.styles"
-import { Layer, Image, Text, Anchor } from "grommet"
+import { Layer, Image, Text, Anchor, Box } from "grommet"
 import { Track } from "../../types/Track"
 import { Down, Spotify, SubtractCircle } from "grommet-icons"
 import { Button } from "../button/Button"
@@ -181,35 +181,41 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                         </Text>
                                     </audio>
                                 )}
-                                <motion.div whileTap={{ scale: 0.9 }}>
-                                    <Anchor
-                                        id="spotify-anchor"
-                                        alignSelf="center"
-                                        href={`https://open.spotify.com/track/${track.id}`}
-                                        target="blank"
-                                        label={`Open ${track.name} in Spotify`}
-                                        icon={<Spotify />}
-                                    />
-                                </motion.div>
-                                <motion.div whileTap={{ scale: 0.9 }}>
-                                    <Button
-                                        id="remove-btn"
-                                        small
-                                        icon={<SubtractCircle />}
-                                        text="remove from queue"
-                                        color="neutral-4"
-                                        onClick={() => {
-                                            setIsOpen(false)
-                                            setTimeout(() => {
-                                                onClickRemove()
-                                                notifySuccess(
-                                                    `${track.name} has been removed from your queue`
+                                <Box direction="row" align="center" gap="medium">
+                                    <motion.div whileTap={{ scale: 0.9 }}>
+                                        <Button
+                                            id="spotify-anchor"
+                                            text="open"
+                                            icon={<Spotify />}
+                                            small
+                                            onClick={() =>
+                                                window.open(
+                                                    `https://open.spotify.com/track/${track.id}`,
+                                                    "_blank"
                                                 )
-                                                close()
-                                            }, 500)
-                                        }}
-                                    />
-                                </motion.div>
+                                            }
+                                        />
+                                    </motion.div>
+                                    <motion.div whileTap={{ scale: 0.9 }}>
+                                        <Button
+                                            id="remove-btn"
+                                            small
+                                            icon={<SubtractCircle />}
+                                            text="remove"
+                                            color="neutral-4"
+                                            onClick={() => {
+                                                setIsOpen(false)
+                                                setTimeout(() => {
+                                                    onClickRemove()
+                                                    notifySuccess(
+                                                        `${track.name} has been removed from your moodqueue`
+                                                    )
+                                                    close()
+                                                }, 500)
+                                            }}
+                                        />
+                                    </motion.div>
+                                </Box>
                                 <motion.div whileTap={{ scale: 0.9 }}>
                                     <Button
                                         small
