@@ -24,7 +24,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
     if (size !== "small") {
         return (
             <Layer
-                id="options-layer"
+                id="options-layer-web"
                 animation={false}
                 position="center"
                 onClickOutside={() => {
@@ -63,7 +63,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                         >
                             <Image
                                 src={track.imageLink}
-                                id="album-artwork-img"
+                                id="album-artwork-img-web"
                                 fit="contain"
                                 fill
                             />
@@ -77,7 +77,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                     <audio
                                         controls
                                         loop
-                                        id="previewPlayer"
+                                        id="previewPlayer-web"
                                         style={{
                                             outline: "none",
                                             width: "100%",
@@ -112,7 +112,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
     } else {
         return (
             <Layer
-                id="options-layer"
+                id="options-layer-mobile"
                 animation={false}
                 position="bottom"
                 responsive={false}
@@ -133,27 +133,13 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                     initial={{ y: 500, opacity: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <motion.div
-                        animate={{
-                            background: [
-                                "linear-gradient(115deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 75%)",
-                                "linear-gradient(215deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
-                                "linear-gradient(230deg, rgba(111,255,176,1) 0%, rgba(57,73,94,1) 75%)",
-                                "linear-gradient(180deg, rgba(255,53,53,1) 0%, rgba(57,73,94,1) 100%)",
-                                "linear-gradient(115deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
-                                "linear-gradient(215deg, rgba(255,53,53,1) 25%, rgba(57,73,94,1) 75%)",
-                                "linear-gradient(190deg, rgba(111,255,176,1) 0%, rgba(57,73,94,1) 75%)",
-                                "linear-gradient(270deg, rgba(42,142,242,1) 0%, rgba(31,39,48,1) 100%)",
-                            ],
-                        }}
-                        transition={{ duration: 10, yoyo: Infinity }}
-                    >
+                    <motion.div animate={colorMovementTracks}>
                         <OuterBox pad={{ top: "xsmall", horizontal: "xsmall" }} gap="medium">
                             <Image
                                 src={track.imageLink}
                                 fit="contain"
                                 fill
-                                id="album-artwork-img"
+                                id="album-artwork-img-mobile"
                             />
                             <InnerBox
                                 gap="medium"
@@ -165,7 +151,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                     <audio
                                         controls
                                         loop
-                                        id="previewPlayer"
+                                        id="previewPlayer-mobile"
                                         style={{
                                             outline: "none",
                                             width: "100%",
@@ -184,7 +170,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                 <Box direction="row" align="center" gap="medium">
                                     <motion.div whileTap={{ scale: 0.9 }}>
                                         <Button
-                                            id="spotify-anchor"
+                                            id="spotify-btn"
                                             text="open"
                                             icon={<Spotify />}
                                             small

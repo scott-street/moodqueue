@@ -18,4 +18,23 @@ describe("<Button />", () => {
     it("renders small button", () => {
         render(testComponent({ text: "hi", small: true }))
     })
+
+    it("renders tooltip button", () => {
+        render(
+            testComponent({
+                text: "hi",
+                tooltip: { text: "hello", id: "tooltip-id" },
+            })
+        )
+    })
+
+    it("renders small tooltip button", () => {
+        render(
+            testComponent({
+                text: "hi",
+                small: true,
+                tooltip: { text: "hello", id: "small-tooltip-id" },
+            })
+        )
+    })
 })

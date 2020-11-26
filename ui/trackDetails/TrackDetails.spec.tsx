@@ -13,7 +13,7 @@ const mockTrack: Track = {
     uri: "spotify:track:2SPxgEush9C8GS5RqgXdqi",
 }
 
-describe("<TracDetails />", () => {
+describe("<TrackDetails />", () => {
     let testComponent
     beforeEach(() => {
         testComponent = (props) => (
@@ -27,6 +27,6 @@ describe("<TracDetails />", () => {
     })
 
     it("renders small track details", () => {
-        render(testComponent({ size: "large", track: mockTrack }))
+        render(testComponent({ size: "small", track: mockTrack }))
     })
 })
