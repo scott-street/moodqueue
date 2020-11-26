@@ -66,7 +66,7 @@ describe("<Results />", () => {
         expect(wrapper.find("#play-queue-btn").at(0).props().disabled).to.be.eql(true)
     })
 
-    it("renders tooltip wrapper for queue and playlist buttons", () => {
+    it("renders tooltip wrappers for queue and playlist buttons", () => {
         const wrapper = mount(
             <Results
                 selectedGenreValue={""}
@@ -79,8 +79,8 @@ describe("<Results />", () => {
             />
         )
 
-        expect(wrapper.find("#queue-tooltip").length).to.be.eql(1)
-        expect(wrapper.find("#playlist-tooltip").length).to.be.eql(1)
+        expect(wrapper.find("#queue-tooltip").length).to.be.eql(2)
+        expect(wrapper.find("#playlist-tooltip").length).to.be.eql(2)
     })
 
     it("renders 'loading...' for number of tracks when tracks are loading", () => {

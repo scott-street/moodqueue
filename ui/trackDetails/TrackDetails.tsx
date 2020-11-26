@@ -170,7 +170,7 @@ export const TrackDetails: React.FunctionComponent<TrackDetailsProps> = (props) 
                                 <Box direction="row" align="center" gap="medium">
                                     <motion.div whileTap={{ scale: 0.9 }}>
                                         <Button
-                                            id="spotify-btn"
+                                            id="open-spotify-btn"
                                             text="open"
                                             icon={<Spotify />}
                                             small

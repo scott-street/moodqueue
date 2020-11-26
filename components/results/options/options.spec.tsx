@@ -126,7 +126,7 @@ describe("<Options />", () => {
             <Options track={mockTrack} size={"small"} dispatch={jest.fn()} close={jest.fn()} />
         )
 
-        expect(wrapper.find("#spotify-btn")).to.have.length(0)
+        expect(wrapper.find("#open-spotify-btn").at(0)).to.have.length(1)
     })
 
     it("renders remove button if mobile device", () => {
