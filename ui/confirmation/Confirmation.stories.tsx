@@ -13,6 +13,7 @@ export const secondaryConfirm = () =>
             handleConfirmation={() => {}}
             descText="pressing continue will submit the form"
             btnText="continue"
+            headerText="header"
             id="secondary-confirm-id"
             secondary
         />
@@ -25,6 +26,7 @@ export const primaryConfirm = () =>
             handleConfirmation={() => {}}
             descText="pressing continue below will submit the form"
             btnText="continue"
+            headerText="header"
             id="primary-confirm-id"
         />
     )

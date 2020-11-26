@@ -20,6 +20,7 @@ describe("<Confirmation />", () => {
                 descText: "queue",
                 id: "confirm-id",
                 secondary: true,
+                headerText: "queue",
             })
         )
     })
@@ -32,6 +33,7 @@ describe("<Confirmation />", () => {
                 btnText: "btn",
                 descText: "playlist",
                 id: "confirm-id",
+                headerText: "playlist",
             })
         )
     })
