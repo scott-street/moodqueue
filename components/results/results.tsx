@@ -24,6 +24,7 @@ import { baseItemTop } from "../animations/motion"
 import { Button } from "../../ui/button/Button"
 import { Description } from "../../ui/description/Description"
 import ReactTooltip from "react-tooltip"
+import { Confirmation } from "../../ui/confirmation/Confirmation"
 
 interface ResultsProps {
     size: string
@@ -229,89 +230,33 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 dispatch={(value) => dispatch(value)}
             />
             {showPlaylistWarningModal && !showQueueWarningModal && (
-                <Layer
-                    onClickOutside={() => setShowPlaylistWarningModal(false)}
-                    responsive={false}
-                    position="center"
-                    margin={{ horizontal: "large" }}
-                    style={{ background: "transparent", width: "100%" }}
-                >
-                    <Box
-                        style={{
-                            background:
-                                "linear-gradient(180deg, rgba(129,252,237,1) 0%, rgba(68,99,115,1) 50%, rgba(57,73,94,1) 75%)",
-                        }}
-                        align="center"
-                        gap="large"
-                        background={{ color: "#34495E" }}
-                        pad="medium"
-                        round="large"
-                        border={{
-                            color: "accent-3",
-                            size: "large",
-                            side: "bottom",
-                            style: "groove",
-                        }}
-                    >
-                        <Description header text="playlist" textAlign="center" />
-                        <Description
-                            text="pressing continue will either create a new moodqueue playlist or add to an existing one"
-                            textAlign="center"
-                        />
-                        <Button
-                            text="continue"
-                            onClick={async () => {
-                                const result = await addToPlaylist(state.tracks, mood, source)
-                                setShowPlaylistWarningModal(false)
-                                if (result) resetForm()
-                            }}
-                            small
-                            secondary
-                        />
-                    </Box>
-                </Layer>
+                <Confirmation
+                    id="playlist-confirm"
+                    descText="pressing continue will either create a new moodqueue playlist or add to an existing one"
+                    headerText="playlist"
+                    btnText="continue"
+                    close={() => setShowPlaylistWarningModal(false)}
+                    handleConfirmation={async () => {
+                        const result = await addToPlaylist(state.tracks, mood, source)
+                        setShowPlaylistWarningModal(false)
+                        if (result) resetForm()
+                    }}
+                    secondary
+                />
             )}
             {showQueueWarningModal && !showPlaylistWarningModal && (
-                <Layer
-                    onClickOutside={() => setShowQueueWarningModal(false)}
-                    responsive={false}
-                    position="center"
-                    margin={{ horizontal: "large" }}
-                    style={{ background: "transparent", width: "100%" }}
-                >
-                    <Box
-                        style={{
-                            background:
-                                "linear-gradient(180deg, rgba(111,255,176,1) 0%, rgba(66,105,108,1) 50%, rgba(57,73,94,1) 75%)",
-                        }}
-                        align="center"
-                        gap="large"
-                        background={{ color: "#34495E" }}
-                        pad="medium"
-                        round="large"
-                        border={{
-                            color: "accent-1",
-                            size: "large",
-                            side: "bottom",
-                            style: "groove",
-                        }}
-                    >
-                        <Description header text="queue" textAlign="center" />
-                        <Description
-                            textAlign="center"
-                            text="pressing the button below will add the songs above to your queue if you have spotify already open and playing"
-                        />
-                        <Button
-                            text="add to queue"
-                            small
-                            onClick={async () => {
-                                const result = await addToQueue(state.tracks)
-                                setShowQueueWarningModal(false)
-                                if (result) resetForm()
-                            }}
-                        />
-                    </Box>
-                </Layer>
+                <Confirmation
+                    id="queue-confirm"
+                    descText="pressing the button below will add the songs above to your queue if you have spotify already open and playing"
+                    headerText="queue"
+                    btnText="add to queue"
+                    close={() => setShowQueueWarningModal(false)}
+                    handleConfirmation={async () => {
+                        const result = await addToQueue(state.tracks)
+                        setShowQueueWarningModal(false)
+                        if (result) resetForm()
+                    }}
+                />
             )}
         </Box>
     )

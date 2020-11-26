@@ -373,6 +373,100 @@ describe("<Results />", () => {
         })
     })
 
+    it("opens up confirmation after playlist button is clicked on mobile", async () => {
+        const mockAddToPlaylist = jest.fn()
+        const contextValues: SpotifyContextValue = {
+            addToQueue: jest.fn(),
+            getQueue: jest.fn(
+                () =>
+                    new Promise((resolve) => {
+                        resolve(mockTracks)
+                    })
+            ),
+            addToPlaylist: mockAddToPlaylist,
+            getAvailableSeedGenres: jest.fn(),
+        }
+
+        const TestComponent = () => (
+            <SpotifyProvider value={contextValues}>
+                <Results
+                    selectedGenreValue={""}
+                    size={"small"}
+                    mood={Mood.SLEEPY}
+                    tracks={mockTracks}
+                    source={source}
+                    resetForm={jest.fn()}
+                    userProduct="free"
+                />
+            </SpotifyProvider>
+        )
+
+        await act(() => {
+            const wrapper = mount(<TestComponent />)
+
+            const promise = () => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        wrapper.update()
+                        resolve(wrapper)
+                    }, 3000)
+                })
+            }
+
+            return promise().then((res: any) => {
+                res.find("#playlist-btn").at(1).simulate("click")
+                expect(wrapper.find("#playlist-confirm").length).to.be.equal(1)
+            })
+        })
+    })
+
+    it("opens up confirmation after queue button is clicked on mobile", async () => {
+        const mockAddToPlaylist = jest.fn()
+        const contextValues: SpotifyContextValue = {
+            addToQueue: jest.fn(),
+            getQueue: jest.fn(
+                () =>
+                    new Promise((resolve) => {
+                        resolve(mockTracks)
+                    })
+            ),
+            addToPlaylist: mockAddToPlaylist,
+            getAvailableSeedGenres: jest.fn(),
+        }
+
+        const TestComponent = () => (
+            <SpotifyProvider value={contextValues}>
+                <Results
+                    selectedGenreValue={""}
+                    size={"small"}
+                    mood={Mood.SLEEPY}
+                    tracks={mockTracks}
+                    source={source}
+                    resetForm={jest.fn()}
+                    userProduct="premium"
+                />
+            </SpotifyProvider>
+        )
+
+        await act(() => {
+            const wrapper = mount(<TestComponent />)
+
+            const promise = () => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        wrapper.update()
+                        resolve(wrapper)
+                    }, 3000)
+                })
+            }
+
+            return promise().then((res: any) => {
+                res.find("#play-queue-btn").at(1).simulate("click")
+                expect(wrapper.find("#queue-confirm").length).to.be.equal(1)
+            })
+        })
+    })
+
     it("calls props.resetForm when start over is clicked", async () => {
         const mockReset = jest.fn(() => {})
         const contextValues: SpotifyContextValue = {
