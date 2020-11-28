@@ -24,6 +24,7 @@ import { baseItemTop } from "../animations/motion"
 import { Button } from "../../ui/button/Button"
 import { Description } from "../../ui/description/Description"
 import ReactTooltip from "react-tooltip"
+import { Confirmation } from "../../ui/confirmation/Confirmation"
 
 interface ResultsProps {
     size: string
@@ -156,28 +157,17 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 }}
                             />
                         ) : (
-                            <Box align="center">
-                                <a data-for="queue-tooltip" data-tip data-event="click focus">
-                                    <Button
-                                        disabled
-                                        small
-                                        id="play-queue-btn"
-                                        icon={<Queue width="24px" height="24px" />}
-                                    />
-                                </a>
-                                <ReactTooltip
-                                    id="queue-tooltip"
-                                    globalEventOff="click"
-                                    effect="solid"
-                                >
-                                    <Box width="small" align="center">
-                                        <Description
-                                            text="unfortunately, the add-to-queue feature is limited to spotify premium users only :("
-                                            textAlign="center"
-                                        />
-                                    </Box>
-                                </ReactTooltip>
-                            </Box>
+                            <Button
+                                disabled
+                                small
+                                id="play-queue-btn"
+                                icon={<Queue width="24px" height="24px" />}
+                                tooltip={{
+                                    text:
+                                        "unfortunately, the add-to-queue feature is limited to spotify premium users only :(",
+                                    id: "queue-tooltip",
+                                }}
+                            />
                         )}
                         <Button
                             small
@@ -191,7 +181,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     <Box direction="row" align="center" gap="medium">
                         <Button
                             id="playlist-btn"
-                            title="create a new moodqueue playlist or add to an existing one"
                             text="playlist"
                             icon={<Playlist width="26px" height="26px" />}
                             onClick={async () => {
@@ -199,39 +188,30 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 if (result) resetForm()
                             }}
                             secondary
+                            tooltip={{
+                                text:
+                                    "click to either create a new moodqueue playlist or add to an existing one!",
+                                id: "playlist-tooltip",
+                            }}
                         />
-                        {userProduct === "premium" ? (
-                            <Button
-                                id="play-queue-btn"
-                                title="play your moodqueue"
-                                text="add to queue"
-                                icon={<Queue width="26px" height="26px" />}
-                                onClick={async () => {
-                                    const result = await addToQueue(state.tracks)
-                                    console.log(result)
-                                    if (result) resetForm()
-                                }}
-                            />
-                        ) : (
-                            <Box align="center">
-                                <a data-for="queue-tooltip" data-tip>
-                                    <Button
-                                        disabled
-                                        id="play-queue-btn"
-                                        text="add to queue"
-                                        icon={<Queue width="26px" height="26px" />}
-                                    />
-                                </a>
-                                <ReactTooltip id="queue-tooltip">
-                                    <Box width="small" align="center">
-                                        <Description
-                                            text="unfortunately, this feature is limited to spotify premium users only :("
-                                            textAlign="center"
-                                        />
-                                    </Box>
-                                </ReactTooltip>
-                            </Box>
-                        )}
+                        <Button
+                            disabled={userProduct !== "premium"}
+                            id="play-queue-btn"
+                            text="add to queue"
+                            icon={<Queue width="26px" height="26px" />}
+                            onClick={async () => {
+                                const result = await addToQueue(state.tracks)
+                                console.log(result)
+                                if (result) resetForm()
+                            }}
+                            tooltip={{
+                                text:
+                                    userProduct === "premium"
+                                        ? "click here to add the above songs to your queue!"
+                                        : "unfortunately, this feature is limited to spotify premium users only :(",
+                                id: "queue-tooltip",
+                            }}
+                        />
                         <Button
                             id="reset-btn"
                             title="start over to begin a new moodqueue"
@@ -250,89 +230,33 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                 dispatch={(value) => dispatch(value)}
             />
             {showPlaylistWarningModal && !showQueueWarningModal && (
-                <Layer
-                    onClickOutside={() => setShowPlaylistWarningModal(false)}
-                    responsive={false}
-                    position="center"
-                    margin={{ horizontal: "large" }}
-                    style={{ background: "transparent", width: "100%" }}
-                >
-                    <Box
-                        style={{
-                            background:
-                                "linear-gradient(180deg, rgba(129,252,237,1) 0%, rgba(68,99,115,1) 50%, rgba(57,73,94,1) 75%)",
-                        }}
-                        align="center"
-                        gap="large"
-                        background={{ color: "#34495E" }}
-                        pad="medium"
-                        round="large"
-                        border={{
-                            color: "accent-3",
-                            size: "large",
-                            side: "bottom",
-                            style: "groove",
-                        }}
-                    >
-                        <Description header text="playlist" textAlign="center" />
-                        <Description
-                            text="pressing continue will either create a new moodqueue playlist or add to an existing one"
-                            textAlign="center"
-                        />
-                        <Button
-                            text="continue"
-                            onClick={async () => {
-                                const result = await addToPlaylist(state.tracks, mood, source)
-                                setShowPlaylistWarningModal(false)
-                                if (result) resetForm()
-                            }}
-                            small
-                            secondary
-                        />
-                    </Box>
-                </Layer>
+                <Confirmation
+                    id="playlist-confirm"
+                    descText="pressing continue will either create a new moodqueue playlist or add to an existing one"
+                    headerText="playlist"
+                    btnText="continue"
+                    close={() => setShowPlaylistWarningModal(false)}
+                    handleConfirmation={async () => {
+                        const result = await addToPlaylist(state.tracks, mood, source)
+                        setShowPlaylistWarningModal(false)
+                        if (result) resetForm()
+                    }}
+                    secondary
+                />
             )}
             {showQueueWarningModal && !showPlaylistWarningModal && (
-                <Layer
-                    onClickOutside={() => setShowQueueWarningModal(false)}
-                    responsive={false}
-                    position="center"
-                    margin={{ horizontal: "large" }}
-                    style={{ background: "transparent", width: "100%" }}
-                >
-                    <Box
-                        style={{
-                            background:
-                                "linear-gradient(180deg, rgba(111,255,176,1) 0%, rgba(66,105,108,1) 50%, rgba(57,73,94,1) 75%)",
-                        }}
-                        align="center"
-                        gap="large"
-                        background={{ color: "#34495E" }}
-                        pad="medium"
-                        round="large"
-                        border={{
-                            color: "accent-1",
-                            size: "large",
-                            side: "bottom",
-                            style: "groove",
-                        }}
-                    >
-                        <Description header text="queue" textAlign="center" />
-                        <Description
-                            textAlign="center"
-                            text="pressing the button below will add the songs above to your queue if you have spotify already open and playing"
-                        />
-                        <Button
-                            text="add to queue"
-                            small
-                            onClick={async () => {
-                                const result = await addToQueue(state.tracks)
-                                setShowQueueWarningModal(false)
-                                if (result) resetForm()
-                            }}
-                        />
-                    </Box>
-                </Layer>
+                <Confirmation
+                    id="queue-confirm"
+                    descText="pressing the button below will add the songs above to your queue if you have spotify already open and playing"
+                    headerText="queue"
+                    btnText="add to queue"
+                    close={() => setShowQueueWarningModal(false)}
+                    handleConfirmation={async () => {
+                        const result = await addToQueue(state.tracks)
+                        setShowQueueWarningModal(false)
+                        if (result) resetForm()
+                    }}
+                />
             )}
         </Box>
     )

@@ -5,6 +5,7 @@ import availableSeedGenres from "./mocks/spotify/available-seed-genres.json"
 import savedTracksMock from "./mocks/spotify/saved-tracks.json"
 import recommendedTracksMock from "./mocks/spotify/recommended-tracks.json"
 import { SpotifyHelper } from "./SpotifyHelper"
+import { PropertyTrack, Track } from "../types/Track"
 
 enableFetchMocks()
 
@@ -227,6 +228,40 @@ describe("SpotifyHelper", () => {
                 message = e.message
             }
             expect(message).toEqual("foo")
+        })
+    })
+
+    describe("#getPropertyTracks", () => {
+        it("converts and returns Track[] to PropertyTrack[] for getMultipleTracksAudioFeatures", () => {
+            const track: Track = {
+                previewUrl: "",
+                name: "",
+                artist: "",
+                imageLink: "",
+                id: "abc",
+                uri: "xyz",
+            }
+            const pTrack: PropertyTrack = {
+                ...track,
+                acousticness: 0,
+                analysis_url: "",
+                danceability: 0,
+                duration_ms: 0,
+                energy: 0,
+                instrumentalness: 0,
+                key: 0,
+                liveness: 0,
+                loudness: 0,
+                mode: 0,
+                speechiness: 0,
+                tempo: 0,
+                time_signature: 0,
+                track_href: "",
+                type: "",
+                valence: 0,
+            }
+
+            expect(helper.getPropertyTracks([track])).toEqual([pTrack])
         })
     })
 })

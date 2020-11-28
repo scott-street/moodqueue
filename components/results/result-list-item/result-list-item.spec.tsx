@@ -12,6 +12,7 @@ const mockTrack: Track = {
     id: "1",
     uri: "",
 }
+
 describe("<ResultListItem />", () => {
     it("renders without crashing", () => {
         render(<ResultListItem size={"small"} dispatch={jest.fn()} track={mockTrack} />)
@@ -64,6 +65,17 @@ describe("<ResultListItem />", () => {
         )
 
         const moreBtn = wrapper.find("#more-details-btn").hostNodes()
+        moreBtn.simulate("click")
+        expect(dispatchMock.mock.calls.length).to.be.eql(1)
+    })
+
+    it("triggers prop 'dispatch' on more remove track button click", () => {
+        const dispatchMock = jest.fn()
+        const wrapper = mount(
+            <ResultListItem size={"large"} dispatch={dispatchMock} track={mockTrack} />
+        )
+
+        const moreBtn = wrapper.find("#remove-track-btn").hostNodes()
         moreBtn.simulate("click")
         expect(dispatchMock.mock.calls.length).to.be.eql(1)
     })

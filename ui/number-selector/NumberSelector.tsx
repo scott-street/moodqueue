@@ -20,7 +20,7 @@ export const NumberSelector: React.FunctionComponent<NumberSelectorProps> = (pro
             value={{
                 global: {
                     spacing: size !== "small" ? "40px" : "32px",
-                    focus: { shadow: { size: "10px" } },
+                    focus: { shadow: { size: "0px" } },
                 },
             }}
         >

@@ -13,7 +13,13 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
 
     return (
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-            <Box direction="row" align="center" gap="small">
+            <Box
+                direction="row"
+                align="center"
+                gap="small"
+                onClick={() => window.open(user.profileUrl, "_blank")}
+                title="click to open your spotify profile"
+            >
                 {!small && (
                     <Heading
                         textAlign="center"
@@ -30,16 +36,12 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
                         id="avatar-profile-image"
                         src={user.profileImages[0].url}
                         border={{ size: "small", side: "all", color: "accent-1" }}
-                        onClick={() => window.open(user.profileUrl, "_blank")}
-                        title="click to open your spotify profile"
                     />
                 ) : (
                     <Avatar
                         id="avatar-default"
                         background="accent-2"
                         border={{ size: "small", side: "all", color: "accent-1" }}
-                        onClick={() => window.open(user.profileUrl, "_blank")}
-                        title="click to open your spotify profile"
                     >
                         <User color="accent-1" />
                     </Avatar>

@@ -1,5 +1,5 @@
 import { Artist } from "../types/Artist"
-import { Track } from "../types/Track"
+import { PropertyTrack, Track } from "../types/Track"
 
 export class SpotifyHelper {
     constructor(private accessToken: string) {}
@@ -180,5 +180,32 @@ export class SpotifyHelper {
         } catch (e) {
             throw e
         }
+    }
+
+    getPropertyTracks(tracks: Track[]): PropertyTrack[] {
+        let propTracks: PropertyTrack[] = []
+        tracks.map((track) => {
+            const pTrack: PropertyTrack = {
+                ...track,
+                acousticness: 0,
+                analysis_url: "",
+                danceability: 0,
+                duration_ms: 0,
+                energy: 0,
+                instrumentalness: 0,
+                key: 0,
+                liveness: 0,
+                loudness: 0,
+                mode: 0,
+                speechiness: 0,
+                tempo: 0,
+                time_signature: 0,
+                track_href: "",
+                type: "",
+                valence: 0,
+            }
+            propTracks.push(pTrack)
+        })
+        return propTracks
     }
 }

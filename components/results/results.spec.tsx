@@ -66,6 +66,23 @@ describe("<Results />", () => {
         expect(wrapper.find("#play-queue-btn").at(0).props().disabled).to.be.eql(true)
     })
 
+    it("renders tooltip wrappers for queue and playlist buttons", () => {
+        const wrapper = mount(
+            <Results
+                selectedGenreValue={""}
+                size={"large"}
+                mood={Mood.SLEEPY}
+                tracks={mockTracks}
+                source={source}
+                resetForm={jest.fn()}
+                userProduct="free"
+            />
+        )
+
+        expect(wrapper.find("#queue-tooltip").length).to.be.eql(2)
+        expect(wrapper.find("#playlist-tooltip").length).to.be.eql(2)
+    })
+
     it("renders 'loading...' for number of tracks when tracks are loading", () => {
         const wrapper = render(
             <Results
@@ -352,6 +369,100 @@ describe("<Results />", () => {
             return promise().then((res: any) => {
                 res.find("#playlist-btn").at(1).simulate("click")
                 expect(mockAddToPlaylist.mock.calls.length).to.be.eql(1)
+            })
+        })
+    })
+
+    it("opens up confirmation after playlist button is clicked on mobile", async () => {
+        const mockAddToPlaylist = jest.fn()
+        const contextValues: SpotifyContextValue = {
+            addToQueue: jest.fn(),
+            getQueue: jest.fn(
+                () =>
+                    new Promise((resolve) => {
+                        resolve(mockTracks)
+                    })
+            ),
+            addToPlaylist: mockAddToPlaylist,
+            getAvailableSeedGenres: jest.fn(),
+        }
+
+        const TestComponent = () => (
+            <SpotifyProvider value={contextValues}>
+                <Results
+                    selectedGenreValue={""}
+                    size={"small"}
+                    mood={Mood.SLEEPY}
+                    tracks={mockTracks}
+                    source={source}
+                    resetForm={jest.fn()}
+                    userProduct="free"
+                />
+            </SpotifyProvider>
+        )
+
+        await act(() => {
+            const wrapper = mount(<TestComponent />)
+
+            const promise = () => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        wrapper.update()
+                        resolve(wrapper)
+                    }, 3000)
+                })
+            }
+
+            return promise().then((res: any) => {
+                res.find("#playlist-btn").at(1).simulate("click")
+                expect(wrapper.find("#playlist-confirm").length).to.be.equal(1)
+            })
+        })
+    })
+
+    it("opens up confirmation after queue button is clicked on mobile", async () => {
+        const mockAddToPlaylist = jest.fn()
+        const contextValues: SpotifyContextValue = {
+            addToQueue: jest.fn(),
+            getQueue: jest.fn(
+                () =>
+                    new Promise((resolve) => {
+                        resolve(mockTracks)
+                    })
+            ),
+            addToPlaylist: mockAddToPlaylist,
+            getAvailableSeedGenres: jest.fn(),
+        }
+
+        const TestComponent = () => (
+            <SpotifyProvider value={contextValues}>
+                <Results
+                    selectedGenreValue={""}
+                    size={"small"}
+                    mood={Mood.SLEEPY}
+                    tracks={mockTracks}
+                    source={source}
+                    resetForm={jest.fn()}
+                    userProduct="premium"
+                />
+            </SpotifyProvider>
+        )
+
+        await act(() => {
+            const wrapper = mount(<TestComponent />)
+
+            const promise = () => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        wrapper.update()
+                        resolve(wrapper)
+                    }, 3000)
+                })
+            }
+
+            return promise().then((res: any) => {
+                res.find("#play-queue-btn").at(1).simulate("click")
+                expect(wrapper.find("#queue-confirm").length).to.be.equal(1)
             })
         })
     })

@@ -50,13 +50,11 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         return spotifyHelper.getAvailableSeedGenres()
     }
 
-    const getMultipleTracksAudioFeatures = async (
-        tracks: Track[]
-    ): Promise<PropertyTrack[] | void[]> => {
-        let result: PropertyTrack[] = []
+    const getMultipleTracksAudioFeatures = async (tracks: Track[]): Promise<PropertyTrack[]> => {
+        let result: PropertyTrack[] = spotifyHelper.getPropertyTracks(tracks)
         const max = tracks.length
         let left = 0
-        let right = 99
+        let right = 100
         if (max < right) right = max
 
         while (right <= max) {
@@ -76,10 +74,10 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                     return data.json()
                 })
                 .then((data) => {
-                    return combineTwoArraysOnId(tracks, data.audio_features)
+                    return combineTwoArraysOnId(result, data.audio_features)
                 })
-            result.push(...temp)
-            left = right + 1
+            result = temp
+            left = right
             right = right + 100
             if (max < right) right = max
             if (max <= left) break
@@ -235,7 +233,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             })
         }
         if (trackSource.includes(TrackSource.TOP_ARTISTS_SONGS)) {
-            Sentry.captureMessage(`soure includes top artists`)
+            Sentry.captureMessage(`source includes top artists`)
             await spotifyHelper.getTopArtistsTopSongs(50).then(async (songs) => {
                 await getMultipleTracksAudioFeatures(songs).then((topArtistsTracks) => {
                     tracks = tracks.concat(topArtistsTracks)
