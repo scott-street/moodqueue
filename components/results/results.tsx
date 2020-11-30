@@ -1,5 +1,5 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer, useState } from "react"
-import { Box, Layer } from "grommet"
+import { Box } from "grommet"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
 import { useSpotify } from "../../common/hooks/useSpotify"
@@ -23,7 +23,6 @@ import { motion } from "framer-motion"
 import { baseItemTop } from "../animations/motion"
 import { Button } from "../../ui/button/Button"
 import { Description } from "../../ui/description/Description"
-import ReactTooltip from "react-tooltip"
 import { Confirmation } from "../../ui/confirmation/Confirmation"
 
 interface ResultsProps {

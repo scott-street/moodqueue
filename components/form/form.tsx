@@ -36,7 +36,9 @@ export const Form: FunctionComponent<FormProps> = (props) => {
     useEffect(() => {
         document.title = "home | moodqueue"
         dispatch(resetFormState())
-        getAvailableSeedGenres().then((genres) => setTopGenres(genres))
+        getAvailableSeedGenres().then((genres) => {
+            setTopGenres(genres as string[])
+        })
     }, [])
 
     if (topGenres === undefined) {

@@ -22,6 +22,7 @@ describe("<SourceSelection />", () => {
                 dispatch={jest.fn()}
                 getSelectedGenres={jest.fn()}
                 topGenres={[]}
+                selectedGenreValue={""}
             />
         )
     })
@@ -35,6 +36,7 @@ describe("<SourceSelection />", () => {
                 dispatch={jest.fn()}
                 getSelectedGenres={jest.fn()}
                 topGenres={[]}
+                selectedGenreValue={""}
             />
         )
 
@@ -51,6 +53,7 @@ describe("<SourceSelection />", () => {
                 dispatch={jest.fn()}
                 getSelectedGenres={jest.fn()}
                 topGenres={[]}
+                selectedGenreValue={""}
             />
         )
 
@@ -66,6 +69,7 @@ describe("<SourceSelection />", () => {
                 dispatch={jest.fn()}
                 getSelectedGenres={jest.fn()}
                 topGenres={[]}
+                selectedGenreValue={""}
             />
         )
 
@@ -81,6 +85,7 @@ describe("<SourceSelection />", () => {
                 dispatch={jest.fn()}
                 getSelectedGenres={jest.fn()}
                 topGenres={[]}
+                selectedGenreValue={""}
             />
         )
 
@@ -97,6 +102,7 @@ describe("<SourceSelection />", () => {
                 dispatch={dispatchMock}
                 getSelectedGenres={jest.fn()}
                 topGenres={[]}
+                selectedGenreValue={""}
             />
         )
 

@@ -15,21 +15,18 @@ const BaseApp: FunctionComponent = () => {
         setAuthRedirect,
         setUserInfo,
         user,
-        setAccessToken,
-        setRefreshToken,
         accessToken,
+        getNewTokensFromRefreshToken,
     } = useAuth()
     const { notifySuccess } = useNotification()
 
     useEffect(() => {
-        document.title = "login | moodqueue"
         if (!user) {
+            const refresh = localStorage.getItem("r_token")
+            if (refresh && !accessToken) {
+                getNewTokensFromRefreshToken(refresh)
+            } else document.title = "login | moodqueue"
             setAuthRedirect(new URL(window.location.href).hostname)
-            const params = new URLSearchParams(window.location.search)
-            if (params.has("access_token") && params.has("refresh_token")) {
-                setAccessToken(params.get("access_token"))
-                setRefreshToken(params.get("refresh_token"))
-            }
         }
     }, [])
 

@@ -33,6 +33,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
             tracks: index === 1 ? checked : source.tracks,
             artists: index === 2 ? checked : source.artists,
             recommended: index === 3 ? checked : source.recommended,
+            genre: source.genre,
         }
         if (
             selected.artists === false &&
