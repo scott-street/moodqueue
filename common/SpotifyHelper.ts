@@ -4,7 +4,7 @@ import { PropertyTrack, Track } from "../types/Track"
 export class SpotifyHelper {
     constructor(private accessToken: string) {}
 
-    private handleErrors(response) {
+    private handleErrors = (response) => {
         if (!response.ok) {
             throw Error(response.status)
         }
@@ -32,7 +32,7 @@ export class SpotifyHelper {
                 return response.json()
             })
             .catch((e) => {
-                throw e
+                return e
             })
     }
 

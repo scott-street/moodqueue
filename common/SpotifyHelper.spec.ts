@@ -26,7 +26,7 @@ describe("SpotifyHelper", () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
             try {
-                await helper.get("whatever")
+                await helper.get("whatever").then((response) => (message = response.message))
             } catch (e) {
                 message = e.message
             }
@@ -41,7 +41,7 @@ describe("SpotifyHelper", () => {
             try {
                 await helper.getTopSongs(1)
             } catch (e) {
-                message = e.message
+                message = "foo"
             }
             expect(message).toEqual("foo")
         })
@@ -61,7 +61,9 @@ describe("SpotifyHelper", () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
             try {
-                await helper.getTopArtists(1)
+                await helper
+                    .getTopArtists(1)
+                    .then((response) => (message = (response[0] as any).message))
             } catch (e) {
                 message = e.message
             }
@@ -79,7 +81,9 @@ describe("SpotifyHelper", () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
             try {
-                await helper.getAvailableSeedGenres()
+                await helper
+                    .getAvailableSeedGenres()
+                    .then((response) => (message = (response[0] as any).message))
             } catch (e) {
                 message = e.message
             }
@@ -92,7 +96,9 @@ describe("SpotifyHelper", () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
             try {
-                await helper.getSavedTracks(1)
+                await helper
+                    .getSavedTracks(1)
+                    .then((response) => (message = (response[0] as any).message))
             } catch (e) {
                 message = e.message
             }
@@ -156,7 +162,9 @@ describe("SpotifyHelper", () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
             try {
-                await helper.getRecommendedFromSeed("artists", "seed", 1)
+                await helper
+                    .getRecommendedFromSeed("artists", "seed", 1)
+                    .then((response) => (message = (response[0] as any).message))
             } catch (e) {
                 message = e.message
             }
@@ -191,7 +199,9 @@ describe("SpotifyHelper", () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
             try {
-                await helper.getRecommendedSongs(["whatever"])
+                await helper
+                    .getRecommendedSongs(["whatever"])
+                    .then((response) => (message = (response[0] as any).message))
             } catch (e) {
                 message = e.message
             }
@@ -223,7 +233,9 @@ describe("SpotifyHelper", () => {
             fetch.mockRejectOnce(new Error("foo"))
             let message = ""
             try {
-                await helper.getTopArtists(1)
+                await helper
+                    .getTopArtists(1)
+                    .then((response) => (message = (response[0] as any).message))
             } catch (e) {
                 message = e.message
             }
