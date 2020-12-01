@@ -200,7 +200,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             icon={<Queue width="26px" height="26px" />}
                             onClick={async () => {
                                 const result = await addToQueue(state.tracks)
-                                console.log(result)
                                 if (result) resetForm()
                             }}
                             tooltip={{

@@ -50,8 +50,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         const response = await spotifyHelper.getAvailableSeedGenres()
         if (spotifyHelper.hasError(response[0])) {
             if ((response[0] as any).message === "401") {
+                console.log("401 error: refreshing access token")
                 await getNewTokensFromRefreshToken(refreshToken)
-                return await spotifyHelper.getAvailableSeedGenres()
+                return getAvailableSeedGenres()
             } else {
                 notifyError("Something went wrong :( Try reloading the page.")
                 return []

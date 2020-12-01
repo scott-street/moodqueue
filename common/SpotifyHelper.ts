@@ -32,7 +32,7 @@ export class SpotifyHelper {
                 return response.json()
             })
             .catch((e) => {
-                return e
+                throw e
             })
     }
 
