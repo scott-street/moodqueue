@@ -13,9 +13,11 @@ import { Index } from "../ui/backgrounds/index/IndexBackground"
 const BaseApp: FunctionComponent = () => {
     const {
         setAuthRedirect,
+        setRefreshToken,
         setUserInfo,
         user,
         accessToken,
+        refreshToken,
         getNewTokensFromRefreshToken,
     } = useAuth()
     const { notifySuccess } = useNotification()
@@ -24,6 +26,7 @@ const BaseApp: FunctionComponent = () => {
         if (!user) {
             const refresh = localStorage.getItem("r_token")
             if (refresh && !accessToken) {
+                if (!refreshToken) setRefreshToken(refresh)
                 getNewTokensFromRefreshToken(refresh)
             } else document.title = "login | moodqueue"
             setAuthRedirect(new URL(window.location.href).hostname)
