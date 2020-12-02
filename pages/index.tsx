@@ -34,7 +34,7 @@ const BaseApp: FunctionComponent = () => {
     }, [])
 
     useEffect(() => {
-        if (accessToken) {
+        if (accessToken && !user) {
             setUserInfo()
             notifySuccess("welcome to moodqueue")
         }

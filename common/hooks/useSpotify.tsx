@@ -26,7 +26,7 @@ export interface SpotifyContextValue {
     ) => Promise<Track[]>
     addToQueue: (tracks: Track[]) => Promise<boolean>
     addToPlaylist: (tracks: Track[], mood: Mood, sources: FormSelection) => Promise<boolean>
-    getAvailableSeedGenres: () => Promise<string[] | string>
+    getAvailableSeedGenres: () => Promise<string[]>
 }
 
 export const SpotifyContext = React.createContext<SpotifyContextValue>({
@@ -44,14 +44,14 @@ interface SpotifyProviderProps {
 export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (props) => {
     const { accessToken, refreshToken, user, getNewTokensFromRefreshToken } = useAuth()
     const { notifyError, notifySuccess, notifyInfo } = useNotification()
-    const spotifyHelper = new SpotifyHelper(accessToken)
+    let spotifyHelper = new SpotifyHelper(accessToken)
 
     const getAvailableSeedGenres = async (): Promise<string[]> => {
-        const response = await spotifyHelper.getAvailableSeedGenres()
+        let response = await spotifyHelper.getAvailableSeedGenres()
         if (spotifyHelper.hasError(response[0])) {
             if ((response[0] as any).message === "401") {
-                console.log("401 error: refreshing access token")
-                await getNewTokensFromRefreshToken(refreshToken)
+                const newToken = await getNewTokensFromRefreshToken(localStorage.getItem("r_token"))
+                spotifyHelper = new SpotifyHelper(newToken)
                 return getAvailableSeedGenres()
             } else {
                 notifyError("Something went wrong :( Try reloading the page.")
