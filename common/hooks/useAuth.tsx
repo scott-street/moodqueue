@@ -9,6 +9,7 @@ export interface AuthContextValue {
     setAuthRedirect: (param: string) => void
     setAccessToken: (param: string) => void
     setRefreshToken: (param: string) => void
+    logOut: () => void
     redirect: string
     user: UserInfo
     accessToken: string
@@ -22,6 +23,7 @@ export const AuthContext = React.createContext<AuthContextValue>({
     setAuthRedirect: () => undefined,
     setAccessToken: () => undefined,
     setRefreshToken: () => undefined,
+    logOut: () => undefined,
     redirect: undefined,
     user: undefined,
     accessToken: undefined,
@@ -36,9 +38,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) => {
     const [redirect, setRedirect] = React.useState("")
     const [user, setCurrentUser] = React.useState(undefined)
-    const [accessToken, setAccessToken] = React.useState(
-        "BQDYSUz3PJ2Wp9pHyjZCoohq7nHmNPhW1rIay6WFsaTAmiLbX55ZbWaTcKs2J9tO-DBuRHMovC2veSluwteykaJIhK3BM4Gw_TSAcpDk9GBJey6aB-vDRcnNWL8qIeKsPIlLqktQTRPhHcZrz6ioYgjGWkYDEleNjb2jX7mMCityLn_3bTHL1Tu6yWSC_PBuvRDEPXvt2F7ERnt0MtjSa_TPTm3Q8NYDJwt2QX5rzoMlOz7RaI7_zHhzvT23tEndHJ-AIA"
-    )
+    const [accessToken, setAccessToken] = React.useState(undefined) //"BQDYSUz3PJ2Wp9pHyjZCoohq7nHmNPhW1rIay6WFsaTAmiLbX55ZbWaTcKs2J9tO-DBuRHMovC2veSluwteykaJIhK3BM4Gw_TSAcpDk9GBJey6aB-vDRcnNWL8qIeKsPIlLqktQTRPhHcZrz6ioYgjGWkYDEleNjb2jX7mMCityLn_3bTHL1Tu6yWSC_PBuvRDEPXvt2F7ERnt0MtjSa_TPTm3Q8NYDJwt2QX5rzoMlOz7RaI7_zHhzvT23tEndHJ-AIA"
     const [refreshToken, setRefreshToken] = React.useState(undefined)
 
     const generateRandomString = (length: number) => {
@@ -125,6 +125,11 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         return data.access_token
     }
 
+    const logOut = () => {
+        localStorage.removeItem("r_token")
+        setAccessToken(undefined)
+    }
+
     const authContextValue = {
         openSpotifyAccountLogin,
         getNewTokensFromRefreshToken,
@@ -136,6 +141,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         user,
         accessToken,
         refreshToken,
+        logOut,
     }
     return <AuthContext.Provider value={props.value ?? authContextValue} {...props} />
 }
