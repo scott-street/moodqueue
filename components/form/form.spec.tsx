@@ -1,7 +1,5 @@
 import React from "react"
-import { render, mount, shallow } from "enzyme"
-import { expect } from "chai"
-import { SpotifyContext, SpotifyContextValue } from "../../common/hooks/useSpotify"
+import { shallow } from "enzyme"
 import { Form } from "./"
 
 describe("<Form/>", () => {

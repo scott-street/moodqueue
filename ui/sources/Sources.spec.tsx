@@ -20,11 +20,9 @@ describe("<Sources />", () => {
                     artists: false,
                     tracks: false,
                     recommended: true,
-                    genre: "",
+                    genres: [""],
                 },
-                topGenres: ["indie folk", "indie"],
-                getSelectedTopGenres: jest.fn(),
-                selectedGenreValue: "indie",
+                genres: ["indie folk", "indie"],
             })
         )
     })

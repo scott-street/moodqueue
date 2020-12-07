@@ -9,7 +9,7 @@ const exampleFormSelection: FormSelection = {
     artists: false,
     tracks: false,
     recommended: true,
-    genre: "",
+    genres: [""],
 }
 
 describe("<SourceSelection />", () => {
@@ -20,9 +20,7 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
-                getSelectedGenres={jest.fn()}
-                topGenres={[]}
-                selectedGenreValue={""}
+                genres={[]}
             />
         )
     })
@@ -34,9 +32,7 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
-                getSelectedGenres={jest.fn()}
-                topGenres={[]}
-                selectedGenreValue={""}
+                genres={[]}
             />
         )
 
@@ -51,9 +47,7 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
-                getSelectedGenres={jest.fn()}
-                topGenres={[]}
-                selectedGenreValue={""}
+                genres={[]}
             />
         )
 
@@ -67,9 +61,7 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
-                getSelectedGenres={jest.fn()}
-                topGenres={[]}
-                selectedGenreValue={""}
+                genres={[]}
             />
         )
 
@@ -83,9 +75,7 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={jest.fn()}
-                getSelectedGenres={jest.fn()}
-                topGenres={[]}
-                selectedGenreValue={""}
+                genres={[]}
             />
         )
 
@@ -100,9 +90,7 @@ describe("<SourceSelection />", () => {
                 source={exampleFormSelection}
                 progress={0}
                 dispatch={dispatchMock}
-                getSelectedGenres={jest.fn()}
-                topGenres={[]}
-                selectedGenreValue={""}
+                genres={[]}
             />
         )
 
