@@ -38,7 +38,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) => {
     const [redirect, setRedirect] = React.useState("")
     const [user, setCurrentUser] = React.useState(undefined)
-    const [accessToken, setAccessToken] = React.useState(undefined) //"BQDYSUz3PJ2Wp9pHyjZCoohq7nHmNPhW1rIay6WFsaTAmiLbX55ZbWaTcKs2J9tO-DBuRHMovC2veSluwteykaJIhK3BM4Gw_TSAcpDk9GBJey6aB-vDRcnNWL8qIeKsPIlLqktQTRPhHcZrz6ioYgjGWkYDEleNjb2jX7mMCityLn_3bTHL1Tu6yWSC_PBuvRDEPXvt2F7ERnt0MtjSa_TPTm3Q8NYDJwt2QX5rzoMlOz7RaI7_zHhzvT23tEndHJ-AIA"
+    const [accessToken, setAccessToken] = React.useState(undefined)
     const [refreshToken, setRefreshToken] = React.useState(undefined)
 
     const generateRandomString = (length: number) => {
@@ -120,7 +120,6 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
             method: "POST",
         })
         const data = await response.json()
-        console.log(data.access_token)
         setAccessToken(data.access_token)
         return data.access_token
     }

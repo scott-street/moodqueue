@@ -107,7 +107,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     textAlign="center"
                                     size={size}
                                     weight="bold"
-                                    text="oops! no more songs"
+                                    text="oops! no songs!"
                                 />
                                 <Sad width="48px" height="48px" />
                                 <Description

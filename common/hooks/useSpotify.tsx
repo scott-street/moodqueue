@@ -42,21 +42,22 @@ interface SpotifyProviderProps {
 }
 
 export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (props) => {
-    const { accessToken, refreshToken, user, getNewTokensFromRefreshToken } = useAuth()
+    const { user, getNewTokensFromRefreshToken } = useAuth()
+    let { accessToken, refreshToken } = useAuth()
     const { notifyError, notifySuccess, notifyInfo } = useNotification()
     let spotifyHelper = new SpotifyHelper(accessToken)
 
     const getAvailableSeedGenres = async (): Promise<string[]> => {
         let response = await spotifyHelper.getAvailableSeedGenres()
         if (spotifyHelper.hasError(response[0])) {
-            if ((response[0] as any).message === "401") {
-                const newToken = await getNewTokensFromRefreshToken(localStorage.getItem("r_token"))
-                spotifyHelper = new SpotifyHelper(newToken)
-                return getAvailableSeedGenres()
-            } else {
-                notifyError("Something went wrong :( Try reloading the page.")
-                return []
-            }
+            return []
+            //   if ((response[0] as any).message === '401') {
+            //     await refreshContext();
+            //     return getAvailableSeedGenres();
+            //   } else {
+            //     notifyError('Something went wrong :( Try reloading the page.');
+            //     return [];
+            //   }
         }
         return response
     }
@@ -216,8 +217,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         const error = (userPlaylists[0] as any).error
         if (error) {
             if (error.status === 401) {
-                await getNewTokensFromRefreshToken(refreshToken)
-                return addToPlaylist(tracks, mood, sources)
+                await refreshContext()
+                const result = addToPlaylist(tracks, mood, sources)
+                return result
             } else notifyError("Something went wrong :( Please try again or start over.")
         } else {
             if (tracks.length > 0) {
@@ -230,6 +232,13 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                 }
             } else notifyInfo("You can't create or update a playlist without any songs :(")
         }
+    }
+
+    const refreshContext = async () => {
+        const r_token = refreshToken || localStorage.getItem("r_token")
+        const token = await getNewTokensFromRefreshToken(r_token)
+        accessToken = token
+        spotifyHelper = new SpotifyHelper(token)
     }
 
     const getQueue = async (
@@ -245,8 +254,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             await spotifyHelper.getTopSongs(50).then(async (songs) => {
                 if (spotifyHelper.hasError(songs[0])) {
                     if ((songs[0] as any).message === "401") {
-                        await getNewTokensFromRefreshToken(refreshToken)
-                        return getQueue(trackSource, count, mood, topGenres)
+                        await refreshContext()
+                        tracks = await getQueue(trackSource, count, mood, topGenres)
+                        return tracks
                     } else {
                         notifyError("Something went wrong :( Try reloading the page.")
                         return
@@ -263,8 +273,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             await spotifyHelper.getRecommendedSongs(topGenres).then(async (songs) => {
                 if (spotifyHelper.hasError(songs[0])) {
                     if ((songs[0] as any).message === "401") {
-                        await getNewTokensFromRefreshToken(refreshToken)
-                        return getQueue(trackSource, count, mood, topGenres)
+                        await refreshContext()
+                        tracks = await getQueue(trackSource, count, mood, topGenres)
+                        return tracks
                     } else {
                         notifyError("Something went wrong :( Try reloading the page.")
                         return
@@ -281,8 +292,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             await spotifyHelper.getTopArtistsTopSongs(50).then(async (songs) => {
                 if (spotifyHelper.hasError(songs[0])) {
                     if ((songs[0] as any).message === "401") {
-                        await getNewTokensFromRefreshToken(refreshToken)
-                        return getQueue(trackSource, count, mood, topGenres)
+                        await refreshContext()
+                        tracks = await getQueue(trackSource, count, mood, topGenres)
+                        return tracks
                     } else {
                         notifyError("Something went wrong :( Try reloading the page.")
                         return
@@ -299,8 +311,9 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             await spotifyHelper.getSavedTracks(50).then(async (songs) => {
                 if (spotifyHelper.hasError(songs[0])) {
                     if ((songs[0] as any).message === "401") {
-                        await getNewTokensFromRefreshToken(refreshToken)
-                        return getQueue(trackSource, count, mood, topGenres)
+                        await refreshContext()
+                        tracks = await getQueue(trackSource, count, mood, topGenres)
+                        return tracks
                     } else {
                         notifyError("Something went wrong :( Try reloading the page.")
                         return
@@ -350,7 +363,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                     tracks.map(async (track) => {
                         const status = await addSongToQueue(track.uri)
                         if (status === 401) {
-                            await getNewTokensFromRefreshToken(refreshToken)
+                            await refreshContext()
                             addToQueue(tracks)
                         }
                     })
@@ -362,7 +375,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                 notifyError(e)
                 return false
             }
-        } else notifyInfo("There are no songs to add to your queue.")
+        } else notifyInfo("There are no songs to add to your queue :(")
     }
 
     const spotifyContextValue = {
