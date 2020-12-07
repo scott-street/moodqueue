@@ -166,9 +166,9 @@ export class SpotifyHelper {
         }
     }
 
-    async getRecommendedSongs(topGenres: string[]): Promise<Track[]> {
+    async getRecommendedSongs(genres: string[]): Promise<Track[]> {
         try {
-            return await this.getRecommendedFromSeed("genres", topGenres.join(","), 50)
+            return await this.getRecommendedFromSeed("genres", genres.join(","), 50)
         } catch (e) {
             throw e
         }

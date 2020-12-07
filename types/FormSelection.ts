@@ -3,7 +3,7 @@ export type FormSelection = {
     tracks: boolean
     artists: boolean
     recommended: boolean
-    genre: string
+    genres: string[]
 }
 
 export const defaultFormSelection: FormSelection = {
@@ -11,5 +11,5 @@ export const defaultFormSelection: FormSelection = {
     tracks: false,
     artists: false,
     recommended: false,
-    genre: "",
+    genres: [],
 }

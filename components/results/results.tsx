@@ -30,16 +30,16 @@ interface ResultsProps {
     tracks: Track[]
     mood: Mood
     source: FormSelection
-    selectedGenreValue: string
     resetForm(): void
     userProduct: string
 }
 
 export const Results: FunctionComponent<ResultsProps> = (props) => {
-    const { size, tracks, source, selectedGenreValue, mood, resetForm, userProduct } = props
+    const { size, tracks, source, mood, resetForm, userProduct } = props
     const { addToQueue, addToPlaylist } = useSpotify()
     const [showPlaylistWarningModal, setShowPlaylistWarningModal] = useState(false)
     const [showQueueWarningModal, setShowQueueWarningModal] = useState(false)
+    const selectionsHeader = "based on " + getSourcesString(source)
 
     const [state, dispatch] = useReducer<Reducer<ResultState, ResultAction>>(
         resultReducer,
@@ -72,11 +72,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         id="desc-sources"
                         textAlign="center"
                         size={size !== "small" ? "xlarge" : "medium"}
-                        text={`based on ${
-                            !selectedGenreValue
-                                ? "your " + getSourcesString(source)
-                                : selectedGenreValue.replace("-", " ")
-                        }`}
+                        text={selectionsHeader}
                     />
                 </Box>
                 <Box

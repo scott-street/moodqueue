@@ -22,7 +22,7 @@ export interface SpotifyContextValue {
         trackSource: TrackSource[],
         count: number,
         mood: Mood,
-        topGenres?: string[]
+        genres: string[]
     ) => Promise<Track[]>
     addToQueue: (tracks: Track[]) => Promise<boolean>
     addToPlaylist: (tracks: Track[], mood: Mood, sources: FormSelection) => Promise<boolean>
@@ -50,14 +50,13 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
     const getAvailableSeedGenres = async (): Promise<string[]> => {
         let response = await spotifyHelper.getAvailableSeedGenres()
         if (spotifyHelper.hasError(response[0])) {
-            return []
-            //   if ((response[0] as any).message === '401') {
-            //     await refreshContext();
-            //     return getAvailableSeedGenres();
-            //   } else {
-            //     notifyError('Something went wrong :( Try reloading the page.');
-            //     return [];
-            //   }
+            if ((response[0] as any).message === "401") {
+                await refreshContext()
+                return getAvailableSeedGenres()
+            } else {
+                notifyError("Something went wrong :( Try reloading the page.")
+                return []
+            }
         }
         return response
     }
@@ -245,7 +244,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         trackSource: TrackSource[],
         count: number,
         mood: Mood,
-        topGenres?: string[]
+        genres: string[]
     ): Promise<Track[]> => {
         let tracks = []
 
@@ -255,7 +254,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                 if (spotifyHelper.hasError(songs[0])) {
                     if ((songs[0] as any).message === "401") {
                         await refreshContext()
-                        tracks = await getQueue(trackSource, count, mood, topGenres)
+                        tracks = await getQueue(trackSource, count, mood, genres)
                         return tracks
                     } else {
                         notifyError("Something went wrong :( Try reloading the page.")
@@ -270,11 +269,11 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         }
         if (trackSource.includes(TrackSource.RECOMMENDED_SONGS)) {
             Sentry.captureMessage(`source includes recommended songs`)
-            await spotifyHelper.getRecommendedSongs(topGenres).then(async (songs) => {
+            await spotifyHelper.getRecommendedSongs(genres).then(async (songs) => {
                 if (spotifyHelper.hasError(songs[0])) {
                     if ((songs[0] as any).message === "401") {
                         await refreshContext()
-                        tracks = await getQueue(trackSource, count, mood, topGenres)
+                        tracks = await getQueue(trackSource, count, mood, genres)
                         return tracks
                     } else {
                         notifyError("Something went wrong :( Try reloading the page.")
@@ -293,7 +292,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                 if (spotifyHelper.hasError(songs[0])) {
                     if ((songs[0] as any).message === "401") {
                         await refreshContext()
-                        tracks = await getQueue(trackSource, count, mood, topGenres)
+                        tracks = await getQueue(trackSource, count, mood, genres)
                         return tracks
                     } else {
                         notifyError("Something went wrong :( Try reloading the page.")
@@ -312,7 +311,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                 if (spotifyHelper.hasError(songs[0])) {
                     if ((songs[0] as any).message === "401") {
                         await refreshContext()
-                        tracks = await getQueue(trackSource, count, mood, topGenres)
+                        tracks = await getQueue(trackSource, count, mood, genres)
                         return tracks
                     } else {
                         notifyError("Something went wrong :( Try reloading the page.")
