@@ -15,7 +15,7 @@ export const combineTwoArraysOnId = (a: any[], b: any[]): any[] => {
 export const getSourcesString = (sources: FormSelection): string => {
     let s: string = ""
     if (sources.saved) {
-        s = s + "saved, "
+        s = s + "liked songs, "
     }
     if (sources.tracks) {
         s = s + "top tracks, "

@@ -76,9 +76,9 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
                             background={{ dark: true }}
                             round
                             justify="between"
-                            gap="medium"
+                            gap={small ? "medium" : "small"}
                         >
-                            <Box align="center" gap="xsmall">
+                            <Box align="center">
                                 {user.profileImages[0] ? (
                                     <Avatar
                                         id="avatar-profile-image"
@@ -98,6 +98,20 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
                                         <User color="accent-1" />
                                     </Avatar>
                                 )}
+                                {small && (
+                                    <Heading
+                                        textAlign="center"
+                                        margin="none"
+                                        id="username-txt"
+                                        size="small"
+                                        color="light-2"
+                                        style={{ userSelect: "none" }}
+                                    >
+                                        {user.name}
+                                    </Heading>
+                                )}
+                            </Box>
+                            <Box align="center" gap={small ? "medium" : "small"}>
                                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                     <Anchor
                                         id="spotify-anchor"
@@ -105,23 +119,23 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
                                         href={user.profileUrl}
                                         title="click to open your spotify profile!"
                                         target="blank"
-                                        label="open your profile"
+                                        label="open profile"
                                         icon={<Spotify />}
                                     />
                                 </motion.div>
+                                <Button
+                                    text="log out"
+                                    color="neutral-4"
+                                    icon={
+                                        <Logout
+                                            width={small ? "24px" : "26px"}
+                                            height={small ? "24px" : "26px"}
+                                        />
+                                    }
+                                    onClick={logOut}
+                                    small
+                                />
                             </Box>
-                            <Button
-                                text="log out"
-                                color="neutral-4"
-                                icon={
-                                    <Logout
-                                        width={small ? "24px" : "26px"}
-                                        height={small ? "24px" : "26px"}
-                                    />
-                                }
-                                onClick={logOut}
-                                small
-                            />
                         </Box>
                     </motion.div>
                 </Layer>

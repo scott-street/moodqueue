@@ -33,7 +33,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                         label={
                             <Box>
                                 <Text size={size !== "small" ? "medium" : "xsmall"}>
-                                    your saved/liked
+                                    your liked songs
                                 </Text>
                             </Box>
                         }
