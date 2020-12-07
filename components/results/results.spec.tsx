@@ -14,6 +14,7 @@ const source: FormSelection = {
     artists: false,
     tracks: false,
     recommended: false,
+    genre: "",
 }
 
 const mockTracks: Track[] = [
@@ -244,7 +245,7 @@ describe("<Results />", () => {
             }
 
             return promise().then((res: any) => {
-                expect(res.text()).to.contain("no more songs")
+                expect(res.text()).to.contain("no songs")
             })
         })
     })
