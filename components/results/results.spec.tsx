@@ -151,7 +151,7 @@ describe("<Results />", () => {
                 userProduct="premium"
             />
         )
-        expect(wrapper.find("#desc-sources").text()).to.contain("saved")
+        expect(wrapper.find("#desc-sources").text()).to.contain("liked")
     })
 
     it("renders <ResultList /> when queue has songs", async () => {
