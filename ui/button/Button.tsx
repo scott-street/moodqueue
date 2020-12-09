@@ -5,7 +5,7 @@ import { Tooltip } from "./Tooltip"
 
 interface ButtonProps {
     id?: string
-    text?: string
+    text?: any
     icon?: any
     disabled?: any
     fill?: boolean

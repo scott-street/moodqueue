@@ -1,5 +1,5 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer, useState } from "react"
-import { Box, Layer } from "grommet"
+import { Box } from "grommet"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
 import { useSpotify } from "../../common/hooks/useSpotify"
@@ -15,7 +15,6 @@ import {
     update,
     updateTrackToShow,
 } from "./reducer"
-import { getSourcesString } from "../../common/Helpers"
 import { Options } from "./options"
 import { ResultList } from "./result-list"
 import { Track } from "../../types/Track"
@@ -23,8 +22,8 @@ import { motion } from "framer-motion"
 import { baseItemTop } from "../animations/motion"
 import { Button } from "../../ui/button/Button"
 import { Description } from "../../ui/description/Description"
-import ReactTooltip from "react-tooltip"
 import { Confirmation } from "../../ui/confirmation/Confirmation"
+import { ResultsOverview } from "../../ui/results-overview/ResultsOverview"
 
 interface ResultsProps {
     size: string
@@ -55,31 +54,13 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
     return (
         <Box align="center" fill>
             <Box align="center" justify="between" gap={size === "small" ? "none" : "small"} fill>
-                <Box direction="row" border="between" gap="small" align="center">
-                    <Description
-                        id="desc-num-songs"
-                        textAlign="center"
-                        size={size !== "small" ? "xlarge" : "medium"}
-                        weight="bold"
-                        text={
-                            state.tracks
-                                ? state.tracks.length +
-                                  " " +
-                                  `${mood >= 0 ? Mood[mood].toLowerCase() + " songs" : " songs"}`
-                                : "loading..."
-                        }
-                    />
-                    <Description
-                        id="desc-sources"
-                        textAlign="center"
-                        size={size !== "small" ? "xlarge" : "medium"}
-                        text={`based on ${
-                            !selectedGenreValue
-                                ? "your " + getSourcesString(source)
-                                : selectedGenreValue.replace("-", " ")
-                        }`}
-                    />
-                </Box>
+                <ResultsOverview
+                    tracks={state.tracks}
+                    size={size}
+                    mood={mood}
+                    selectedGenreValue={selectedGenreValue}
+                    source={source}
+                />
                 <Box
                     overflow="hidden"
                     gap="medium"
@@ -166,6 +147,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     text:
                                         "unfortunately, the add-to-queue feature is limited to spotify premium users only :(",
                                     id: "queue-tooltip",
+                                    active: true,
                                 }}
                             />
                         )}
@@ -192,6 +174,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                 text:
                                     "click to either create a new moodqueue playlist or add to an existing one!",
                                 id: "playlist-tooltip",
+                                active: true,
                             }}
                         />
                         <Button
@@ -210,6 +193,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                         ? "click here to add the above songs to your queue!"
                                         : "unfortunately, this feature is limited to spotify premium users only :(",
                                 id: "queue-tooltip",
+                                active: true,
                             }}
                         />
                         <Button
