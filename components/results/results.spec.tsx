@@ -96,7 +96,7 @@ describe("<Results />", () => {
             />
         )
 
-        expect(wrapper.find("#desc-num-songs").text()).to.contain("loading...")
+        expect(wrapper.find("#results-header-txt").text()).to.contain("loading...")
     })
 
     it("renders number of tracks when tracks are defined", async () => {
@@ -144,8 +144,8 @@ describe("<Results />", () => {
         })
     })
 
-    it("renders queue sources in description", () => {
-        const wrapper = render(
+    it("renders results overview", () => {
+        const wrapper = mount(
             <Results
                 selectedGenreValue={""}
                 size={"large"}
@@ -156,7 +156,24 @@ describe("<Results />", () => {
                 userProduct="premium"
             />
         )
-        expect(wrapper.find("#desc-sources").text()).to.contain("saved")
+        expect(wrapper.find("#overview-bx").at(0).text()).to.contain(
+            "here's your sleepy moodqueue..."
+        )
+    })
+
+    it("renders mood in header", () => {
+        const wrapper = mount(
+            <Results
+                selectedGenreValue={""}
+                size={"large"}
+                mood={Mood.PARTY}
+                tracks={mockTracks}
+                source={source}
+                resetForm={jest.fn()}
+                userProduct="premium"
+            />
+        )
+        expect(wrapper.find("#results-header-txt").at(0).text()).to.contain("party")
     })
 
     it("renders <ResultList /> when queue has songs", async () => {

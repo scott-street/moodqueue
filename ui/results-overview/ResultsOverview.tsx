@@ -23,7 +23,7 @@ export const ResultsOverview: React.FunctionComponent<ResultsOverviewProps> = (p
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <Box align="center">
+        <Box align="center" id="overview-bx">
             <Tooltip
                 tooltip={{
                     text: "click for an overview of your moodqueue!",
@@ -58,7 +58,7 @@ export const ResultsOverview: React.FunctionComponent<ResultsOverviewProps> = (p
                     >
                         <Description
                             truncate
-                            id="desc-num-songs"
+                            id="results-header-txt"
                             textAlign="center"
                             size={size !== "small" ? "xlarge" : "medium"}
                             weight="bold"
@@ -106,15 +106,9 @@ export const ResultsOverview: React.FunctionComponent<ResultsOverviewProps> = (p
                                 size={size !== "small" ? "xlarge" : "medium"}
                                 weight="bold"
                                 text={
-                                    tracks
-                                        ? tracks.length +
-                                          " " +
-                                          `${
-                                              mood >= 0
-                                                  ? Mood[mood].toLowerCase() + " songs"
-                                                  : " songs"
-                                          }`
-                                        : "loading..."
+                                    tracks.length +
+                                    " " +
+                                    `${mood >= 0 ? Mood[mood].toLowerCase() + " songs" : " songs"}`
                                 }
                             />
                             <Description
