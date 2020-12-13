@@ -1,5 +1,5 @@
 import React, { FunctionComponent, Reducer, useEffect, useReducer, useState } from "react"
-import { Box, Layer } from "grommet"
+import { Box } from "grommet"
 import { Mood } from "../../types/Mood"
 import { FormSelection } from "../../types/FormSelection"
 import { useSpotify } from "../../common/hooks/useSpotify"
@@ -23,7 +23,6 @@ import { motion } from "framer-motion"
 import { baseItemTop } from "../animations/motion"
 import { Button } from "../../ui/button/Button"
 import { Description } from "../../ui/description/Description"
-import ReactTooltip from "react-tooltip"
 import { Confirmation } from "../../ui/confirmation/Confirmation"
 
 interface ResultsProps {
@@ -31,16 +30,16 @@ interface ResultsProps {
     tracks: Track[]
     mood: Mood
     source: FormSelection
-    selectedGenreValue: string
     resetForm(): void
     userProduct: string
 }
 
 export const Results: FunctionComponent<ResultsProps> = (props) => {
-    const { size, tracks, source, selectedGenreValue, mood, resetForm, userProduct } = props
+    const { size, tracks, source, mood, resetForm, userProduct } = props
     const { addToQueue, addToPlaylist } = useSpotify()
     const [showPlaylistWarningModal, setShowPlaylistWarningModal] = useState(false)
     const [showQueueWarningModal, setShowQueueWarningModal] = useState(false)
+    const selectionsHeader = "based on " + getSourcesString(source)
 
     const [state, dispatch] = useReducer<Reducer<ResultState, ResultAction>>(
         resultReducer,
@@ -73,11 +72,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         id="desc-sources"
                         textAlign="center"
                         size={size !== "small" ? "xlarge" : "medium"}
-                        text={`based on ${
-                            !selectedGenreValue
-                                ? "your " + getSourcesString(source)
-                                : selectedGenreValue.replace("-", " ")
-                        }`}
+                        text={selectionsHeader}
                     />
                 </Box>
                 <Box
@@ -108,7 +103,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     textAlign="center"
                                     size={size}
                                     weight="bold"
-                                    text="oops! no more songs"
+                                    text="oops! no songs!"
                                 />
                                 <Sad width="48px" height="48px" />
                                 <Description
@@ -201,7 +196,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             icon={<Queue width="26px" height="26px" />}
                             onClick={async () => {
                                 const result = await addToQueue(state.tracks)
-                                console.log(result)
                                 if (result) resetForm()
                             }}
                             tooltip={{

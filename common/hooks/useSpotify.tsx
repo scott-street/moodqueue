@@ -22,7 +22,7 @@ export interface SpotifyContextValue {
         trackSource: TrackSource[],
         count: number,
         mood: Mood,
-        topGenres?: string[]
+        genres: string[]
     ) => Promise<Track[]>
     addToQueue: (tracks: Track[]) => Promise<boolean>
     addToPlaylist: (tracks: Track[], mood: Mood, sources: FormSelection) => Promise<boolean>
@@ -42,12 +42,23 @@ interface SpotifyProviderProps {
 }
 
 export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (props) => {
-    const { accessToken, user } = useAuth()
-    const { notifyError, notifySuccess } = useNotification()
-    const spotifyHelper = new SpotifyHelper(accessToken)
+    const { user, getNewTokensFromRefreshToken } = useAuth()
+    let { accessToken, refreshToken } = useAuth()
+    const { notifyError, notifySuccess, notifyInfo } = useNotification()
+    let spotifyHelper = new SpotifyHelper(accessToken)
 
     const getAvailableSeedGenres = async (): Promise<string[]> => {
-        return spotifyHelper.getAvailableSeedGenres()
+        let response = await spotifyHelper.getAvailableSeedGenres()
+        if (spotifyHelper.hasError(response[0])) {
+            if ((response[0] as any).message === "401") {
+                await refreshContext()
+                return getAvailableSeedGenres()
+            } else {
+                notifyError("Something went wrong :( Try reloading the page.")
+                return []
+            }
+        }
+        return response
     }
 
     const getMultipleTracksAudioFeatures = async (tracks: Track[]): Promise<PropertyTrack[]> => {
@@ -85,7 +96,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         return result
     }
 
-    const addSongToQueue = async (uri: string) => {
+    const addSongToQueue = async (uri: string): Promise<Number> => {
         try {
             await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
                 headers: {
@@ -95,14 +106,15 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                 },
                 method: "POST",
             }).then((res) => {
-                if (!res.ok) {
+                if (!res.ok && res.status !== 401) {
                     notifyError(
                         "Error adding songs to queue!\nSpotify must be playing music to add to queue."
                     )
                 }
+                return res.status
             })
         } catch (e) {
-            throw e
+            return e.status
         }
     }
 
@@ -120,13 +132,15 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                     return data.json()
                 })
                 .then((data) => {
+                    if (!data.items) return data
                     return data.items
                 })
                 .then((data) => {
+                    if (data.error) return [data]
                     return data.map((o) => ({ name: o.name, id: o.id }))
                 })
         } catch (e) {
-            notifyError("Error adding to playlist :(")
+            notifyError("Error fetching playlists :(")
         }
     }
 
@@ -199,53 +213,115 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
     ): Promise<boolean> => {
         const trackUris = tracks.map((o) => o.uri).join(",")
         const userPlaylists = await getUserPlaylists()
-        const moodqueueId = moodqueuePlaylistId(userPlaylists, mood)
-        if (moodqueueId) {
-            return addSongsToPlaylist(trackUris, moodqueueId, mood)
+        const error = (userPlaylists[0] as any).error
+        if (error) {
+            if (error.status === 401) {
+                await refreshContext()
+                const result = addToPlaylist(tracks, mood, sources)
+                return result
+            } else notifyError("Something went wrong :( Please try again or start over.")
         } else {
-            await createMoodqueuePlaylist(mood, sources)
-            return addToPlaylist(tracks, mood, sources)
+            if (tracks.length > 0) {
+                const moodqueueId = moodqueuePlaylistId(userPlaylists, mood)
+                if (moodqueueId) {
+                    return addSongsToPlaylist(trackUris, moodqueueId, mood)
+                } else {
+                    await createMoodqueuePlaylist(mood, sources)
+                    return addToPlaylist(tracks, mood, sources)
+                }
+            } else notifyInfo("You can't create or update a playlist without any songs :(")
         }
+    }
+
+    const refreshContext = async () => {
+        const r_token = refreshToken || localStorage.getItem("r_token")
+        const token = await getNewTokensFromRefreshToken(r_token)
+        accessToken = token
+        spotifyHelper = new SpotifyHelper(token)
     }
 
     const getQueue = async (
         trackSource: TrackSource[],
         count: number,
         mood: Mood,
-        topGenres?: string[]
+        genres: string[]
     ): Promise<Track[]> => {
         let tracks = []
 
         if (trackSource.includes(TrackSource.TOP_SONGS)) {
             Sentry.captureMessage(`source includes top songs`)
             await spotifyHelper.getTopSongs(50).then(async (songs) => {
-                await getMultipleTracksAudioFeatures(songs).then((topTracks) => {
-                    tracks = tracks.concat(topTracks)
-                })
+                if (spotifyHelper.hasError(songs[0])) {
+                    if ((songs[0] as any).message === "401") {
+                        await refreshContext()
+                        tracks = await getQueue(trackSource, count, mood, genres)
+                        return tracks
+                    } else {
+                        notifyError("Something went wrong :( Try reloading the page.")
+                        return
+                    }
+                } else {
+                    await getMultipleTracksAudioFeatures(songs).then((topTracks) => {
+                        tracks = tracks.concat(topTracks)
+                    })
+                }
             })
         }
         if (trackSource.includes(TrackSource.RECOMMENDED_SONGS)) {
             Sentry.captureMessage(`source includes recommended songs`)
-            await spotifyHelper.getRecommendedSongs(topGenres).then(async (songs) => {
-                await getMultipleTracksAudioFeatures(songs).then((recommendedTracks) => {
-                    tracks = tracks.concat(recommendedTracks)
-                })
+            await spotifyHelper.getRecommendedSongs(genres).then(async (songs) => {
+                if (spotifyHelper.hasError(songs[0])) {
+                    if ((songs[0] as any).message === "401") {
+                        await refreshContext()
+                        tracks = await getQueue(trackSource, count, mood, genres)
+                        return tracks
+                    } else {
+                        notifyError("Something went wrong :( Try reloading the page.")
+                        return
+                    }
+                } else {
+                    await getMultipleTracksAudioFeatures(songs).then((recommendedTracks) => {
+                        tracks = tracks.concat(recommendedTracks)
+                    })
+                }
             })
         }
         if (trackSource.includes(TrackSource.TOP_ARTISTS_SONGS)) {
             Sentry.captureMessage(`source includes top artists`)
             await spotifyHelper.getTopArtistsTopSongs(50).then(async (songs) => {
-                await getMultipleTracksAudioFeatures(songs).then((topArtistsTracks) => {
-                    tracks = tracks.concat(topArtistsTracks)
-                })
+                if (spotifyHelper.hasError(songs[0])) {
+                    if ((songs[0] as any).message === "401") {
+                        await refreshContext()
+                        tracks = await getQueue(trackSource, count, mood, genres)
+                        return tracks
+                    } else {
+                        notifyError("Something went wrong :( Try reloading the page.")
+                        return
+                    }
+                } else {
+                    await getMultipleTracksAudioFeatures(songs).then((topArtistsTracks) => {
+                        tracks = tracks.concat(topArtistsTracks)
+                    })
+                }
             })
         }
         if (trackSource.includes(TrackSource.SAVED_SONGS)) {
             Sentry.captureMessage(`source includes saved songs`)
             await spotifyHelper.getSavedTracks(50).then(async (songs) => {
-                await getMultipleTracksAudioFeatures(songs).then((savedTracks) => {
-                    tracks = tracks.concat(savedTracks)
-                })
+                if (spotifyHelper.hasError(songs[0])) {
+                    if ((songs[0] as any).message === "401") {
+                        await refreshContext()
+                        tracks = await getQueue(trackSource, count, mood, genres)
+                        return tracks
+                    } else {
+                        notifyError("Something went wrong :( Try reloading the page.")
+                        return
+                    }
+                } else {
+                    await getMultipleTracksAudioFeatures(songs).then((savedTracks) => {
+                        tracks = tracks.concat(savedTracks)
+                    })
+                }
             })
         }
 
@@ -280,19 +356,25 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
 
     const addToQueue = async (tracks: Track[]): Promise<boolean> => {
         Sentry.captureMessage(`add to queue`)
-        try {
-            return await Promise.all(
-                tracks.map((track) => {
-                    addSongToQueue(track.uri)
+        if (tracks.length > 0) {
+            try {
+                return await Promise.all(
+                    tracks.map(async (track) => {
+                        const status = await addSongToQueue(track.uri)
+                        if (status === 401) {
+                            await refreshContext()
+                            addToQueue(tracks)
+                        }
+                    })
+                ).then((resp) => {
+                    if (resp.includes(undefined)) return false
+                    else return true
                 })
-            ).then((resp) => {
-                if (resp.includes(undefined)) return false
-                else return true
-            })
-        } catch (e) {
-            notifyError(e)
-            return false
-        }
+            } catch (e) {
+                notifyError(e)
+                return false
+            }
+        } else notifyInfo("There are no songs to add to your queue :(")
     }
 
     const spotifyContextValue = {

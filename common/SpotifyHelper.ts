@@ -4,11 +4,18 @@ import { PropertyTrack, Track } from "../types/Track"
 export class SpotifyHelper {
     constructor(private accessToken: string) {}
 
-    private handleErrors(response) {
+    private handleErrors = (response) => {
         if (!response.ok) {
-            throw Error(response.statusText)
+            throw Error(response.status)
         }
         return response
+    }
+
+    hasError = (response: any) => {
+        if (response.stack) {
+            return (response.stack as string).includes("Error")
+        }
+        return false
     }
 
     async get(url: string) {
@@ -25,7 +32,7 @@ export class SpotifyHelper {
                 return response.json()
             })
             .catch((e) => {
-                throw e
+                return e
             })
     }
 
@@ -36,6 +43,7 @@ export class SpotifyHelper {
         let temp = await this.get(
             `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange[1]}&limit=${count}`
         ).then((data) => {
+            if (!data.items) return [data]
             return data.items.map((track) => ({
                 previewUrl: track.preview_url,
                 name: track.name,
@@ -50,6 +58,7 @@ export class SpotifyHelper {
         temp = await this.get(
             `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange[2]}&limit=${count}`
         ).then((data) => {
+            if (!data.items) return []
             return data.items.map((track) => ({
                 previewUrl: track.preview_url,
                 name: track.name,
@@ -68,6 +77,7 @@ export class SpotifyHelper {
         try {
             return this.get(`https://api.spotify.com/v1/me/top/artists?limit=${count}`).then(
                 (data) => {
+                    if (!data.items) return [data]
                     return data.items.map((artist) => ({
                         id: artist.id,
                         genres: artist.genres,
@@ -84,6 +94,7 @@ export class SpotifyHelper {
             return this.get(
                 `https://api.spotify.com/v1/recommendations/available-genre-seeds`
             ).then((data) => {
+                if (!data.genres) return [data]
                 return data.genres
             })
         } catch (e) {
@@ -95,10 +106,16 @@ export class SpotifyHelper {
         const tracks: Track[] = []
         let temp: Track[] = []
         let n = 0
+        let error: any = undefined
+
         do {
             temp = await this.get(
                 `https://api.spotify.com/v1/me/tracks?offset=${n}&limit=${count}`
             ).then((data) => {
+                if (!data.items) {
+                    error = data
+                    return []
+                }
                 if (data.items.length === 0) {
                     return []
                 }
@@ -116,6 +133,7 @@ export class SpotifyHelper {
                 n = n + 50
             }
         } while (temp.length !== 0)
+        if (error) return [error]
         return tracks
     }
 
@@ -133,6 +151,7 @@ export class SpotifyHelper {
 
         try {
             return this.get(url).then((data) => {
+                if (!data.tracks) return [data]
                 return data.tracks.map((track) => ({
                     previewUrl: track.preview_url,
                     name: track.name,
@@ -147,9 +166,9 @@ export class SpotifyHelper {
         }
     }
 
-    async getRecommendedSongs(topGenres: string[]): Promise<Track[]> {
+    async getRecommendedSongs(genres: string[]): Promise<Track[]> {
         try {
-            return await this.getRecommendedFromSeed("genres", topGenres.join(","), 50)
+            return await this.getRecommendedFromSeed("genres", genres.join(","), 50)
         } catch (e) {
             throw e
         }
@@ -158,6 +177,9 @@ export class SpotifyHelper {
     async getTopArtistsTopSongs(count: number): Promise<Track[]> {
         try {
             const topArtists = await this.getTopArtists(count)
+            if (this.hasError(topArtists[0])) {
+                return [topArtists[0] as any]
+            }
 
             return Promise.all(
                 topArtists.map(async (artist) => {

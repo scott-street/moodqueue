@@ -4,10 +4,12 @@ import { UserInfo } from "../../types/UserInfo"
 
 export interface AuthContextValue {
     openSpotifyAccountLogin: (param: string, param2: string) => void
+    getNewTokensFromRefreshToken: (param: string) => Promise<string>
     setUserInfo: () => Promise<void>
     setAuthRedirect: (param: string) => void
     setAccessToken: (param: string) => void
     setRefreshToken: (param: string) => void
+    logOut: () => void
     redirect: string
     user: UserInfo
     accessToken: string
@@ -15,11 +17,13 @@ export interface AuthContextValue {
 }
 
 export const AuthContext = React.createContext<AuthContextValue>({
-    openSpotifyAccountLogin: () => {},
+    openSpotifyAccountLogin: () => undefined,
+    getNewTokensFromRefreshToken: () => undefined,
     setUserInfo: () => undefined,
     setAuthRedirect: () => undefined,
     setAccessToken: () => undefined,
     setRefreshToken: () => undefined,
+    logOut: () => undefined,
     redirect: undefined,
     user: undefined,
     accessToken: undefined,
@@ -55,6 +59,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=${scopes}&redirect_uri=${redirect}&state=${rand}&show_dialog=${forceDialog}`
         window.location.href = url
     }
+
     const setUserInfo = async () => {
         let newUser: UserInfo = {
             id: "",
@@ -84,6 +89,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         setCurrentUser(newUser)
         Sentry.captureMessage(`Login`)
     }
+
     const setAuthRedirect = (hostname: string) => {
         const regex = new RegExp(process.env.REVIEW_URL)
         let url: string = ""
@@ -100,8 +106,32 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         setRedirect(url)
     }
 
+    const getNewTokensFromRefreshToken = async (rToken: string): Promise<string> => {
+        const token =
+            "Basic " +
+            Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString("base64")
+
+        const response = await fetch("https://accounts.spotify.com/api/token", {
+            body: `grant_type=refresh_token&refresh_token=${rToken}`,
+            headers: {
+                Authorization: token,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            method: "POST",
+        })
+        const data = await response.json()
+        setAccessToken(data.access_token)
+        return data.access_token
+    }
+
+    const logOut = () => {
+        localStorage.removeItem("r_token")
+        setAccessToken(undefined)
+    }
+
     const authContextValue = {
         openSpotifyAccountLogin,
+        getNewTokensFromRefreshToken,
         setUserInfo,
         setAuthRedirect,
         setAccessToken,
@@ -110,6 +140,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = (props) 
         user,
         accessToken,
         refreshToken,
+        logOut,
     }
     return <AuthContext.Provider value={props.value ?? authContextValue} {...props} />
 }

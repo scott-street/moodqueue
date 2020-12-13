@@ -263,7 +263,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                     <Button
                         id="remove-track-btn"
                         color="dark-1"
-                        title="remove from moodqueue"
+                        title="remove"
                         icon={<SubtractCircle color="status-error" size="large" />}
                         onClick={() => {
                             onClickRemove()

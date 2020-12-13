@@ -14,6 +14,7 @@ const source: FormSelection = {
     artists: false,
     tracks: false,
     recommended: false,
+    genres: [""],
 }
 
 const mockTracks: Track[] = [
@@ -39,7 +40,6 @@ describe("<Results />", () => {
     it("renders without crashing", () => {
         shallow(
             <Results
-                selectedGenreValue={""}
                 tracks={mockTracks}
                 size={"large"}
                 mood={0}
@@ -53,7 +53,6 @@ describe("<Results />", () => {
     it("renders disabled queue button if free user", () => {
         const wrapper = mount(
             <Results
-                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -69,7 +68,6 @@ describe("<Results />", () => {
     it("renders tooltip wrappers for queue and playlist buttons", () => {
         const wrapper = mount(
             <Results
-                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -86,7 +84,6 @@ describe("<Results />", () => {
     it("renders 'loading...' for number of tracks when tracks are loading", () => {
         const wrapper = render(
             <Results
-                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -115,7 +112,6 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
-                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -147,7 +143,6 @@ describe("<Results />", () => {
     it("renders queue sources in description", () => {
         const wrapper = render(
             <Results
-                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -156,7 +151,7 @@ describe("<Results />", () => {
                 userProduct="premium"
             />
         )
-        expect(wrapper.find("#desc-sources").text()).to.contain("saved")
+        expect(wrapper.find("#desc-sources").text()).to.contain("liked")
     })
 
     it("renders <ResultList /> when queue has songs", async () => {
@@ -175,7 +170,6 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
-                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -220,7 +214,6 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
-                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={[]}
@@ -244,7 +237,7 @@ describe("<Results />", () => {
             }
 
             return promise().then((res: any) => {
-                expect(res.text()).to.contain("no more songs")
+                expect(res.text()).to.contain("no songs")
             })
         })
     })
@@ -252,7 +245,6 @@ describe("<Results />", () => {
     it("renders play queue button", () => {
         const wrapper = render(
             <Results
-                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -267,7 +259,6 @@ describe("<Results />", () => {
     it("renders start over button", () => {
         const wrapper = render(
             <Results
-                selectedGenreValue={""}
                 size={"large"}
                 mood={Mood.SLEEPY}
                 tracks={mockTracks}
@@ -296,7 +287,6 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
-                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -343,7 +333,6 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
-                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -390,7 +379,6 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
-                    selectedGenreValue={""}
                     size={"small"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -437,7 +425,6 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
-                    selectedGenreValue={""}
                     size={"small"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}
@@ -484,7 +471,6 @@ describe("<Results />", () => {
         const TestComponent = () => (
             <SpotifyProvider value={contextValues}>
                 <Results
-                    selectedGenreValue={""}
                     size={"large"}
                     mood={Mood.SLEEPY}
                     tracks={mockTracks}

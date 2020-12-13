@@ -10,19 +10,13 @@ import { trackDetailsVariants } from "../../components/animations/motion"
 interface SourcesProps {
     size?: any
     sources: FormSelection
-    selectedGenreValue: string
-    topGenres: string[]
+    genres: string[]
     onChange?: (value: any, index: number) => void
-    getSelectedGenres: (genres: string[]) => void
 }
 export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
-    const { size, onChange, sources, selectedGenreValue, topGenres, getSelectedGenres } = props
+    const { size, onChange, sources, genres } = props
     const [showGenre, setShowGenre] = React.useState(false)
     const [isOpen, setIsOpen] = React.useState(false)
-
-    React.useEffect(() => {
-        getSelectedGenres([selectedGenreValue])
-    }, [selectedGenreValue])
 
     return (
         <Box align="center">
@@ -33,7 +27,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                         label={
                             <Box>
                                 <Text size={size !== "small" ? "medium" : "xsmall"}>
-                                    your saved songs
+                                    your liked songs
                                 </Text>
                             </Box>
                         }
@@ -84,7 +78,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                     <Select
                                         size="small"
                                         id="genre-select"
-                                        options={topGenres}
+                                        options={genres}
                                         onChange={({ option }) => {
                                             onChange(option, 4)
                                             onChange(true, 3)
@@ -95,16 +89,18 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                         placeholder="a genre"
                                         onSearch={(search) => {
                                             onChange(
-                                                topGenres.find((o) => o.includes(search)),
+                                                genres.find((o) => o.includes(search)),
                                                 4
                                             )
                                         }}
-                                        value={selectedGenreValue}
+                                        value={sources.genres}
                                     />
                                 </Box>
                             ) : (
                                 <Box>
-                                    <Text size="xsmall">{selectedGenreValue || "a genre"}</Text>
+                                    <Text size="xsmall">
+                                        {sources.genres[0] ? sources.genres : "a genre"}
+                                    </Text>
                                 </Box>
                             )
                         }
@@ -128,7 +124,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
             {showGenre && size === "small" && (
                 <Layer
                     onClickOutside={() => {
-                        if (!selectedGenreValue) {
+                        if (!sources.genres[0]) {
                             onChange(false, 3)
                         }
                         setIsOpen(false)
@@ -164,7 +160,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                             background={{ color: "#34495E", opacity: 0.9 }}
                         >
                             <Select
-                                options={topGenres}
+                                options={genres}
                                 onChange={({ option }) => {
                                     onChange(option, 4)
                                     if (!sources.recommended) onChange(true, 3)
@@ -174,16 +170,16 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                 placeholder="select a genre"
                                 onSearch={(search) => {
                                     onChange(
-                                        topGenres.find((o) => o.includes(search)),
+                                        genres.find((o) => o.includes(search)),
                                         4
                                     )
                                 }}
-                                value={selectedGenreValue}
+                                value={sources.genres}
                             />
                             <Box align="center" direction="row" gap="medium">
                                 <Button
                                     small
-                                    disabled={!selectedGenreValue}
+                                    disabled={!sources.genres[0]}
                                     icon={<Checkmark />}
                                     color="neutral-3"
                                     onClick={() => {

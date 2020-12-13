@@ -13,28 +13,28 @@ import { Index } from "../ui/backgrounds/index/IndexBackground"
 const BaseApp: FunctionComponent = () => {
     const {
         setAuthRedirect,
+        setRefreshToken,
         setUserInfo,
         user,
-        setAccessToken,
-        setRefreshToken,
         accessToken,
+        refreshToken,
+        getNewTokensFromRefreshToken,
     } = useAuth()
     const { notifySuccess } = useNotification()
 
     useEffect(() => {
-        document.title = "login | moodqueue"
         if (!user) {
+            const refresh = localStorage.getItem("r_token")
+            if (refresh && !accessToken) {
+                if (!refreshToken) setRefreshToken(refresh)
+                getNewTokensFromRefreshToken(refresh)
+            } else document.title = "login | moodqueue"
             setAuthRedirect(new URL(window.location.href).hostname)
-            const params = new URLSearchParams(window.location.search)
-            if (params.has("access_token") && params.has("refresh_token")) {
-                setAccessToken(params.get("access_token"))
-                setRefreshToken(params.get("refresh_token"))
-            }
         }
     }, [])
 
     useEffect(() => {
-        if (accessToken) {
+        if (accessToken && !user) {
             setUserInfo()
             notifySuccess("welcome to moodqueue")
         }
