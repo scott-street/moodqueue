@@ -16,10 +16,11 @@ const Redirect: FunctionComponent<RedirectProps> = (props) => {
             const params = new URLSearchParams(window.location.search)
             if (params.has("error")) {
                 notifyError("login failed")
-            } else {
+            } else if (params.has("code")) {
                 getTokens(params.get("code")).then((data) => {
-                    setAccessToken(data.access_token)
+                    localStorage.setItem("r_token", data.refresh_token)
                     setRefreshToken(data.refresh_token)
+                    setAccessToken(data.access_token)
                     window.history.pushState(
                         "object or string",
                         "Title",

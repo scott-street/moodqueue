@@ -83,6 +83,21 @@ export const colorMovementTracks = {
     },
 }
 
+export const colorMovementSettings = {
+    background: [
+        "linear-gradient(25deg, rgba(75,108,183,1) 0%, rgba(24,40,72,1) 100%)",
+        "linear-gradient(45deg, rgba(75,108,183,1) 0%, rgba(24,40,72,1) 70%)",
+        "linear-gradient(15deg, rgba(75,108,183,1) 30%, rgba(24,40,72,1) 100%)",
+        "linear-gradient(90deg, rgba(75,108,183,1) 0%, rgba(24,40,72,1) 100%)",
+        "linear-gradient(90deg, rgba(75,108,183,1) 0%, rgba(24,40,72,1) 70%)",
+        "linear-gradient(90deg, rgba(75,108,183,1) 30%, rgba(24,40,72,1) 100%)",
+    ],
+    transition: {
+        duration: 15,
+        yoyo: Infinity,
+    },
+}
+
 export const trackDetailsVariants = (size: string) => {
     if (size === "small") {
         return {

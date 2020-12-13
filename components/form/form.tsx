@@ -14,13 +14,7 @@ import { BounceLoader } from "react-spinners"
 
 interface FormProps {
     size: string
-    handleSubmit(
-        mood: Mood,
-        numSongs: number,
-        source: FormSelection,
-        selectedGenreValue: string,
-        topGenres?: string[]
-    ): void
+    handleSubmit(mood: Mood, numSongs: number, source: FormSelection): void
 }
 
 export const Form: FunctionComponent<FormProps> = (props) => {
@@ -29,17 +23,18 @@ export const Form: FunctionComponent<FormProps> = (props) => {
         formReducer,
         initialFormState
     )
-    const [topGenres, setTopGenres] = React.useState<string[] | undefined>(undefined)
-    const [selectedTopGenres, setSelectedTopGenres] = React.useState([])
+    const [genres, setGenres] = React.useState<string[] | undefined>(undefined)
     const { getAvailableSeedGenres } = useSpotify()
 
     useEffect(() => {
         document.title = "home | moodqueue"
         dispatch(resetFormState())
-        getAvailableSeedGenres().then((genres) => setTopGenres(genres))
+        getAvailableSeedGenres().then((genres) => {
+            setGenres(genres as string[])
+        })
     }, [])
 
-    if (topGenres === undefined) {
+    if (genres === undefined) {
         return (
             <Box align="center" justify="center" fill>
                 <BounceLoader
@@ -73,29 +68,19 @@ export const Form: FunctionComponent<FormProps> = (props) => {
                 <SourceSelection
                     size={size}
                     source={state.source}
-                    selectedGenreValue={state.genre}
                     progress={state.progress}
                     dispatch={(value) => dispatch(value)}
-                    topGenres={topGenres}
-                    getSelectedGenres={setSelectedTopGenres}
+                    genres={genres}
                 />
                 <Button
                     id="submit-form-btn"
                     text="continue"
-                    onClick={() =>
-                        handleSubmit(
-                            state.mood,
-                            state.numSongs,
-                            state.source,
-                            state.genre,
-                            selectedTopGenres
-                        )
-                    }
+                    onClick={() => handleSubmit(state.mood, state.numSongs, state.source)}
                     disabled={
                         state.progress !== 3
                             ? true
                             : state.source.recommended
-                            ? state.genre
+                            ? state.source.genres[0]
                                 ? false
                                 : true
                             : false

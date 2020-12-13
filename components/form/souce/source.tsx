@@ -7,23 +7,13 @@ import { Sources } from "../../../ui/sources/Sources"
 interface SourceSelectionProps {
     progress: number
     source: FormSelection
-    selectedGenreValue: string
     size: string
     dispatch(value: FormAction): void
-    topGenres: string[]
-    getSelectedGenres: (genres: string[]) => void
+    genres: string[]
 }
 
 export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) => {
-    const {
-        size,
-        source,
-        selectedGenreValue,
-        progress,
-        dispatch,
-        topGenres,
-        getSelectedGenres,
-    } = props
+    const { size, source, progress, dispatch, genres } = props
 
     const updateProgressAfterCheckboxChange = (index: number, checked: boolean) => {
         const current = source
@@ -33,6 +23,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
             tracks: index === 1 ? checked : source.tracks,
             artists: index === 2 ? checked : source.artists,
             recommended: index === 3 ? checked : source.recommended,
+            genres: source.genres,
         }
         if (
             selected.artists === false &&
@@ -66,9 +57,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
             <Sources
                 size={size}
                 sources={source}
-                selectedGenreValue={selectedGenreValue}
-                topGenres={topGenres}
-                getSelectedGenres={getSelectedGenres}
+                genres={genres}
                 onChange={(value, index) => {
                     if (index !== 4) updateProgressAfterCheckboxChange(index, value)
                     switch (index) {
@@ -85,7 +74,7 @@ export const SourceSelection: FunctionComponent<SourceSelectionProps> = (props) 
                             dispatch(updateSourceSelection("recommended", value))
                             break
                         case 4:
-                            dispatch(update("genre", value))
+                            dispatch(updateSourceSelection("genres", [value]))
                             break
                         default:
                             dispatch(updateSourceSelection("saved", value))

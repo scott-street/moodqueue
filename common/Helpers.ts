@@ -13,9 +13,10 @@ export const combineTwoArraysOnId = (a: any[], b: any[]): any[] => {
 }
 
 export const getSourcesString = (sources: FormSelection): string => {
-    let s: string = ""
+    let s: string = "your "
+    if (!sources.artists && !sources.tracks && !sources.artists && sources.recommended) s = ""
     if (sources.saved) {
-        s = s + "saved, "
+        s = s + "liked songs, "
     }
     if (sources.tracks) {
         s = s + "top tracks, "
@@ -24,10 +25,10 @@ export const getSourcesString = (sources: FormSelection): string => {
         s = s + "top artists, "
     }
     if (sources.recommended) {
-        s = s + "recommended, "
+        s = s + `${sources.genres[0].replace("-", " ")}, `
     }
 
-    return s.substring(0, s.length - 2)
+    return s ? s.substring(0, s.length - 2) : s
 }
 
 export const getTrackSourceFromFormSelection = (formSelection: FormSelection): TrackSource[] => {

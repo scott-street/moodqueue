@@ -9,30 +9,28 @@ export default { title: "Sources" }
 export const sourcesNotChecked = () =>
     withGrommet(
         <Sources
-            selectedGenreValue={"indie"}
             size="large"
             sources={{
                 saved: false,
                 artists: false,
                 tracks: false,
                 recommended: false,
+                genres: [""],
             }}
-            topGenres={[]}
-            getSelectedGenres={() => {}}
+            genres={[]}
         />
     )
 export const sourcesChecked = () =>
     withGrommet(
         <Sources
-            selectedGenreValue={"indie"}
             size="large"
             sources={{
                 saved: true,
                 artists: false,
                 tracks: true,
                 recommended: false,
+                genres: [""],
             }}
-            topGenres={[]}
-            getSelectedGenres={() => {}}
+            genres={[]}
         />
     )

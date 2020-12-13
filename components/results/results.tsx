@@ -30,13 +30,12 @@ interface ResultsProps {
     tracks: Track[]
     mood: Mood
     source: FormSelection
-    selectedGenreValue: string
     resetForm(): void
     userProduct: string
 }
 
 export const Results: FunctionComponent<ResultsProps> = (props) => {
-    const { size, tracks, source, selectedGenreValue, mood, resetForm, userProduct } = props
+    const { size, tracks, source, mood, resetForm, userProduct } = props
     const { addToQueue, addToPlaylist } = useSpotify()
     const [showPlaylistWarningModal, setShowPlaylistWarningModal] = useState(false)
     const [showQueueWarningModal, setShowQueueWarningModal] = useState(false)
@@ -58,7 +57,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     tracks={state.tracks}
                     size={size}
                     mood={mood}
-                    selectedGenreValue={selectedGenreValue}
+                    selectedGenreValue={source.genres[0]}
                     source={source}
                 />
                 <Box
@@ -89,7 +88,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                     textAlign="center"
                                     size={size}
                                     weight="bold"
-                                    text="oops! no more songs"
+                                    text="oops! no songs!"
                                 />
                                 <Sad width="48px" height="48px" />
                                 <Description
@@ -184,7 +183,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             icon={<Queue width="26px" height="26px" />}
                             onClick={async () => {
                                 const result = await addToQueue(state.tracks)
-                                console.log(result)
                                 if (result) resetForm()
                             }}
                             tooltip={{
