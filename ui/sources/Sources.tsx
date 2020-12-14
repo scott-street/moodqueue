@@ -33,7 +33,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                 direction="row"
                                 align="center"
                                 gap="small"
-                                id="liked-checkbox-label"
+                                id="saved-checkbox-label"
                             >
                                 <Liked width="24px" height="24px" />
                                 <Text
@@ -109,7 +109,7 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                     direction="row"
                                     align="center"
                                     gap="small"
-                                    id="genre-checkbox-label"
+                                    id="recommended-checkbox-label"
                                 >
                                     <Genre width="24px" height="24px" />
                                     <Box width="small">
@@ -140,10 +140,10 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                                     direction="row"
                                     align="center"
                                     gap="small"
-                                    id="genre-checkbox-label"
+                                    id="recommended-checkbox-label"
                                 >
                                     <Genre width="24px" height="24px" />
-                                    <Text size="xsmall">
+                                    <Text size="xsmall" textAlign="center">
                                         {sources.genres[0] ? sources.genres : "a genre"}
                                     </Text>
                                 </Box>

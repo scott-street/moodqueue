@@ -32,12 +32,12 @@ export const resultsOverview = () =>
         <ResultsOverview
             size="large"
             tracks={mockTracks}
-            selectedGenreValue={undefined}
             source={{
                 saved: false,
                 artists: false,
                 tracks: false,
                 recommended: false,
+                genres: [""],
             }}
             mood={Mood.HAPPY}
         />

@@ -83,7 +83,7 @@ export const ResultsOverview: React.FunctionComponent<ResultsOverviewProps> = (p
                             <TopArtists width="24px" height="24px" />
                         </Tooltip>
                     )}
-                    {source.genres[0] && (
+                    {source.genres.length > 0 && (
                         <Tooltip
                             tooltip={{
                                 active: true,

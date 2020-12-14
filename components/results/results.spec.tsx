@@ -141,7 +141,7 @@ describe("<Results />", () => {
     })
 
     it("renders results overview", () => {
-        const wrapper = shallow(
+        const wrapper = render(
             <Results
                 size={"large"}
                 mood={Mood.SLEEPY}
@@ -151,9 +151,7 @@ describe("<Results />", () => {
                 userProduct="premium"
             />
         )
-        expect(wrapper.find("#overview-bx").at(0).text()).to.contain(
-            "here's your 2-track sleepy moodqueue..."
-        )
+        expect(wrapper.find("#overview-bx").length).to.eql(1)
     })
 
     it("renders mood in header", () => {
@@ -168,6 +166,20 @@ describe("<Results />", () => {
             />
         )
         expect(wrapper.find("#results-header-txt").at(0).text()).to.contain("party")
+    })
+
+    it("renders source emoji in header", () => {
+        const wrapper = render(
+            <Results
+                size={"large"}
+                mood={Mood.PARTY}
+                tracks={mockTracks}
+                source={source}
+                resetForm={jest.fn()}
+                userProduct="premium"
+            />
+        )
+        expect(wrapper.find("#saved-tooltip").length).to.be.eql(1)
     })
 
     it("renders <ResultList /> when queue has songs", async () => {

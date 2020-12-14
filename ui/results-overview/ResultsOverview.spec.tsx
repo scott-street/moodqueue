@@ -37,12 +37,12 @@ describe("<ResultsOverview />", () => {
             testComponent({
                 size: "large",
                 tracks: mockTracks,
-                selectedGenreValue: undefined,
                 source: {
                     saved: false,
                     artists: false,
                     tracks: false,
                     recommended: false,
+                    genres: ["ambient"],
                 },
                 mood: Mood.HAPPY,
             })
