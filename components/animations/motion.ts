@@ -127,20 +127,3 @@ export const trackDetailsVariants = (size: string) => {
         }
     }
 }
-
-export const resultsOverviewVariants = () => {
-    return {
-        open: {
-            scale: 1,
-            y: 0,
-            x: 0,
-            opacity: 1,
-        },
-        closed: {
-            scale: 1,
-            opacity: 0,
-            zIndex: 0,
-            y: 500,
-        },
-    }
-}

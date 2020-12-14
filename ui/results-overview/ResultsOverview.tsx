@@ -1,130 +1,101 @@
-import { motion } from "framer-motion"
-import { Box, Layer } from "grommet"
-import React, { useState } from "react"
-import { getSourcesString } from "../../common/Helpers"
-import { resultsOverviewVariants } from "../../components/animations/motion"
+import { Box } from "grommet"
+import React from "react"
 import { FormSelection } from "../../types/FormSelection"
 import { Mood } from "../../types/Mood"
 import { Track } from "../../types/Track"
 import { Tooltip } from "../button/Tooltip"
 import { Description } from "../description/Description"
+import { Heart as Liked } from "@styled-icons/remix-fill/Heart"
+import { Music as TopTracks } from "@styled-icons/evaicons-solid/Music"
+import { MusicArtist as TopArtists } from "@styled-icons/zondicons/MusicArtist"
+import { FolderMusic as Genre } from "@styled-icons/entypo/FolderMusic"
 
 interface ResultsOverviewProps {
     size: any
     source: FormSelection
-    selectedGenreValue: string
     tracks: Track[]
     mood: Mood
 }
 
 export const ResultsOverview: React.FunctionComponent<ResultsOverviewProps> = (props) => {
-    const { size, source, selectedGenreValue, tracks, mood } = props
-    const [showHeaderModal, setShowHeaderModal] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
+    const { size, source, tracks, mood } = props
 
     return (
         <Box align="center" id="overview-bx">
-            <Tooltip
-                tooltip={{
-                    text: "click for an overview of your moodqueue!",
-                    id: "overview-tooltip",
-                    active: size !== "small",
-                }}
+            <Box
+                direction="row"
+                id="results-header-bx"
+                gap="medium"
+                align="center"
+                pad={{ horizontal: "medium", vertical: "xsmall" }}
+                margin={{ horizontal: "small" }}
+                background={{ color: "light-2", opacity: 0.1 }}
+                round
+                focusIndicator={false}
+                style={{ outline: "none" }}
+                border="between"
             >
-                <motion.div
-                    whileTap={{ scale: 0.9 }}
-                    style={{
-                        width: "100%",
-                        alignItems: "center",
-                        display: "flex",
-                        justifyContent: "center",
-                        borderRadius: 30,
-                    }}
-                >
-                    <Box
-                        direction="row"
-                        gap="medium"
-                        align="center"
-                        pad={{ horizontal: "medium", vertical: "xsmall" }}
-                        margin={{ horizontal: "small" }}
-                        onClick={() => {
-                            setIsOpen(true)
-                            setShowHeaderModal(true)
-                        }}
-                        background={{ color: "light-2", opacity: 0.1 }}
-                        round
-                        focusIndicator={false}
-                        style={{ outline: "none" }}
-                    >
-                        <Description
-                            truncate
-                            id="results-header-txt"
-                            textAlign="center"
-                            size={size !== "small" ? "xlarge" : "medium"}
-                            weight="bold"
-                            text={
-                                tracks
-                                    ? "here's your " +
-                                      `${
-                                          mood >= 0
-                                              ? Mood[mood].toLowerCase() + " moodqueue..."
-                                              : "moodqueue..."
-                                      }`
-                                    : "loading..."
-                            }
-                        />
-                    </Box>
-                </motion.div>
-            </Tooltip>
-            {showHeaderModal && (
-                <Layer
-                    onClickOutside={() => {
-                        setIsOpen(false)
-                        setTimeout(() => setShowHeaderModal(false), 500)
-                    }}
-                    responsive={false}
-                    position="center"
-                    style={{ background: "transparent" }}
-                    animation={false}
-                >
-                    <motion.div
-                        variants={resultsOverviewVariants()}
-                        animate={isOpen ? "open" : "closed"}
-                        initial={{ opacity: 0, y: -500 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <Box
-                            gap="medium"
-                            align="center"
-                            round="large"
-                            pad="large"
-                            background={{ color: "#5DADE2", opacity: 0.8, dark: true }}
+                <Description
+                    id="results-header-txt"
+                    truncate
+                    textAlign="center"
+                    size={size !== "small" ? "xlarge" : "medium"}
+                    weight="bold"
+                    text={
+                        tracks
+                            ? tracks.length +
+                              " " +
+                              `${mood >= 0 ? Mood[mood].toLowerCase() + " songs" : "songs"}`
+                            : "loading..."
+                    }
+                />
+                <Box gap="small" align="center" direction="row" id="tooltip-sources-bx">
+                    {source.saved && (
+                        <Tooltip
+                            tooltip={{
+                                active: true,
+                                id: "saved-tooltip",
+                                text: "your liked songs",
+                            }}
                         >
-                            <Description
-                                id="desc-num-songs"
-                                textAlign="center"
-                                size={size !== "small" ? "xlarge" : "medium"}
-                                weight="bold"
-                                text={
-                                    tracks.length +
-                                    " " +
-                                    `${mood >= 0 ? Mood[mood].toLowerCase() + " songs" : " songs"}`
-                                }
-                            />
-                            <Description
-                                id="desc-sources"
-                                textAlign="center"
-                                size={size !== "small" ? "xlarge" : "medium"}
-                                text={`based on ${
-                                    !selectedGenreValue
-                                        ? "your " + getSourcesString(source)
-                                        : selectedGenreValue.replace("-", " ")
-                                }`}
-                            />
-                        </Box>
-                    </motion.div>
-                </Layer>
-            )}
+                            <Liked width="24px" height="24px" />
+                        </Tooltip>
+                    )}
+                    {source.tracks && (
+                        <Tooltip
+                            tooltip={{
+                                active: true,
+                                id: "tracks-tooltip",
+                                text: "your top tracks",
+                            }}
+                        >
+                            <TopTracks width="24px" height="24px" />
+                        </Tooltip>
+                    )}
+                    {source.artists && (
+                        <Tooltip
+                            tooltip={{
+                                active: true,
+                                id: "artists-tooltip",
+                                text: "your top artists",
+                            }}
+                        >
+                            <TopArtists width="24px" height="24px" />
+                        </Tooltip>
+                    )}
+                    {source.genres[0] && (
+                        <Tooltip
+                            tooltip={{
+                                active: true,
+                                id: "genre-tooltip",
+                                text: source.genres[0].replace("-", " "),
+                            }}
+                        >
+                            <Genre width="24px" height="24px" />
+                        </Tooltip>
+                    )}
+                </Box>
+            </Box>
         </Box>
     )
 }

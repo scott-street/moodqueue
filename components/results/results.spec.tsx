@@ -141,7 +141,7 @@ describe("<Results />", () => {
     })
 
     it("renders results overview", () => {
-        const wrapper = mount(
+        const wrapper = shallow(
             <Results
                 size={"large"}
                 mood={Mood.SLEEPY}
@@ -152,7 +152,7 @@ describe("<Results />", () => {
             />
         )
         expect(wrapper.find("#overview-bx").at(0).text()).to.contain(
-            "here's your sleepy moodqueue..."
+            "here's your 2-track sleepy moodqueue..."
         )
     })
 

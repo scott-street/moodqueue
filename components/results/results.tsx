@@ -53,13 +53,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
     return (
         <Box align="center" fill>
             <Box align="center" justify="between" gap={size === "small" ? "none" : "small"} fill>
-                <ResultsOverview
-                    tracks={state.tracks}
-                    size={size}
-                    mood={mood}
-                    selectedGenreValue={source.genres[0]}
-                    source={source}
-                />
+                <ResultsOverview tracks={state.tracks} size={size} mood={mood} source={source} />
                 <Box
                     overflow="hidden"
                     gap="medium"

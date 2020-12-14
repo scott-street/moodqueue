@@ -18,7 +18,7 @@ export const Tooltip: React.FunctionComponent<TooltipProps> = (props) => {
                     {children}
                 </a>
                 <ReactTooltip id={tooltip.id}>
-                    <Box width="small" align="center">
+                    <Box width={{ max: "small" }} align="center">
                         <Description text={tooltip.text} textAlign="center" />
                     </Box>
                 </ReactTooltip>
