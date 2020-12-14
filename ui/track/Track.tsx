@@ -149,7 +149,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                                 id="more-details-btn"
                                 title="more"
                                 fill={false}
-                                icon={<More width="36px" height="36px" color="white" />}
+                                icon={<More width="24px" height="24px" color="white" />}
                                 small
                                 hover="dark-1"
                                 onClick={onClickMore}
@@ -259,7 +259,13 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                             id="more-details-btn"
                             fill={false}
                             title="more"
-                            icon={<More width="48px" height="48px" color="white" />}
+                            icon={
+                                <More
+                                    width={size === "large" ? "48px" : "40px"}
+                                    height={size === "large" ? "48px" : "40px"}
+                                    color="white"
+                                />
+                            }
                             hover="#24C0FF"
                             onClick={onClickMore}
                         />
@@ -269,7 +275,13 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                         fill={false}
                         title="remove"
                         hover="dark-1"
-                        icon={<RemoveCircle color="#FF4040" width="48px" height="48px" />}
+                        icon={
+                            <RemoveCircle
+                                color="#FF4040"
+                                width={size === "large" ? "48px" : "40px"}
+                                height={size === "large" ? "48px" : "40px"}
+                            />
+                        }
                         onClick={() => {
                             onClickRemove()
                             notifySuccess(

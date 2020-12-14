@@ -39,25 +39,25 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
             >
                 <Box
                     id={id}
+                    align="center"
+                    gap="medium"
                     style={{
                         background: !secondary
-                            ? "linear-gradient(180deg, rgba(111,255,176,1) 0%, rgba(66,105,108,1) 50%, rgba(57,73,94,1) 75%)"
-                            : "linear-gradient(180deg, rgba(129,252,237,1) 0%, rgba(68,99,115,1) 50%, rgba(57,73,94,1) 75%)",
+                            ? "linear-gradient(45deg, rgba(72,201,176,1) 25%, rgba(163,196,255,1) 100%)"
+                            : "linear-gradient(45deg, rgba(93,173,226,1) 25%, rgba(163,196,255,1) 100%)",
+                        opacity: 0.9,
                     }}
-                    align="center"
-                    gap="large"
-                    background={{ color: "#34495E" }}
+                    background={{
+                        color: !secondary ? "#48C9B0" : "#5DADE2",
+                        dark: true,
+                        opacity: 0.9,
+                    }}
                     pad="medium"
                     round="large"
-                    border={{
-                        color: secondary ? "accent-3" : "accent-1",
-                        size: "large",
-                        side: "bottom",
-                        style: "groove",
-                    }}
+                    justify="between"
                 >
-                    <Description header text={headerText} textAlign="center" />
-                    <Description textAlign="center" text={descText} />
+                    <Description header text={headerText} textAlign="center" size="small" />
+                    <Description textAlign="center" text={descText} size="small" />
                     <Button
                         small
                         onClick={() => {

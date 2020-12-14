@@ -164,8 +164,9 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             }}
                             secondary
                             tooltip={{
-                                text:
-                                    "click to either create a new moodqueue playlist or add to an existing one!",
+                                text: `click to either create a new moodqueue ${Mood[
+                                    mood
+                                ].toLowerCase()} playlist or add to an existing one!`,
                                 id: "playlist-tooltip",
                                 active: true,
                             }}
@@ -182,7 +183,9 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             tooltip={{
                                 text:
                                     userProduct === "premium"
-                                        ? "click here to add the above songs to your queue!"
+                                        ? `click here to add the above ${Mood[
+                                              mood
+                                          ].toLowerCase()} songs to your queue!`
                                         : "unfortunately, this feature is limited to spotify premium users only :(",
                                 id: "queue-tooltip",
                                 active: true,
@@ -190,7 +193,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                         />
                         <Button
                             id="reset-btn"
-                            title="start over to begin a new moodqueue"
+                            title="start over to begin a new moodqueue!"
                             icon={<Back width="26px" height="26px" />}
                             text="start over"
                             onClick={resetForm}
@@ -208,7 +211,9 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             {showPlaylistWarningModal && !showQueueWarningModal && (
                 <Confirmation
                     id="playlist-confirm"
-                    descText="pressing continue will either create a new moodqueue playlist or add to an existing one"
+                    descText={`pressing continue will either create a new moodqueue ${Mood[
+                        mood
+                    ].toLowerCase()} playlist or add to an existing one`}
                     headerText="playlist"
                     btnText="continue"
                     close={() => setShowPlaylistWarningModal(false)}
@@ -223,7 +228,9 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             {showQueueWarningModal && !showPlaylistWarningModal && (
                 <Confirmation
                     id="queue-confirm"
-                    descText="pressing the button below will add the songs above to your queue if you have spotify already open and playing"
+                    descText={`pressing the button below will add the ${tracks.length} ${Mood[
+                        mood
+                    ].toLowerCase()} songs to your queue only if you have your spotify open and playing`}
                     headerText="queue"
                     btnText="add to queue"
                     close={() => setShowQueueWarningModal(false)}
