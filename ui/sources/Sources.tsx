@@ -6,6 +6,10 @@ import { FormSelection } from "../../types/FormSelection"
 import { Button } from "../button/Button"
 import { Close, Checkmark } from "grommet-icons"
 import { trackDetailsVariants } from "../../components/animations/motion"
+import { Heart as Liked } from "@styled-icons/remix-fill/Heart"
+import { Music as TopTracks } from "@styled-icons/evaicons-solid/Music"
+import { MusicArtist as TopArtists } from "@styled-icons/zondicons/MusicArtist"
+import { FolderMusic as Genre } from "@styled-icons/entypo/FolderMusic"
 
 interface SourcesProps {
     size?: any
@@ -25,8 +29,17 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                     <CheckBox
                         id="saved-checkbox"
                         label={
-                            <Box>
-                                <Text size={size !== "small" ? "medium" : "xsmall"}>
+                            <Box
+                                direction="row"
+                                align="center"
+                                gap="small"
+                                id="saved-checkbox-label"
+                            >
+                                <Liked width="24px" height="24px" />
+                                <Text
+                                    size={size !== "small" ? "medium" : "xsmall"}
+                                    textAlign="center"
+                                >
                                     your liked songs
                                 </Text>
                             </Box>
@@ -41,8 +54,17 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                     <CheckBox
                         id="tracks-checkbox"
                         label={
-                            <Box>
-                                <Text size={size !== "small" ? "medium" : "xsmall"}>
+                            <Box
+                                direction="row"
+                                align="center"
+                                gap="small"
+                                id="tracks-checkbox-label"
+                            >
+                                <TopTracks width="24px" height="24px" />
+                                <Text
+                                    size={size !== "small" ? "medium" : "xsmall"}
+                                    textAlign="center"
+                                >
                                     your top tracks
                                 </Text>
                             </Box>
@@ -57,8 +79,17 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                     <CheckBox
                         id="artists-checkbox"
                         label={
-                            <Box>
-                                <Text size={size !== "small" ? "medium" : "xsmall"}>
+                            <Box
+                                direction="row"
+                                align="center"
+                                gap="small"
+                                id="artists-checkbox-label"
+                            >
+                                <TopArtists width="24px" height="24px" />
+                                <Text
+                                    size={size !== "small" ? "medium" : "xsmall"}
+                                    textAlign="center"
+                                >
                                     your top artists
                                 </Text>
                             </Box>
@@ -74,31 +105,45 @@ export const Sources: React.FunctionComponent<SourcesProps> = (props) => {
                         id="recommended-checkbox"
                         label={
                             size !== "small" ? (
-                                <Box width="small">
-                                    <Select
-                                        size="small"
-                                        id="genre-select"
-                                        options={genres}
-                                        onChange={({ option }) => {
-                                            onChange(option, 4)
-                                            onChange(true, 3)
-                                        }}
-                                        dropHeight="small"
-                                        dropAlign={{ bottom: "top", left: "left" }}
-                                        closeOnChange={false}
-                                        placeholder="a genre"
-                                        onSearch={(search) => {
-                                            onChange(
-                                                genres.find((o) => o.includes(search)),
-                                                4
-                                            )
-                                        }}
-                                        value={sources.genres}
-                                    />
+                                <Box
+                                    direction="row"
+                                    align="center"
+                                    gap="small"
+                                    id="recommended-checkbox-label"
+                                >
+                                    <Genre width="24px" height="24px" />
+                                    <Box width="small">
+                                        <Select
+                                            size="small"
+                                            id="genre-select"
+                                            options={genres}
+                                            onChange={({ option }) => {
+                                                onChange(option, 4)
+                                                onChange(true, 3)
+                                            }}
+                                            dropHeight="small"
+                                            dropAlign={{ bottom: "top", left: "left" }}
+                                            closeOnChange={false}
+                                            placeholder="a genre"
+                                            onSearch={(search) => {
+                                                onChange(
+                                                    genres.find((o) => o.includes(search)),
+                                                    4
+                                                )
+                                            }}
+                                            value={sources.genres}
+                                        />
+                                    </Box>
                                 </Box>
                             ) : (
-                                <Box>
-                                    <Text size="xsmall">
+                                <Box
+                                    direction="row"
+                                    align="center"
+                                    gap="small"
+                                    id="recommended-checkbox-label"
+                                >
+                                    <Genre width="24px" height="24px" />
+                                    <Text size="xsmall" textAlign="center">
                                         {sources.genres[0] ? sources.genres : "a genre"}
                                     </Text>
                                 </Box>

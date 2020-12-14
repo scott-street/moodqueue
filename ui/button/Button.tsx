@@ -5,7 +5,7 @@ import { Tooltip } from "./Tooltip"
 
 interface ButtonProps {
     id?: string
-    text?: string
+    text?: any
     icon?: any
     disabled?: any
     fill?: boolean
@@ -52,6 +52,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                         margin={margin}
                         color={color === undefined ? "accent-3" : color}
                         focusIndicator={false}
+                        size="small"
                     />
                 </motion.div>
             )
@@ -71,6 +72,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                         margin={margin}
                         color={color === undefined ? "accent-3" : color}
                         focusIndicator={false}
+                        size="small"
                     />
                 </motion.div>
             </Tooltip>
@@ -92,6 +94,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                         label={text}
                         margin={margin}
                         focusIndicator={false}
+                        size="small"
                     />
                 </motion.div>
             )
@@ -111,6 +114,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                         label={text}
                         margin={margin}
                         focusIndicator={false}
+                        size="small"
                     />
                 </motion.div>
             </Tooltip>

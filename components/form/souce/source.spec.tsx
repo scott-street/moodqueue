@@ -54,6 +54,23 @@ describe("<SourceSelection />", () => {
         expect(wrapper.find("#artists-checkbox")).to.have.length(1)
     })
 
+    it("renders emojis for all sources", () => {
+        const wrapper = render(
+            <SourceSelection
+                size={"large"}
+                source={exampleFormSelection}
+                progress={0}
+                dispatch={jest.fn()}
+                genres={[]}
+            />
+        )
+
+        expect(wrapper.find("#saved-checkbox-label")).to.have.length(1)
+        expect(wrapper.find("#tracks-checkbox-label")).to.have.length(1)
+        expect(wrapper.find("#artists-checkbox-label")).to.have.length(1)
+        expect(wrapper.find("#recommended-checkbox-label")).to.have.length(1)
+    })
+
     it("renders tracks checkbox", () => {
         const wrapper = render(
             <SourceSelection

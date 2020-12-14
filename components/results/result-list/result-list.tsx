@@ -18,8 +18,8 @@ export const ResultList: FunctionComponent<ResultListProps> = (props) => {
                 overflow={{ vertical: "auto", horizontal: "hidden" }}
                 fill
                 pad={{
-                    horizontal: size !== "small" ? "xlarge" : "none",
-                    vertical: "small",
+                    horizontal: size === "large" ? "xlarge" : size === "medium" ? "large" : "none",
+                    vertical: "xsmall",
                 }}
                 gap="medium"
                 style={{ touchAction: "pan-y" }}
