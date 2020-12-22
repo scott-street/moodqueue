@@ -51,6 +51,7 @@ export class SpotifyHelper {
                 imageLink: track.album.images[0] ? track.album.images[0].url : "",
                 id: track.id,
                 uri: track.uri,
+                explicit: track.explicit,
             }))
         })
         tracks.push(...temp)
@@ -66,6 +67,7 @@ export class SpotifyHelper {
                 imageLink: track.album.images[0] ? track.album.images[0].url : "",
                 id: track.id,
                 uri: track.uri,
+                explicit: track.explicit,
             }))
         })
         tracks.push(...temp)
@@ -126,6 +128,7 @@ export class SpotifyHelper {
                     imageLink: item.track.album.images[0] ? item.track.album.images[0].url : "",
                     id: item.track.id,
                     uri: item.track.uri,
+                    explicit: item.track.explicit,
                 }))
             })
             if (temp.length !== 0) {
@@ -159,6 +162,7 @@ export class SpotifyHelper {
                     imageLink: track.album.images[0] ? track.album.images[0].url : "",
                     id: track.id,
                     uri: track.uri,
+                    explicit: track.explicit,
                 }))
             })
         } catch (e) {
@@ -195,6 +199,7 @@ export class SpotifyHelper {
                                 : "",
                             id: data.tracks[0].id,
                             uri: data.tracks[0].uri,
+                            explicit: data.tracks[0].explicit,
                         }
                     })
                 })

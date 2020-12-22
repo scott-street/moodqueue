@@ -5,6 +5,7 @@ export interface Track {
     imageLink: string
     id: string
     uri: string
+    explicit: boolean
 }
 
 export interface AudioFeatures {

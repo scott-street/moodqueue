@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Box, Heading, Avatar, Layer, Anchor } from "grommet"
+import { Box, Heading, Avatar, Layer, Anchor, CheckBox } from "grommet"
 import { Spotify, User } from "grommet-icons"
 import { UserInfo } from "../../types/UserInfo"
 import { Logout } from "@styled-icons/heroicons-outline/Logout"
@@ -16,6 +16,16 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
     const { user, small } = props
     const { logOut } = useAuth()
     const [showLayer, setShowLayer] = useState(false)
+    const [allowExplicit, setAllowExplicit] = useState(true)
+
+    useEffect(() => {
+        const explicitLocalVar = localStorage.getItem("allowExplicit")
+        if (explicitLocalVar === null) {
+            localStorage.setItem("allowExplicit", "1")
+        }
+        const explicit = explicitLocalVar === "1" ? true : false
+        setAllowExplicit(explicit)
+    }, [])
 
     return (
         <Box>
@@ -111,7 +121,7 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
                                     </Heading>
                                 )}
                             </Box>
-                            <Box align="center" gap={small ? "medium" : "small"}>
+                            <Box align="center" gap="medium">
                                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                     <Anchor
                                         id="spotify-anchor"
@@ -123,6 +133,21 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
                                         icon={<Spotify />}
                                     />
                                 </motion.div>
+                                <Box background={{ color: "dark-1", opacity: 0, dark: true }}>
+                                    <CheckBox
+                                        id="explicit-toggle"
+                                        toggle
+                                        label="allow explicit content"
+                                        checked={allowExplicit}
+                                        onChange={(event) => {
+                                            localStorage.setItem(
+                                                "allowExplicit",
+                                                event.target.checked ? "1" : "0"
+                                            )
+                                            setAllowExplicit(event.target.checked)
+                                        }}
+                                    />
+                                </Box>
                                 <Button
                                     text="log out"
                                     color="neutral-4"

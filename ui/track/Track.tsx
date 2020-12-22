@@ -10,6 +10,7 @@ import { useDrag } from "react-use-gesture"
 import { motion, useMotionValue, useTransform } from "framer-motion"
 import { MoreHoriz as More } from "@styled-icons/material/MoreHoriz"
 import { RemoveCircle } from "@styled-icons/material-twotone/RemoveCircle"
+import { Explicit } from "@styled-icons/material-twotone/Explicit"
 //@styled-icons/material-rounded/RemoveCircle
 //@styled-icons/material-rounded/RemoveCircleOutline
 
@@ -121,16 +122,27 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                                 )}
                             </Box>
                             <Box align="start">
-                                <Box overflow="hidden">
-                                    <Text
-                                        truncate
-                                        style={{ userSelect: "none" }}
-                                        textAlign="start"
-                                        weight="bold"
-                                        size="small"
-                                    >
-                                        {track.name}
-                                    </Text>
+                                <Box direction="row" align="center" gap="xsmall">
+                                    <Box overflow="hidden">
+                                        <Text
+                                            truncate
+                                            style={{ userSelect: "none" }}
+                                            textAlign="start"
+                                            weight="bold"
+                                            size="small"
+                                        >
+                                            {track.name}
+                                        </Text>
+                                    </Box>
+                                    {track.explicit && (
+                                        <Box>
+                                            <Explicit
+                                                width="16px"
+                                                height="16px"
+                                                id="explicit-icon"
+                                            />
+                                        </Box>
+                                    )}
                                 </Box>
                                 <Box overflow="hidden">
                                     <Text
@@ -232,16 +244,28 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                                 )}
                             </Box>
                             <Box align="start">
-                                <Box overflow="hidden">
-                                    <Text
-                                        truncate
-                                        style={{ userSelect: "none" }}
-                                        textAlign="start"
-                                        weight="bold"
-                                        size={size === "large" ? "xxlarge" : "xlarge"}
-                                    >
-                                        {track.name}
-                                    </Text>
+                                <Box direction="row" align="center" gap="xsmall">
+                                    <Box overflow="hidden">
+                                        <Text
+                                            truncate
+                                            style={{ userSelect: "none" }}
+                                            textAlign="start"
+                                            weight="bold"
+                                            size={size === "large" ? "xxlarge" : "xlarge"}
+                                        >
+                                            {track.name}
+                                        </Text>
+                                    </Box>
+                                    {track.explicit && (
+                                        <Box>
+                                            <Explicit
+                                                width="24px"
+                                                height="24px"
+                                                title="explicit"
+                                                id="explicit-icon"
+                                            />
+                                        </Box>
+                                    )}
                                 </Box>
                                 <Box overflow="hidden">
                                     <Text
