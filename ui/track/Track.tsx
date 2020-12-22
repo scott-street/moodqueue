@@ -1,13 +1,17 @@
 import React, { useState } from "react"
 import { OuterBox, InnerBoxStart } from "./Track.styles"
 import { Box, Image, Text } from "grommet"
-import { More, SubtractCircle, Trash } from "grommet-icons"
+import { Trash } from "grommet-icons"
 import { Track as TrackType } from "../../types/Track"
 import { Button } from "../button/Button"
 import { MoonLoader } from "react-spinners"
 import { useNotification } from "../../common/hooks/useNotification"
 import { useDrag } from "react-use-gesture"
 import { motion, useMotionValue, useTransform } from "framer-motion"
+import { MoreHoriz as More } from "@styled-icons/material/MoreHoriz"
+import { RemoveCircle } from "@styled-icons/material-twotone/RemoveCircle"
+//@styled-icons/material-rounded/RemoveCircle
+//@styled-icons/material-rounded/RemoveCircleOutline
 
 interface TrackProps {
     size?: any
@@ -85,7 +89,7 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                 >
                     <InnerBoxStart
                         gap="small"
-                        pad={{ vertical: "small", right: "small" }}
+                        pad={{ vertical: "small" }}
                         round="small"
                         background={{ dark: true }}
                     >
@@ -145,13 +149,13 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                                 id="more-details-btn"
                                 title="more"
                                 fill={false}
-                                icon={<More />}
+                                icon={<More width="24px" height="24px" color="white" />}
                                 small
                                 hover="dark-1"
                                 onClick={onClickMore}
                             />
                         ) : (
-                            <Trash />
+                            <Button icon={<Trash />} fill={false} small />
                         )}
                     </InnerBoxStart>
                 </OuterBox>
@@ -253,18 +257,31 @@ export const Track: React.FunctionComponent<TrackProps> = (trackProps) => {
                         </Box>
                         <Button
                             id="more-details-btn"
-                            title="more"
                             fill={false}
-                            icon={<More size="large" />}
+                            title="more"
+                            icon={
+                                <More
+                                    width={size === "large" ? "48px" : "40px"}
+                                    height={size === "large" ? "48px" : "40px"}
+                                    color="white"
+                                />
+                            }
                             hover="#24C0FF"
                             onClick={onClickMore}
                         />
                     </InnerBoxStart>
                     <Button
                         id="remove-track-btn"
-                        color="dark-1"
+                        fill={false}
                         title="remove"
-                        icon={<SubtractCircle color="status-error" size="large" />}
+                        hover="dark-1"
+                        icon={
+                            <RemoveCircle
+                                color="#FF4040"
+                                width={size === "large" ? "48px" : "40px"}
+                                height={size === "large" ? "48px" : "40px"}
+                            />
+                        }
                         onClick={() => {
                             onClickRemove()
                             notifySuccess(

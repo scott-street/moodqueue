@@ -163,7 +163,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                     public: "false",
                     description: `a ${Mood[
                         mood
-                    ].toLowerCase()} playlist based on your ${getSourcesString(
+                    ].toLowerCase()} playlist based on ${getSourcesString(
                         sources
                     )} - created with love by moodqueue <3`,
                 }),
