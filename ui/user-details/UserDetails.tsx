@@ -19,9 +19,10 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
     const [allowExplicit, setAllowExplicit] = useState(true)
 
     useEffect(() => {
-        const explicitLocalVar = localStorage.getItem("allowExplicit")
+        let explicitLocalVar = localStorage.getItem("allowExplicit")
         if (explicitLocalVar === null) {
             localStorage.setItem("allowExplicit", "1")
+            explicitLocalVar = "1"
         }
         const explicit = explicitLocalVar === "1" ? true : false
         setAllowExplicit(explicit)

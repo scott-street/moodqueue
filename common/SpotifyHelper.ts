@@ -172,7 +172,7 @@ export class SpotifyHelper {
 
     async getRecommendedSongs(genres: string[]): Promise<Track[]> {
         try {
-            return await this.getRecommendedFromSeed("genres", genres.join(","), 50)
+            return await this.getRecommendedFromSeed("genres", genres.join(","), 100)
         } catch (e) {
             throw e
         }
