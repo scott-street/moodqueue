@@ -23,6 +23,7 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:2SPxgEush9C8GS5RqgXdqi",
         valence: 0.831,
+        explicit: false,
     },
     {
         acousticness: 0.107,
@@ -48,6 +49,7 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:7zoZd2MuTaQEdF1rlq6Vv1",
         valence: 0.76,
+        explicit: true,
     },
     {
         acousticness: 0.559,
@@ -73,6 +75,7 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:73SBAGI4fPFm4VkB3NjXq8",
         valence: 0.712,
+        explicit: false,
     },
     {
         acousticness: 0.422,
@@ -98,6 +101,7 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:01EZT06EIdnVOLl96Parta",
         valence: 0.706,
+        explicit: false,
     },
     {
         acousticness: 0.828,
@@ -123,6 +127,7 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:2GmGy1eJTvPACm3ekX0hxD",
         valence: 0.118,
+        explicit: false,
     },
     {
         acousticness: 0.722,
@@ -148,6 +153,7 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:2GCt4EYq76bDtuOyYxC2AD",
         valence: 0.119,
+        explicit: false,
     },
     {
         acousticness: 0.76,
@@ -173,6 +179,7 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:0Kp0CPUzFcEqhBbHoRKtbm",
         valence: 0.144,
+        explicit: false,
     },
     {
         acousticness: 0.864,
@@ -198,6 +205,7 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:5uQRmdIqyMmKPWJcot4UmV",
         valence: 0.158,
+        explicit: false,
     },
     {
         acousticness: 0.643,
@@ -223,5 +231,6 @@ export const mockPropertyTracks = [
         type: "audio_features",
         uri: "spotify:track:2OsypaDnRwVyJdWrytx9Qr",
         valence: 0.167,
+        explicit: false,
     },
 ]
