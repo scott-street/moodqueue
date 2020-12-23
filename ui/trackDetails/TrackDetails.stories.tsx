@@ -13,6 +13,7 @@ const mockTrack: Track = {
     imageLink: "https://i.scdn.co/image/ab67616d0000b273e9a375a80097985178b73c4d",
     id: "2SPxgEush9C8GS5RqgXdqi",
     uri: "spotify:track:2SPxgEush9C8GS5RqgXdqi",
+    explicit: false,
 }
 
 export default { title: "TrackDetails" }
