@@ -10,8 +10,20 @@ describe("QueueProcessors", () => {
                     entities: mockPropertyTracks,
                     comparator: happyComparator,
                     count: 4,
+                    explicit: true,
                 }).length
             ).toEqual(4)
+        })
+
+        it("returns an array that is less than count because of explicit content filtering", () => {
+            expect(
+                processQueue({
+                    entities: mockPropertyTracks,
+                    comparator: happyComparator,
+                    count: 9,
+                    explicit: false,
+                }).length
+            ).toEqual(8)
         })
 
         it("returns array that is sorted to given comparator", () => {
@@ -20,6 +32,7 @@ describe("QueueProcessors", () => {
                     entities: mockPropertyTracks,
                     comparator: happyComparator,
                     count: 1,
+                    explicit: true,
                 })
             ).toEqual([
                 {
@@ -47,6 +60,7 @@ describe("QueueProcessors", () => {
                     type: "audio_features",
                     uri: "spotify:track:2SPxgEush9C8GS5RqgXdqi",
                     valence: 0.831,
+                    explicit: false,
                 },
             ])
         })

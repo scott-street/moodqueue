@@ -11,6 +11,7 @@ const mockTrack: Track = {
     imageLink: "",
     id: "1",
     uri: "",
+    explicit: true,
 }
 
 describe("<ResultListItem />", () => {
@@ -24,6 +25,14 @@ describe("<ResultListItem />", () => {
         )
 
         expect(wrapper.text()).to.contain(mockTrack.name)
+    })
+
+    it("renders explicit icon if track is explicit", () => {
+        const wrapper = render(
+            <ResultListItem size={"large"} dispatch={jest.fn()} track={mockTrack} />
+        )
+
+        expect(wrapper.find("#explicit-icon")).to.have.length(1)
     })
 
     it("renders the track artist", () => {

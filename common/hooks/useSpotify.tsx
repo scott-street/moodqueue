@@ -247,6 +247,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         genres: string[]
     ): Promise<Track[]> => {
         let tracks = []
+        const explicit = localStorage.getItem("allowExplicit") === "1" ? true : false
 
         if (trackSource.includes(TrackSource.TOP_SONGS)) {
             Sentry.captureMessage(`source includes top songs`)
@@ -351,6 +352,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
             entities: trackSet,
             comparator: comparator,
             count: count,
+            explicit: explicit,
         })
     }
 

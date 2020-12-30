@@ -118,6 +118,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                explicit: track.explicit,
             }
             expect(await helper.getRecommendedFromSeed("tracks", "seed", 1)).toEqual([expected])
             expect(spy).toHaveBeenCalledWith(
@@ -135,6 +136,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                explicit: track.explicit,
             }
             expect(await helper.getRecommendedFromSeed("artists", "seed", 1)).toEqual([expected])
             expect(spy).toHaveBeenCalledWith(
@@ -152,6 +154,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                explicit: track.explicit,
             }
             expect(await helper.getRecommendedFromSeed("genres", "seed", 1)).toEqual([expected])
             expect(spy).toHaveBeenCalledWith(
@@ -192,6 +195,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                explicit: track.explicit,
             }
             expect(await helper.getRecommendedSongs(["whatever"])).toEqual([expected])
         })
@@ -226,6 +230,7 @@ describe("SpotifyHelper", () => {
                 imageLink: track.album.images[0].url,
                 id: track.id,
                 uri: track.uri,
+                explicit: track.explicit,
             }
             expect(await helper.getTopArtistsTopSongs(1)).toEqual([expected])
         })
@@ -252,6 +257,7 @@ describe("SpotifyHelper", () => {
                 imageLink: "",
                 id: "abc",
                 uri: "xyz",
+                explicit: true,
             }
             const pTrack: PropertyTrack = {
                 ...track,

@@ -16,6 +16,7 @@ const mockTracks: Track[] = [
         imageLink: "",
         id: "1",
         uri: "",
+        explicit: true,
     },
     {
         previewUrl: "",
@@ -24,6 +25,7 @@ const mockTracks: Track[] = [
         imageLink: "",
         id: "2",
         uri: "",
+        explicit: false,
     },
 ]
 
