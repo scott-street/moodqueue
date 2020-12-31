@@ -1,23 +1,26 @@
+# test
 version: 2.1
-orbs:
-    node: circleci/node@4.1.0
 jobs:
-    build-test-and-notify:
-        executor:
-            name: node/default
+    build-and-test:
+        machine:
+            image: circleci/classic:latest
         steps:
             - checkout
+            - run: |
+                  curl -o- -L https://yarnpkg.com/install.sh | bash
+                  echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
             - run:
-                  name: Install dependencies
-                  command: npm install
+                  name: Build
+                  command: docker build -t moodqueue .
             - run:
-                  name: "Unit Test"
-                  command: npm test --collectCoverage=true --max-workers=1
-                  environment:
-                      NODE_OPTIONS: --max_old_space_size=8192
+                  name: Unit Test
+                  command: yarn test:coverage
+            - run:
+                  name: View fs
+                  command: ls
             - store_artifacts:
                   path: coverage
 workflows:
     build:
         jobs:
-            - build-test-and-notify
+            - build-and-test
