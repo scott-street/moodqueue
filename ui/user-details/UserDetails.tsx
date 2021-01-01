@@ -18,6 +18,7 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
     const { logOut } = useAuth()
     const [showLayer, setShowLayer] = useState(false)
     const [allowExplicit, setAllowExplicit] = useState(true)
+    const toggleTooltip = "you're currently allowing moodqueue to use "
 
     useEffect(() => {
         let explicitLocalVar = localStorage.getItem("allowExplicit")
@@ -160,8 +161,8 @@ export const UserDetails: React.FunctionComponent<UserDetailsProps> = (props) =>
                                             tooltip={{
                                                 id: "toggle-tooltip",
                                                 text: allowExplicit
-                                                    ? "you're currently allowing moodqueue to use explicit content"
-                                                    : "you're currently allowing moodqueue to use clean content only",
+                                                    ? toggleTooltip + "explicit content"
+                                                    : toggleTooltip + "clean content only",
                                                 active: !small,
                                             }}
                                         >
