@@ -98,21 +98,20 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
 
     const addSongToQueue = async (uri: string): Promise<Number> => {
         try {
-            await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
+            const res = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + accessToken,
                 },
                 method: "POST",
-            }).then((res) => {
-                if (!res.ok && res.status !== 401) {
-                    notifyError(
-                        "Error adding songs to queue!\nSpotify must be playing music to add to queue."
-                    )
-                }
-                return res.status
             })
+            if (!res.ok && res.status !== 401) {
+                notifyError(
+                    "Error adding songs to queue!\nSpotify must be playing music to add to queue."
+                )
+            }
+            return res.status
         } catch (e) {
             return e.status
         }
@@ -366,11 +365,15 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         if (status === 401) {
                             await refreshContext()
                             addToQueue(tracks)
-                        }
+                        } else return status
                     })
                 ).then((resp) => {
-                    if (resp.includes(undefined)) return false
-                    else return true
+                    console.log(resp)
+                    if (!resp.includes(204)) return false
+                    else {
+                        notifySuccess("success! check your queue :)")
+                        return true
+                    }
                 })
             } catch (e) {
                 notifyError(e)
