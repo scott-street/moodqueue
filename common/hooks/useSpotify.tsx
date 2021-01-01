@@ -368,7 +368,6 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         } else return status
                     })
                 ).then((resp) => {
-                    console.log(resp)
                     if (!resp.includes(204)) return false
                     else {
                         notifySuccess("success! check your queue :)")
