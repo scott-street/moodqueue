@@ -5,6 +5,7 @@ import { Home } from "./"
 import { UserInfo } from "../../types/UserInfo"
 import { expect } from "chai"
 import { act } from "react-dom/test-utils"
+import { Grommet } from "grommet"
 
 const testUser: UserInfo = {
     name: "test",
@@ -38,13 +39,19 @@ describe("<Home/>", () => {
         addToPlaylist: jest.fn(),
     }
     it("renders without crashing", () => {
-        shallow(<Home user={testUser} size={"large"} />)
+        shallow(
+            <Grommet>
+                <Home user={testUser} size={"large"} />
+            </Grommet>
+        )
     })
 
     it("renders user name in header", () => {
         const wrapper = render(
             <MockSpotifyProvider mockContextValue={mockContextValues}>
-                <Home user={testUser} size={"large"} />
+                <Grommet>
+                    <Home user={testUser} size={"large"} />
+                </Grommet>
             </MockSpotifyProvider>
         )
 
@@ -54,7 +61,9 @@ describe("<Home/>", () => {
     it("renders app name in header", () => {
         const wrapper = render(
             <MockSpotifyProvider mockContextValue={mockContextValues}>
-                <Home user={testUser} size={"large"} />
+                <Grommet>
+                    <Home user={testUser} size={"large"} />
+                </Grommet>
             </MockSpotifyProvider>
         )
 
@@ -65,7 +74,9 @@ describe("<Home/>", () => {
         await act(() => {
             const wrapper = mount(
                 <MockSpotifyProvider mockContextValue={mockContextValues}>
-                    <Home user={testUser} size={"large"} />
+                    <Grommet>
+                        <Home user={testUser} size={"large"} />
+                    </Grommet>
                 </MockSpotifyProvider>
             )
 
@@ -88,7 +99,9 @@ describe("<Home/>", () => {
     it("renders avatar with profile image", () => {
         const wrapper = render(
             <MockSpotifyProvider mockContextValue={mockContextValues}>
-                <Home user={testUser} size={"large"} />
+                <Grommet>
+                    <Home user={testUser} size={"large"} />
+                </Grommet>
             </MockSpotifyProvider>
         )
         expect(wrapper.find("#avatar-profile-image").length).to.be.eql(1)
@@ -106,7 +119,9 @@ describe("<Home/>", () => {
 
         const wrapper = render(
             <MockSpotifyProvider mockContextValue={mockContextValues}>
-                <Home user={userWithNoImage} size={"large"} />
+                <Grommet>
+                    <Home user={userWithNoImage} size={"large"} />
+                </Grommet>
             </MockSpotifyProvider>
         )
         expect(wrapper.find("#avatar-default").length).to.be.eql(1)
