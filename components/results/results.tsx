@@ -121,29 +121,21 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             }}
                             secondary
                         />
-                        {userProduct === "premium" ? (
-                            <Button
-                                small
-                                id="play-queue-btn"
-                                icon={<Queue width="24px" height="24px" />}
-                                onClick={async () => {
-                                    setShowQueueWarningModal(true)
-                                }}
-                            />
-                        ) : (
-                            <Button
-                                disabled
-                                small
-                                id="play-queue-btn"
-                                icon={<Queue width="24px" height="24px" />}
-                                tooltip={{
-                                    text:
-                                        "unfortunately, the add-to-queue feature is limited to spotify premium users only :(",
-                                    id: "queue-tooltip",
-                                    active: true,
-                                }}
-                            />
-                        )}
+                        <Button
+                            disabled={userProduct !== "premium"}
+                            small
+                            id="play-queue-btn"
+                            icon={<Queue width="24px" height="24px" />}
+                            tooltip={{
+                                text:
+                                    "unfortunately, the add-to-queue feature is limited to spotify premium users only :(",
+                                id: "queue-tooltip",
+                                active: userProduct !== "premium",
+                            }}
+                            onClick={async () => {
+                                setShowQueueWarningModal(true)
+                            }}
+                        />
                         <Button
                             small
                             id="reset-btn"
@@ -178,6 +170,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             icon={<Queue width="26px" height="26px" />}
                             onClick={async () => {
                                 const result = await addToQueue(state.tracks)
+                                console.log(result)
                                 if (result) resetForm()
                             }}
                             tooltip={{
