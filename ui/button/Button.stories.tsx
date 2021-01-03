@@ -10,7 +10,9 @@ export default { title: "Button" }
 export const largePrimary = () => withGrommet(<Button text="Hello, World!" />)
 
 export const largePrimaryTooltip = () =>
-    withGrommet(<Button text="Hello, World!" tooltip={{ text: "Hey", id: "tooltip-id" }} />)
+    withGrommet(
+        <Button text="Hello, World!" tooltip={{ text: "Hey", id: "tooltip-id", active: true }} />
+    )
 
 export const largePrimaryIcon = () => withGrommet(<Button text="Login" icon={<Spotify />} />)
 
@@ -25,7 +27,7 @@ export const smallSecondaryTooltip = () =>
     withGrommet(
         <Button
             text="Hello, World!"
-            tooltip={{ text: "I'm small", id: "small-tooltip-id" }}
+            tooltip={{ text: "I'm small", id: "small-tooltip-id", active: true }}
             small
             secondary
         />

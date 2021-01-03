@@ -169,9 +169,7 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             text="add to queue"
                             icon={<Queue width="26px" height="26px" />}
                             onClick={async () => {
-                                const result = await addToQueue(state.tracks)
-                                console.log(result)
-                                if (result) resetForm()
+                                await addToQueue(state.tracks)
                             }}
                             tooltip={{
                                 text:
@@ -182,11 +180,12 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                                         : "unfortunately, this feature is limited to spotify premium users only :(",
                                 id: "queue-tooltip",
                                 active: true,
+                                headerText:
+                                    "SPOTIFY BETA FEATURE WARNING: adding to queue might not fully work every time, so please try again if you encounter any problems!",
                             }}
                         />
                         <Button
                             id="reset-btn"
-                            title="start over to begin a new moodqueue!"
                             icon={<Back width="26px" height="26px" />}
                             text="start over"
                             onClick={resetForm}
@@ -221,16 +220,18 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             {showQueueWarningModal && !showPlaylistWarningModal && (
                 <Confirmation
                     id="queue-confirm"
-                    descText={`pressing the button below will add the ${tracks.length} ${Mood[
+                    descText={`pressing the button below will add the selected ${
+                        tracks.length
+                    } ${Mood[
                         mood
                     ].toLowerCase()} songs to your queue only if you have your spotify open and playing`}
-                    headerText="queue"
+                    headerText="queue (beta)"
                     btnText="add to queue"
+                    warningText="SPOTIFY BETA FEATURE WARNING: adding to queue might not fully work every time, so please try again if you encounter any problems!"
                     close={() => setShowQueueWarningModal(false)}
                     handleConfirmation={async () => {
-                        const result = await addToQueue(state.tracks)
+                        await addToQueue(state.tracks)
                         setShowQueueWarningModal(false)
-                        if (result) resetForm()
                     }}
                 />
             )}

@@ -23,7 +23,7 @@ describe("<Button />", () => {
         render(
             testComponent({
                 text: "hi",
-                tooltip: { text: "hello", id: "tooltip-id" },
+                tooltip: { text: "hello", id: "tooltip-id", active: true },
             })
         )
     })
@@ -33,7 +33,7 @@ describe("<Button />", () => {
             testComponent({
                 text: "hi",
                 small: true,
-                tooltip: { text: "hello", id: "small-tooltip-id" },
+                tooltip: { text: "hello", id: "small-tooltip-id", active: true },
             })
         )
     })

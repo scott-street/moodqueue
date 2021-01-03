@@ -13,10 +13,20 @@ interface ConfirmationProps {
     descText: string
     headerText: string
     id: any
+    warningText?: string
 }
 
 export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) => {
-    const { close, btnText, handleConfirmation, descText, headerText, secondary, id } = props
+    const {
+        close,
+        btnText,
+        handleConfirmation,
+        descText,
+        headerText,
+        secondary,
+        id,
+        warningText,
+    } = props
     const [isOpen, setIsOpen] = React.useState(true)
 
     return (
@@ -58,6 +68,14 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
                 >
                     <Description header text={headerText} textAlign="center" size="small" />
                     <Description textAlign="center" text={descText} size="small" />
+                    {warningText && (
+                        <Description
+                            textAlign="center"
+                            text={warningText}
+                            size="small"
+                            weight="bold"
+                        />
+                    )}
                     <Button
                         small
                         onClick={() => {
