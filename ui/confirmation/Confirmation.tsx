@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import { Layer, Box } from "grommet"
+import { Alert } from "grommet-icons"
 import React from "react"
 import { trackDetailsVariants } from "../../components/animations/motion"
 import { Button } from "../button/Button"
@@ -13,7 +14,7 @@ interface ConfirmationProps {
     descText: string
     headerText: string
     id: any
-    warningText?: string
+    warning?: any
 }
 
 export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) => {
@@ -25,9 +26,10 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
         headerText,
         secondary,
         id,
-        warningText,
+        warning,
     } = props
     const [isOpen, setIsOpen] = React.useState(true)
+    const [showWarning, setShowWarning] = React.useState(false)
 
     return (
         <Layer
@@ -68,14 +70,6 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
                 >
                     <Description header text={headerText} textAlign="center" size="small" />
                     <Description textAlign="center" text={descText} size="small" />
-                    {warningText && (
-                        <Description
-                            textAlign="center"
-                            text={warningText}
-                            size="small"
-                            weight="bold"
-                        />
-                    )}
                     <Button
                         small
                         onClick={() => {
@@ -87,6 +81,31 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
                         text={btnText}
                         secondary={secondary === undefined ? false : secondary}
                     />
+                    {warning && (
+                        <Box align="center">
+                            <Button
+                                text={warning.btnText}
+                                icon={<Alert />}
+                                color="#E6B0AA"
+                                small
+                                onClick={() => setShowWarning(!showWarning)}
+                            />
+                            {showWarning && (
+                                <Box
+                                    round
+                                    background={{ color: "light-2", opacity: 0.3 }}
+                                    margin={{ top: "small" }}
+                                    pad="xsmall"
+                                >
+                                    <Description
+                                        textAlign="center"
+                                        text={warning.text}
+                                        size="small"
+                                    />
+                                </Box>
+                            )}
+                        </Box>
+                    )}
                 </Box>
             </motion.div>
         </Layer>

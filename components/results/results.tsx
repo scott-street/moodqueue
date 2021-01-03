@@ -225,9 +225,13 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     } ${Mood[
                         mood
                     ].toLowerCase()} songs to your queue only if you have your spotify open and playing`}
-                    headerText="queue (beta)"
+                    headerText="queue"
                     btnText="add to queue"
-                    warningText="SPOTIFY BETA FEATURE WARNING: adding to queue might not fully work every time, so please try again if you encounter any problems!"
+                    warning={{
+                        text:
+                            "adding to queue might not fully work every time since it's a spotify beta feature, so please try again if you encounter any problems!",
+                        btnText: "BETA WARNING",
+                    }}
                     close={() => setShowQueueWarningModal(false)}
                     handleConfirmation={async () => {
                         await addToQueue(state.tracks)
