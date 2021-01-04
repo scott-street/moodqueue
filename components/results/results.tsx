@@ -168,20 +168,20 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             id="play-queue-btn"
                             text="add to queue"
                             icon={<Queue width="26px" height="26px" />}
-                            onClick={async () => {
-                                await addToQueue(state.tracks)
-                            }}
                             tooltip={{
                                 text:
                                     userProduct === "premium"
-                                        ? `click here to add the above ${Mood[
+                                        ? `click continue to add the selected ${Mood[
                                               mood
                                           ].toLowerCase()} songs to your queue!`
                                         : "unfortunately, this feature is limited to spotify premium users only :(",
                                 id: "queue-tooltip",
                                 active: true,
-                                headerText:
-                                    "SPOTIFY BETA FEATURE WARNING: adding to queue might not fully work every time, so please try again if you encounter any problems!",
+                                warning: {
+                                    handleClick: async () => await addToQueue(state.tracks),
+                                    text:
+                                        "this might not fully work every time, so please try again if you encounter any problems!",
+                                },
                             }}
                         />
                         <Button

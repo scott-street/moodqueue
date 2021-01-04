@@ -30,6 +30,7 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
     } = props
     const [isOpen, setIsOpen] = React.useState(true)
     const [showWarning, setShowWarning] = React.useState(false)
+    const warningBtnText = showWarning ? "HIDE " + warning.btnText : "SHOW " + warning.btnText
 
     return (
         <Layer
@@ -84,7 +85,7 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
                     {warning && (
                         <Box align="center">
                             <Button
-                                text={warning.btnText}
+                                text={warningBtnText}
                                 icon={<Alert />}
                                 color="#E6B0AA"
                                 small
@@ -101,6 +102,7 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
                                         textAlign="center"
                                         text={warning.text}
                                         size="small"
+                                        weight="bold"
                                     />
                                 </Box>
                             )}
