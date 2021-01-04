@@ -30,7 +30,7 @@ export const Confirmation: React.FunctionComponent<ConfirmationProps> = (props) 
     } = props
     const [isOpen, setIsOpen] = React.useState(true)
     const [showWarning, setShowWarning] = React.useState(false)
-    const warningBtnText = showWarning ? "HIDE " + warning.btnText : "SHOW " + warning.btnText
+    const warningBtnText = (showWarning ? "hide " : "show ") + "warning"
 
     return (
         <Layer

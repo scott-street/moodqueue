@@ -230,7 +230,6 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                     warning={{
                         text:
                             "adding to queue might not fully work every time since it's a spotify beta feature, so please try again if you encounter any problems!",
-                        btnText: "BETA WARNING",
                     }}
                     close={() => setShowQueueWarningModal(false)}
                     handleConfirmation={async () => {
