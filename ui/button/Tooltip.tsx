@@ -63,6 +63,7 @@ export const Tooltip: React.FunctionComponent<TooltipProps> = (props) => {
                                         <Description text={tooltip.text} textAlign="center" />
                                         <Box direction="row" align="center" gap="medium">
                                             <Button
+                                                id="tooltip-warning-btn"
                                                 icon={<Alert />}
                                                 color="#F9E79F"
                                                 small
@@ -70,6 +71,7 @@ export const Tooltip: React.FunctionComponent<TooltipProps> = (props) => {
                                                 text="show warning"
                                             />
                                             <Button
+                                                id="tooltip-next-btn"
                                                 icon={<FormNextLink />}
                                                 onClick={tooltip.warning.handleClick}
                                                 small
