@@ -1,6 +1,11 @@
 import React from "react"
 import { motion } from "framer-motion"
-import { PrimaryButton, SecondaryButton } from "./Button.styles"
+import {
+    PrimaryButton,
+    PrimaryButtonSmall,
+    SecondaryButton,
+    SecondaryButtonSmall,
+} from "./Button.styles"
 import { Tooltip } from "./Tooltip"
 
 interface ButtonProps {
@@ -40,19 +45,19 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
         if (!tooltip) {
             return (
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <SecondaryButton
+                    <SecondaryButtonSmall
                         id={id}
                         icon={icon}
                         onClick={onClick}
                         disabled={disabled}
                         hoverIndicator={hover}
-                        title={title}
                         primary={fill === undefined ? true : fill}
                         label={text}
                         margin={margin}
-                        color={color === undefined ? "accent-3" : color}
+                        plain
                         focusIndicator={false}
-                        size="small"
+                        color={color === undefined ? "accent-3" : color}
+                        style={{ padding: text === undefined ? 12 : undefined }}
                     />
                 </motion.div>
             )
@@ -60,19 +65,19 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
         return (
             <Tooltip tooltip={tooltip}>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <SecondaryButton
+                    <SecondaryButtonSmall
                         id={id}
                         icon={icon}
                         onClick={onClick}
                         disabled={disabled}
                         hoverIndicator={hover}
-                        title={title}
                         primary={fill === undefined ? true : fill}
                         label={text}
                         margin={margin}
-                        color={color === undefined ? "accent-3" : color}
+                        plain
                         focusIndicator={false}
-                        size="small"
+                        color={color === undefined ? "accent-3" : color}
+                        style={{ padding: text === undefined ? 12 : undefined }}
                     />
                 </motion.div>
             </Tooltip>
@@ -82,19 +87,19 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
         if (!tooltip) {
             return (
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <PrimaryButton
+                    <PrimaryButtonSmall
                         id={id}
                         icon={icon}
                         onClick={onClick}
                         disabled={disabled}
                         hoverIndicator={hover}
-                        title={title}
                         color={color === undefined ? "accent-1" : color}
                         primary={fill === undefined ? true : fill}
                         label={text}
                         margin={margin}
+                        plain
                         focusIndicator={false}
-                        size="small"
+                        style={{ padding: text === undefined ? 12 : undefined }}
                     />
                 </motion.div>
             )
@@ -102,19 +107,19 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
         return (
             <Tooltip tooltip={tooltip}>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <PrimaryButton
+                    <PrimaryButtonSmall
                         id={id}
                         icon={icon}
                         onClick={onClick}
                         disabled={disabled}
                         hoverIndicator={hover}
-                        title={title}
                         color={color === undefined ? "accent-1" : color}
                         primary={fill === undefined ? true : fill}
                         label={text}
                         margin={margin}
+                        plain
                         focusIndicator={false}
-                        size="small"
+                        style={{ padding: text === undefined ? 12 : undefined }}
                     />
                 </motion.div>
             </Tooltip>
@@ -130,13 +135,14 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                         label={text}
                         onClick={onClick}
                         disabled={disabled}
-                        size="large"
                         hoverIndicator={hover}
                         title={title}
                         color={color === undefined ? "accent-3" : color}
                         primary={fill === undefined ? true : fill}
                         margin={margin}
+                        plain
                         focusIndicator={false}
+                        style={{ padding: text === undefined ? 12 : undefined }}
                     />
                 </motion.div>
             )
@@ -150,13 +156,13 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                         label={text}
                         onClick={onClick}
                         disabled={disabled}
-                        size="large"
                         hoverIndicator={hover}
-                        title={title}
                         color={color === undefined ? "accent-3" : color}
                         primary={fill === undefined ? true : fill}
                         margin={margin}
+                        plain
                         focusIndicator={false}
+                        style={{ padding: text === undefined ? 12 : undefined }}
                     />
                 </motion.div>
             </Tooltip>
@@ -171,13 +177,14 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                         label={text}
                         onClick={onClick}
                         disabled={disabled}
-                        size="large"
                         hoverIndicator={hover}
                         title={title}
                         color={color === undefined ? "accent-1" : color}
                         primary={fill === undefined ? true : fill}
                         margin={margin}
+                        plain
                         focusIndicator={false}
+                        style={{ padding: text === undefined ? 12 : undefined }}
                     />
                 </motion.div>
             )
@@ -191,13 +198,13 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                         label={text}
                         onClick={onClick}
                         disabled={disabled}
-                        size="large"
                         hoverIndicator={hover}
-                        title={title}
                         color={color === undefined ? "accent-1" : color}
                         primary={fill === undefined ? true : fill}
                         margin={margin}
+                        plain
                         focusIndicator={false}
+                        style={{ padding: text === undefined ? 12 : undefined }}
                     />
                 </motion.div>
             </Tooltip>

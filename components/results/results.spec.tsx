@@ -25,6 +25,7 @@ const mockTracks: Track[] = [
         imageLink: "",
         id: "1",
         uri: "",
+        explicit: false,
     },
     {
         previewUrl: "",
@@ -33,6 +34,7 @@ const mockTracks: Track[] = [
         imageLink: "",
         id: "2",
         uri: "",
+        explicit: true,
     },
 ]
 
@@ -339,6 +341,7 @@ describe("<Results />", () => {
 
             return promise().then((res: any) => {
                 res.find("#play-queue-btn").at(1).simulate("click")
+                res.find("#tooltip-next-btn").at(1).simulate("click")
                 expect(mockAddToQueue.mock.calls.length).to.be.eql(1)
             })
         })

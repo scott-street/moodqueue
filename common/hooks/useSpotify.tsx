@@ -24,7 +24,7 @@ export interface SpotifyContextValue {
         mood: Mood,
         genres: string[]
     ) => Promise<Track[]>
-    addToQueue: (tracks: Track[]) => Promise<boolean>
+    addToQueue: (tracks: Track[]) => Promise<void>
     addToPlaylist: (tracks: Track[], mood: Mood, sources: FormSelection) => Promise<boolean>
     getAvailableSeedGenres: () => Promise<string[]>
 }
@@ -355,7 +355,7 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
         })
     }
 
-    const addToQueue = async (tracks: Track[]): Promise<boolean> => {
+    const addToQueue = async (tracks: Track[]): Promise<void> => {
         Sentry.captureMessage(`add to queue`)
         if (tracks.length > 0) {
             try {
@@ -368,15 +368,10 @@ export const SpotifyProvider: React.FunctionComponent<SpotifyProviderProps> = (p
                         } else return status
                     })
                 ).then((resp) => {
-                    if (!resp.includes(204)) return false
-                    else {
-                        notifySuccess("success! check your queue :)")
-                        return true
-                    }
+                    if (resp.includes(204)) notifySuccess("success! check your queue :)")
                 })
             } catch (e) {
                 notifyError(e)
-                return false
             }
         } else notifyInfo("There are no songs to add to your queue :(")
     }

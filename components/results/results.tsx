@@ -168,25 +168,24 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
                             id="play-queue-btn"
                             text="add to queue"
                             icon={<Queue width="26px" height="26px" />}
-                            onClick={async () => {
-                                const result = await addToQueue(state.tracks)
-                                console.log(result)
-                                if (result) resetForm()
-                            }}
                             tooltip={{
                                 text:
                                     userProduct === "premium"
-                                        ? `click here to add the above ${Mood[
+                                        ? `click continue to add the selected ${Mood[
                                               mood
                                           ].toLowerCase()} songs to your queue!`
                                         : "unfortunately, this feature is limited to spotify premium users only :(",
                                 id: "queue-tooltip",
                                 active: true,
+                                warning: {
+                                    handleClick: async () => await addToQueue(state.tracks),
+                                    text:
+                                        "this might not fully work every time, so please try again if you encounter any problems!",
+                                },
                             }}
                         />
                         <Button
                             id="reset-btn"
-                            title="start over to begin a new moodqueue!"
                             icon={<Back width="26px" height="26px" />}
                             text="start over"
                             onClick={resetForm}
@@ -221,16 +220,21 @@ export const Results: FunctionComponent<ResultsProps> = (props) => {
             {showQueueWarningModal && !showPlaylistWarningModal && (
                 <Confirmation
                     id="queue-confirm"
-                    descText={`pressing the button below will add the ${tracks.length} ${Mood[
+                    descText={`pressing the button below will add the selected ${
+                        tracks.length
+                    } ${Mood[
                         mood
                     ].toLowerCase()} songs to your queue only if you have your spotify open and playing`}
                     headerText="queue"
                     btnText="add to queue"
+                    warning={{
+                        text:
+                            "adding to queue might not fully work every time since it's a spotify beta feature, so please try again if you encounter any problems!",
+                    }}
                     close={() => setShowQueueWarningModal(false)}
                     handleConfirmation={async () => {
-                        const result = await addToQueue(state.tracks)
+                        await addToQueue(state.tracks)
                         setShowQueueWarningModal(false)
-                        if (result) resetForm()
                     }}
                 />
             )}
