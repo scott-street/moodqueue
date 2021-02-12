@@ -10,7 +10,7 @@
     "test:watch": "jest -watch",
     "test:coverage": "jest --collectCoverage",
     "cy:open": "cypress open",
-    "preinstall": "if test \"$NODE_ENV\" != \"production\" ; then git config core.hooksPath hooks; fi",
+    "preinstall": "if test \"$NODE_ENV\" != \"production\" && \"$NODE_ENV\" != \"ci\" ; then git config core.hooksPath hooks; fi",
     "storybook": "start-storybook -p 6006 -c .storybook",
     "build-storybook": "build-storybook"
   },
@@ -37,6 +37,11 @@
     "coverageReporters": [
       "json",
       "html"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/.next",
+      "<rootDir>/.circleci",
+      "<rootDir>/.storybook"
     ]
   },
   "dependencies": {
@@ -71,7 +76,6 @@
     "@types/react": "^16.9.43",
     "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^9.1.2",
-    "cypress": "^5.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "husky": "^4.2.5",
